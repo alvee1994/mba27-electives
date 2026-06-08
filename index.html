@@ -464,6 +464,113 @@
         .exam-badge { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
         .weekend-badge { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
         .course-card.has-badges { padding-top: 0.9rem; }
+
+        /* ── Preference ranking ── */
+        .ranking-section { display: none; }
+        .ranking-section.active { display: block; }
+        .ranking-notice {
+            background: rgba(255,255,255,0.04); border: 1px solid var(--card-border);
+            border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+            font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55;
+        }
+        .ranking-layout {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;
+        }
+        .ranking-panel {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg); padding: 1.25rem; min-height: 420px;
+        }
+        .ranking-panel h2 {
+            font-size: 1.35rem; font-weight: 700; margin-bottom: 0.75rem;
+        }
+        .ranking-header {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; margin-bottom: 0.5rem;
+        }
+        .ranking-header h2 { margin-bottom: 0; }
+        .ranking-hint {
+            font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5;
+        }
+        .ranking-hint strong { color: var(--text-color); }
+        .save-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #0f172a; border: none; border-radius: 8px;
+            padding: 0.55rem 1.25rem; font-family: inherit; font-size: 0.85rem;
+            font-weight: 700; cursor: pointer; letter-spacing: 0.04em;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .save-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(56,189,248,0.3); }
+        .ranking-filters {
+            display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;
+        }
+        .ranking-filters input, .ranking-filters select {
+            flex: 1; min-width: 140px; padding: 0.55rem 0.85rem; border-radius: 8px;
+            background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
+            color: var(--text-color); font-family: inherit; font-size: 0.9rem; outline: none;
+        }
+        .ranking-filters input:focus, .ranking-filters select:focus { border-color: var(--primary); }
+        .rank-list { display: flex; flex-direction: column; gap: 0.5rem; min-height: 200px; }
+        .rank-drop-zone {
+            min-height: 280px; border: 2px dashed rgba(255,255,255,0.08);
+            border-radius: var(--radius-sm); padding: 0.5rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .rank-drop-zone.drag-over {
+            border-color: var(--primary); background: rgba(56,189,248,0.06);
+        }
+        .rank-slot {
+            display: flex; align-items: center; gap: 0.75rem;
+            min-height: 58px; padding: 0.65rem 0.75rem; border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border); background: rgba(255,255,255,0.02);
+            margin-bottom: 0.5rem; transition: border-color 0.2s, background 0.2s;
+        }
+        .rank-slot.empty {
+            justify-content: center; color: var(--text-secondary); font-size: 0.82rem;
+            border-style: dashed; background: transparent;
+        }
+        .rank-slot.drag-over { border-color: var(--primary); background: rgba(56,189,248,0.08); }
+        .rank-num {
+            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+            background: rgba(255,255,255,0.08); display: flex; align-items: center;
+            justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--primary);
+        }
+        .rank-item {
+            display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 0;
+            cursor: grab; user-select: none;
+        }
+        .rank-item:active { cursor: grabbing; }
+        .rank-item.dragging { opacity: 0.45; }
+        .rank-item-body { flex: 1; min-width: 0; }
+        .rank-item-title {
+            font-size: 0.92rem; font-weight: 600; line-height: 1.3;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .rank-item-sub { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.1rem; }
+        .rank-info {
+            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+            border: 1px solid var(--card-border); background: rgba(255,255,255,0.05);
+            color: var(--text-secondary); cursor: pointer; font-size: 0.85rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .rank-info:hover { color: var(--primary); border-color: var(--primary); }
+        .rank-remove {
+            background: none; border: none; color: var(--text-secondary);
+            cursor: pointer; font-size: 1rem; padding: 0.2rem; line-height: 1;
+        }
+        .rank-remove:hover { color: var(--danger); }
+        .save-toast {
+            position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+            background: #1e293b; border: 1px solid rgba(56,189,248,0.4);
+            color: var(--text-color); padding: 0.75rem 1.25rem; border-radius: 8px;
+            font-size: 0.9rem; font-weight: 600; z-index: 200; opacity: 0;
+            pointer-events: none; transition: opacity 0.25s;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .save-toast.show { opacity: 1; }
+        @media (max-width: 900px) {
+            .ranking-layout { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -488,20 +595,23 @@
     </div>
 
     <!-- View switcher -->
-    <div class="view-bar">
-        <button class="view-btn active" onclick="switchView('calendar')">📅 Calendar</button>
-        <button class="view-btn" onclick="switchView('cards')">🃏 Course Cards</button>
+    <div class="view-bar" id="viewBar">
+        <button class="view-btn active" data-view="calendar" onclick="switchView('calendar')">📅 Calendar</button>
+        <button class="view-btn" data-view="cards" onclick="switchView('cards')">🃏 Course Cards</button>
+        <button class="view-btn" data-view="ranking" onclick="switchView('ranking')">📋 Preference Ranking</button>
     </div>
 
-    <!-- Toolbar: search + filters -->
-    <div class="toolbar">
-        <input type="text" class="search-box" placeholder="Search courses, faculty, code…" id="searchBox" oninput="applyFilters()">
-        <div class="filter-chips" id="filterChips"></div>
-    </div>
+    <div id="plannerTools">
+        <!-- Toolbar: search + filters -->
+        <div class="toolbar">
+            <input type="text" class="search-box" placeholder="Search courses, faculty, code…" id="searchBox" oninput="applyFilters()">
+            <div class="filter-chips" id="filterChips"></div>
+        </div>
 
-    <div class="course-picker">
-        <div class="course-picker-label">Click to select electives</div>
-        <div class="course-chips" id="courseChips"></div>
+        <div class="course-picker">
+            <div class="course-picker-label">Click to select electives</div>
+            <div class="course-chips" id="courseChips"></div>
+        </div>
     </div>
 
     <!-- Programme info banner -->
@@ -516,6 +626,36 @@
                 <div id="calGrids"></div>
             </div>
             <div class="cal-sidebar" id="calSidebar"></div>
+        </div>
+    </div>
+
+    <!-- ── Preference ranking view ── -->
+    <div id="rankingView" class="ranking-section">
+        <div class="ranking-notice">
+            Rank your preferred electives in order (1 = highest priority). You can rank up to <strong>6 courses</strong>.
+            Save your ranking locally, then enter the same order in EPRS before the deadline.
+        </div>
+        <div class="ranking-layout">
+            <div class="ranking-panel">
+                <div class="ranking-header">
+                    <h2>Preferences</h2>
+                    <button class="save-btn" onclick="saveRankings()">SAVE</button>
+                </div>
+                <p class="ranking-hint">Drag and drop electives from the right into your desired ranking. <strong>You must rank up to 6 elective courses.</strong></p>
+                <div id="preferencesList" class="rank-drop-zone"></div>
+            </div>
+            <div class="ranking-panel">
+                <h2>All other Electives</h2>
+                <div class="ranking-filters">
+                    <input type="text" id="rankSearch" placeholder="Filter by name" oninput="renderRanking()">
+                    <select id="rankPeriod" onchange="renderRanking()">
+                        <option value="all">All periods</option>
+                        <option value="weekday">Weekday</option>
+                        <option value="weekend">Weekend</option>
+                    </select>
+                </div>
+                <div id="availableList" class="rank-list"></div>
+            </div>
         </div>
     </div>
 
@@ -534,6 +674,7 @@
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
     <div class="modal" id="modal"></div>
 </div>
+<div class="save-toast" id="saveToast">Ranking saved</div>
 
 <script>
 // ─── DATA ────────────────────────────────────────────────────────────
@@ -857,6 +998,168 @@ function selectedCourses() {
   return COURSES.filter(c => isSelected(c.code));
 }
 
+// ─── PREFERENCE RANKING ────────────────────────────────────────────────
+const MAX_RANKINGS = 6;
+let rankings = JSON.parse(localStorage.getItem('mba_rankings') || '[]');
+let rankDragCode = null;
+let rankDragFrom = null; // 'prefs' | 'avail'
+
+function courseByCode(code) { return COURSES.find(c => c.code === code); }
+
+function periodLabel(course) {
+  return course.period === 'weekend' ? 'Weekend – Rotterdam' : 'Rotterdam';
+}
+
+function buildRankItemHtml(code, opts = {}) {
+  const c = courseByCode(code);
+  if (!c) return '';
+  const infoBtn = opts.showInfo
+    ? `<button type="button" class="rank-info" onclick="event.stopPropagation();openModal('${c.code}')" title="Details">ⓘ</button>`
+    : '';
+  const removeBtn = opts.showRemove
+    ? `<button type="button" class="rank-remove" onclick="event.stopPropagation();removeFromRankings('${c.code}')" title="Remove">✕</button>`
+    : '';
+  return `<div class="rank-item" draggable="true" data-code="${c.code}" data-from="${opts.from || 'avail'}">
+    <div class="rank-item-body">
+      <div class="rank-item-title">${escapeHtml(c.name)}</div>
+      <div class="rank-item-sub">${periodLabel(c)} · ${escapeHtml(c.code)}</div>
+    </div>
+    ${infoBtn}${removeBtn}
+  </div>`;
+}
+
+function rankedCourses() {
+  return rankings.map(code => courseByCode(code)).filter(Boolean);
+}
+
+function filteredAvailableForRanking() {
+  const q = (document.getElementById('rankSearch')?.value || '').toLowerCase();
+  const period = document.getElementById('rankPeriod')?.value || 'all';
+  return COURSES.filter(c => {
+    if (rankings.includes(c.code)) return false;
+    if (!isAvailableForProgramme(c, currentProgramme)) return false;
+    if (period !== 'all' && c.period !== period) return false;
+    if (q && !c.name.toLowerCase().includes(q) && !c.code.toLowerCase().includes(q) && !c.faculty.toLowerCase().includes(q)) return false;
+    return true;
+  }).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function setRankingAt(code, toIndex) {
+  const fromIndex = rankings.indexOf(code);
+  if (fromIndex === -1) {
+    if (rankings.length >= MAX_RANKINGS) {
+      showSaveToast('You can rank up to 6 electives only.');
+      return false;
+    }
+    rankings.splice(toIndex, 0, code);
+  } else {
+    const next = rankings.filter(c => c !== code);
+    next.splice(toIndex, 0, code);
+    rankings = next;
+  }
+  return true;
+}
+
+function addToRankings(code) {
+  if (rankings.includes(code)) return;
+  setRankingAt(code, rankings.length);
+  renderRanking();
+}
+
+function removeFromRankings(code) {
+  rankings = rankings.filter(c => c !== code);
+  renderRanking();
+}
+
+function saveRankings() {
+  localStorage.setItem('mba_rankings', JSON.stringify(rankings));
+  selected = new Set(rankings);
+  saveSelection();
+  showSaveToast('Ranking saved — calendar updated with your picks.');
+  if (activeView === 'calendar') { renderCalendar(); renderSidebar(); }
+  else renderCourseChips();
+}
+
+function showSaveToast(msg) {
+  const el = document.getElementById('saveToast');
+  el.textContent = msg || 'Ranking saved';
+  el.classList.add('show');
+  clearTimeout(showSaveToast._t);
+  showSaveToast._t = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+function setupRankDragHandlers() {
+  document.querySelectorAll('.rank-item[draggable="true"]').forEach(el => {
+    el.addEventListener('dragstart', e => {
+      rankDragCode = el.dataset.code;
+      rankDragFrom = el.dataset.from;
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', rankDragCode);
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      rankDragCode = null;
+      rankDragFrom = null;
+      document.querySelectorAll('.drag-over').forEach(n => n.classList.remove('drag-over'));
+    });
+  });
+}
+
+function bindDropZone(el, onDrop) {
+  el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('drag-over'); });
+  el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+  el.addEventListener('drop', e => {
+    e.preventDefault();
+    el.classList.remove('drag-over');
+    const code = e.dataTransfer.getData('text/plain') || rankDragCode;
+    if (!code) return;
+    onDrop(code, el);
+  });
+}
+
+function renderRanking() {
+  const prefsEl = document.getElementById('preferencesList');
+  const availEl = document.getElementById('availableList');
+
+  let slotsHtml = '';
+  for (let i = 0; i < MAX_RANKINGS; i++) {
+    const code = rankings[i];
+    if (code) {
+      slotsHtml += `<div class="rank-slot" data-slot="${i}">
+        <span class="rank-num">${i + 1}</span>
+        ${buildRankItemHtml(code, { showInfo: true, showRemove: true, from: 'prefs' })}
+      </div>`;
+    } else {
+      slotsHtml += `<div class="rank-slot empty" data-slot="${i}">Drop elective for rank ${i + 1}</div>`;
+    }
+  }
+  prefsEl.innerHTML = slotsHtml;
+
+  prefsEl.querySelectorAll('.rank-slot').forEach(slot => {
+    bindDropZone(slot, (code) => {
+      if (setRankingAt(code, Number(slot.dataset.slot))) renderRanking();
+    });
+  });
+
+  const available = filteredAvailableForRanking();
+  availEl.innerHTML = available.length
+    ? available.map(c => buildRankItemHtml(c.code, { showInfo: true, from: 'avail' })).join('')
+    : '<div class="no-results" style="padding:2rem 1rem;font-size:0.9rem;">No electives match your filters.</div>';
+
+  bindDropZone(availEl, (code) => {
+    if (rankings.includes(code)) removeFromRankings(code);
+  });
+
+  availEl.querySelectorAll('.rank-item').forEach(el => {
+    el.addEventListener('dblclick', () => {
+      if (setRankingAt(el.dataset.code, rankings.length)) renderRanking();
+    });
+  });
+
+  setupRankDragHandlers();
+}
+
 // ─── STATE ─────────────────────────────────────────────────────────────
 // Calendar state removed — all months rendered at once
 let activeView = 'calendar';
@@ -868,12 +1171,17 @@ let currentProgramme = localStorage.getItem('mba_programme') || 'MBA';
 // ─── VIEW SWITCHING ────────────────────────────────────────────────────
 function switchView(view) {
   activeView = view;
-  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  document.querySelectorAll('#viewBar .view-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+  document.getElementById('plannerTools').style.display = view === 'ranking' ? 'none' : 'block';
+  document.getElementById('progBanner').style.display = view === 'ranking' ? 'none' : 'flex';
   document.getElementById('calendarView').classList.toggle('active', view === 'calendar');
   document.getElementById('cardsView').classList.toggle('active', view === 'cards');
-  if (view === 'calendar') renderCalendar();
+  document.getElementById('rankingView').classList.toggle('active', view === 'ranking');
+  if (view === 'calendar') { renderCalendar(); renderSidebar(); }
   if (view === 'cards') renderCards();
+  if (view === 'ranking') renderRanking();
 }
 
 function showCardTab(tab) {
@@ -1338,8 +1646,14 @@ function renderSidebar() {
 function setProgramme(prog) {
   currentProgramme = prog;
   localStorage.setItem('mba_programme', prog);
+  rankings = rankings.filter(code => {
+    const c = courseByCode(code);
+    return c && isAvailableForProgramme(c, prog);
+  });
+  localStorage.setItem('mba_rankings', JSON.stringify(rankings));
   renderProgBanner();
   applyFilters();
+  if (activeView === 'ranking') renderRanking();
 }
 
 function clearSelection() {
@@ -1365,6 +1679,10 @@ function renderProgBanner() {
 }
 
 // ─── INIT ──────────────────────────────────────────────────────────────
+if (rankings.length > 0) {
+  selected = new Set(rankings);
+  saveSelection();
+}
 renderChips();
 renderLegend();
 renderProgBanner();
