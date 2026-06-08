@@ -147,6 +147,28 @@
         .course-chip.cat-sustainability.selected { background: rgba(34,197,94,0.45); }
         .course-chip.cat-entrepreneurship.selected { background: rgba(249,115,22,0.45); }
 
+        .advanced-picker { margin-top: 0.25rem; }
+        .advanced-picker-label {
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.5px; color: #fbbf24; margin-bottom: 0.5rem;
+        }
+        .advanced-picker-hint {
+            font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.6rem; line-height: 1.45;
+        }
+        .course-chip.advanced-chip {
+            border-style: dashed; border-color: rgba(251,191,36,0.45);
+            background: rgba(251,191,36,0.06); color: #fde68a;
+        }
+        .course-chip.advanced-chip:hover { background: rgba(251,191,36,0.12); color: #fef3c7; }
+        .course-chip.advanced-chip.selected {
+            background: rgba(251,191,36,0.28); color: #fff;
+            border-color: #fbbf24; box-shadow: 0 0 0 2px rgba(251,191,36,0.25);
+        }
+        .course-chip.advanced-chip .chip-adv-tag {
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.4px; opacity: 0.85; margin-right: 0.25rem;
+        }
+
         /* ── Calendar ── */
         .calendar-section { display: none; }
         .calendar-section.active { display: block; }
@@ -418,6 +440,32 @@
             border: 1px solid var(--danger);
             background: rgba(248,113,113,0.2) !important;
         }
+        .cal-event.advanced {
+            border: 1px dashed rgba(251,191,36,0.55);
+            background-image: repeating-linear-gradient(
+                -45deg,
+                rgba(251,191,36,0.06),
+                rgba(251,191,36,0.06) 4px,
+                transparent 4px,
+                transparent 8px
+            );
+        }
+        .cal-event.advanced.selected {
+            outline: 2px dashed #fbbf24;
+            outline-offset: -1px;
+            box-shadow: 0 0 8px rgba(251,191,36,0.25);
+            font-weight: 700;
+            opacity: 1 !important;
+        }
+        .legend-dot.advanced-dot {
+            border: 1px dashed #fbbf24;
+            background: rgba(251,191,36,0.2);
+        }
+        .my-sched-panel.advanced-panel {
+            border-color: rgba(251,191,36,0.25);
+            background: rgba(251,191,36,0.04);
+        }
+        .my-sched-panel.advanced-panel h3 { color: #fbbf24; }
 
         /* ── Clear button ── */
         .clear-btn {
@@ -611,6 +659,12 @@
         <div class="course-picker">
             <div class="course-picker-label">Click to select electives</div>
             <div class="course-chips" id="courseChips"></div>
+        </div>
+
+        <div class="course-picker advanced-picker">
+            <div class="advanced-picker-label">Your advanced course (overlap check only)</div>
+            <p class="advanced-picker-hint">Select the advanced course you are taking in parallel. This is not part of elective ranking — it only helps you spot schedule clashes with electives.</p>
+            <div class="course-chips" id="advancedChips"></div>
         </div>
     </div>
 
@@ -909,6 +963,69 @@ const COURSES = [
     ]},
 ];
 
+// ── Advanced courses (parallel to electives; not rankable) ──
+const ADVANCED_COURSES = [
+  { code:"ADVFIN", name:"Advanced Finance", faculty:"Dr. Claus Schmitt", period:"weekday", categories:["Finance"], notes:"", restriction:null, isAdvanced:true,
+    href:"advanced/MBA27 ADV Finance DRAFT course outline - ADV selection.pdf",
+    sessions:[
+      {date:"2026-09-03",time:"13:30–16:30",label:"Session 1"},
+      {date:"2026-09-07",time:"13:30–16:30",label:"Session 2"},
+      {date:"2026-09-14",time:"13:30–16:30",label:"Session 3"},
+      {date:"2026-09-16",time:"13:30–16:30",label:"Session 4"},
+      {date:"2026-09-21",time:"13:30–16:30",label:"Session 5"},
+      {date:"2026-09-22",time:"13:30–16:30",label:"Session 6"},
+      {date:"2026-09-23",time:"13:30–16:30",label:"Session 7"},
+      {date:"2026-09-28",time:"13:30–16:30",label:"Session 8"},
+      {date:"2026-09-30",time:"13:30–16:30",label:"Session 9"},
+      {date:"2026-10-05",time:"13:30–16:30",label:"Session 10"},
+    ]},
+  { code:"ADVMKT", name:"Advanced Marketing: Marketing & AI", faculty:"Prof. Dr. Gui Liberali", period:"weekday", categories:["Marketing"], notes:"", restriction:null, isAdvanced:true,
+    href:"advanced/MBA27 ADVMKT DRAFT course outline - ADV selection.pdf",
+    sessions:[
+      {date:"2026-09-03",time:"09:30–12:30",label:"Session 1"},
+      {date:"2026-09-03",time:"13:30–16:30",label:"Session 2"},
+      {date:"2026-09-15",time:"09:30–12:30",label:"Session 3"},
+      {date:"2026-09-16",time:"09:30–12:30",label:"Session 4"},
+      {date:"2026-09-17",time:"09:30–12:30",label:"Session 5"},
+      {date:"2026-09-17",time:"13:30–16:30",label:"Session 6"},
+      {date:"2026-09-22",time:"09:30–12:30",label:"Session 7"},
+      {date:"2026-09-22",time:"13:30–16:30",label:"Session 8"},
+      {date:"2026-09-24",time:"09:30–12:30",label:"Session 9"},
+      {date:"2026-09-24",time:"13:30–16:30",label:"Session 10"},
+    ]},
+  { code:"ADVSCM", name:"Advanced Supply Chain Management", faculty:"Dr. Cynthia Qingxia Kong & Prof. dr Frank Rozemeijer", period:"weekday", categories:["Supply Chain & Operations"], notes:"", restriction:null, isAdvanced:true,
+    href:"advanced/MBA27 ADV SCM DRAFT Course Outline - ADV selection.pdf",
+    sessions:[
+      {date:"2026-09-03",time:"13:30–16:30",label:"Session 1"},
+      {date:"2026-09-07",time:"13:30–16:30",label:"Session 2"},
+      {date:"2026-09-14",time:"13:30–16:30",label:"Session 3"},
+      {date:"2026-09-16",time:"13:30–16:30",label:"Session 4"},
+      {date:"2026-09-21",time:"13:30–16:30",label:"Session 5"},
+      {date:"2026-09-22",time:"09:30–12:30",label:"Session 6"},
+      {date:"2026-09-28",time:"13:30–16:30",label:"Session 7"},
+      {date:"2026-10-05",time:"13:30–16:30",label:"Session 8"},
+      {date:"2026-10-12",time:"13:30–16:30",label:"Session 9"},
+      {date:"2026-10-19",time:"13:30–16:30",label:"Session 10"},
+    ]},
+  { code:"ADVSTR", name:"Advanced Strategy", faculty:"Dr. Christopher Sabel & Dr. Caroline Witte", period:"weekday", categories:["Strategy"], notes:"", restriction:null, isAdvanced:true,
+    href:"advanced/MBA27 ADVSTR course outline DRAFT.pdf",
+    sessions:[
+      {date:"2026-09-14",time:"09:30–12:30",label:"Session 1"},
+      {date:"2026-09-14",time:"13:30–16:30",label:"Session 2"},
+      {date:"2026-09-16",time:"09:30–12:30",label:"Session 3"},
+      {date:"2026-09-16",time:"13:30–16:30",label:"Session 4"},
+      {date:"2026-09-21",time:"09:30–12:30",label:"Session 5"},
+      {date:"2026-09-21",time:"13:30–16:30",label:"Session 6"},
+      {date:"2026-09-24",time:"09:30–12:30",label:"Session 7"},
+      {date:"2026-09-24",time:"13:30–16:30",label:"Session 8"},
+      {date:"2026-09-29",time:"09:30–12:30",label:"Session 9"},
+      {date:"2026-09-29",time:"13:30–16:30",label:"Session 10"},
+    ]},
+  { code:"ADVSUS", name:"Advanced Sustainability", faculty:"Lawrence Pratt", period:"weekday", categories:["Sustainability"], notes:"Session dates not listed in draft outline — confirm in Canvas/MyTimetable", restriction:null, isAdvanced:true,
+    href:"advanced/MBA27 ADVSUS DRAFT course outline - ADV Selection-1.pdf",
+    sessions:[]},
+];
+
 // ─── CATEGORY HELPERS ──────────────────────────────────────────────────
 const CAT_CLASS = {
   "Finance": "finance",
@@ -980,22 +1097,51 @@ function buildBadges(course) {
 // ─── SELECTION (localStorage) ────────────────────────────────────────
 const savedSelection = localStorage.getItem('mba_selected') || localStorage.getItem('mba_stars') || '[]';
 let selected = new Set(JSON.parse(savedSelection));
+let selectedAdvanced = localStorage.getItem('mba_advanced') || null;
+
+function findCourse(code) {
+  return COURSES.find(c => c.code === code) || ADVANCED_COURSES.find(c => c.code === code);
+}
+
+function isAdvancedCourse(code) {
+  return ADVANCED_COURSES.some(c => c.code === code);
+}
 
 function saveSelection() {
   localStorage.setItem('mba_selected', JSON.stringify([...selected]));
 }
 
+function saveAdvancedSelection() {
+  if (selectedAdvanced) localStorage.setItem('mba_advanced', selectedAdvanced);
+  else localStorage.removeItem('mba_advanced');
+}
+
 function toggleSelect(code) {
-  if (selected.has(code)) selected.delete(code);
-  else selected.add(code);
-  saveSelection();
+  if (isAdvancedCourse(code)) {
+    selectedAdvanced = selectedAdvanced === code ? null : code;
+    saveAdvancedSelection();
+  } else {
+    if (selected.has(code)) selected.delete(code);
+    else selected.add(code);
+    saveSelection();
+  }
   applyFilters();
 }
 
-function isSelected(code) { return selected.has(code); }
+function isSelected(code) {
+  return isAdvancedCourse(code) ? selectedAdvanced === code : selected.has(code);
+}
 
 function selectedCourses() {
   return COURSES.filter(c => isSelected(c.code));
+}
+
+function selectedAdvancedCourse() {
+  return ADVANCED_COURSES.find(c => c.code === selectedAdvanced) || null;
+}
+
+function plannerSelectionCount() {
+  return selected.size + (selectedAdvanced ? 1 : 0);
 }
 
 // ─── PREFERENCE RANKING ────────────────────────────────────────────────
@@ -1004,7 +1150,7 @@ let rankings = JSON.parse(localStorage.getItem('mba_rankings') || '[]');
 let rankDragCode = null;
 let rankDragFrom = null; // 'prefs' | 'avail'
 
-function courseByCode(code) { return COURSES.find(c => c.code === code); }
+function courseByCode(code) { return findCourse(code); }
 
 function periodLabel(course) {
   return course.period === 'weekend' ? 'Weekend – Rotterdam' : 'Rotterdam';
@@ -1238,13 +1384,40 @@ function renderCourseChips() {
   const courses = filteredCourses().slice().sort((a, b) => a.code.localeCompare(b.code));
   if (courses.length === 0) {
     el.innerHTML = '<span style="color:var(--text-secondary);font-size:0.85rem;">No courses match your filters.</span>';
+  } else {
+    el.innerHTML = courses.map(c => {
+      const cls = catClass(primaryCat(c));
+      const sel = isSelected(c.code) ? ' selected' : '';
+      const label = `${escapeHtml(c.name)} <span class="chip-code">(${escapeHtml(c.code)})</span>`;
+      return `<span class="course-chip cat-${cls}${sel}" onclick="toggleSelect('${c.code}')" title="${escapeHtml(c.faculty)}">${label}</span>`;
+    }).join('');
+  }
+
+  const advEl = document.getElementById('advancedChips');
+  const q = searchQuery.toLowerCase();
+  let advanced = ADVANCED_COURSES.slice();
+  if (activeFilters.size > 0) {
+    advanced = advanced.filter(c => c.categories.some(cat => activeFilters.has(cat)));
+  }
+  if (q) {
+    advanced = advanced.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      c.code.toLowerCase().includes(q) ||
+      c.faculty.toLowerCase().includes(q) ||
+      c.categories.some(cat => cat.toLowerCase().includes(q))
+    );
+  }
+  advanced.sort((a, b) => a.name.localeCompare(b.name));
+  if (advanced.length === 0) {
+    advEl.innerHTML = '<span style="color:var(--text-secondary);font-size:0.85rem;">No advanced courses match your filters.</span>';
     return;
   }
-  el.innerHTML = courses.map(c => {
+  advEl.innerHTML = advanced.map(c => {
     const cls = catClass(primaryCat(c));
     const sel = isSelected(c.code) ? ' selected' : '';
-    const label = `${escapeHtml(c.name)} <span class="chip-code">(${escapeHtml(c.code)})</span>`;
-    return `<span class="course-chip cat-${cls}${sel}" onclick="toggleSelect('${c.code}')" title="${escapeHtml(c.faculty)}">${label}</span>`;
+    const noSchedule = c.sessions.length === 0 ? ' · dates TBA in outline' : '';
+    const label = `<span class="chip-adv-tag">ADV</span>${escapeHtml(c.name)} <span class="chip-code">(${escapeHtml(c.code)})</span>`;
+    return `<span class="course-chip advanced-chip cat-${cls}${sel}" onclick="toggleSelect('${c.code}')" title="${escapeHtml(c.faculty)}${noSchedule}">${label}</span>`;
   }).join('');
 }
 
@@ -1253,7 +1426,7 @@ function renderLegend() {
   const el = document.getElementById('legend');
   el.innerHTML = ALL_CATEGORIES.map(cat =>
     `<div class="legend-item"><div class="legend-dot" style="background:${catColor(cat)}"></div>${cat}</div>`
-  ).join('');
+  ).join('') + `<div class="legend-item"><div class="legend-dot advanced-dot"></div>Advanced course (dashed)</div>`;
 }
 
 // ─── CALENDAR ──────────────────────────────────────────────────────────
@@ -1266,20 +1439,21 @@ function renderCalendar() {
 
   // Build day → events map
   const eventsByDate = {};
-  COURSES.forEach(c => {
+  [...COURSES, ...ADVANCED_COURSES].forEach(c => {
     const picked = isSelected(c.code);
     c.sessions.forEach(s => {
       const d = s.date;
       if (!eventsByDate[d]) eventsByDate[d] = [];
-      eventsByDate[d].push({ course: c, session: s, selected: picked });
+      eventsByDate[d].push({ course: c, session: s, selected: picked, advanced: !!c.isAdvanced });
     });
   });
 
   const selectedDates = new Set();
-  const pickedCourses = selectedCourses();
+  const pickedCourses = [...selectedCourses(), ...(selectedAdvancedCourse() ? [selectedAdvancedCourse()] : [])];
   pickedCourses.forEach(c => c.sessions.forEach(s => selectedDates.add(s.date)));
 
   const { conflictDates, conflictEvents } = getCalendarConflicts(pickedCourses);
+  const hasPlannerSelection = plannerSelectionCount() > 0;
 
   const today = new Date();
   const todayStr = today.toISOString().slice(0, 10);
@@ -1313,13 +1487,14 @@ function renderCalendar() {
         const cls = catClass(cat);
         const isEvening = e.session.time.startsWith('18:') || e.session.time.startsWith('17:');
         const isConflictEvent = conflictEvents.has(dateStr + '|' + e.course.code);
-        let stateClass = '';
-        if (e.selected) { stateClass = ' selected'; }
-        else if (selected.size > 0) { stateClass = ' unselected'; }
+        let stateClass = e.advanced ? ' advanced' : '';
+        if (e.selected) { stateClass += ' selected'; }
+        else if (hasPlannerSelection) { stateClass += ' unselected'; }
         if (isConflictEvent) stateClass += ' conflict-event';
         if (e.course.restriction === 'mba' && currentProgramme !== 'MBA') stateClass += ' restricted-mba';
         if (e.course.restriction === 'emba' && (currentProgramme === 'MBA')) stateClass += ' restricted-emba';
-        return `<div class="cal-event cat-${cls}${isEvening?' evening':''}${stateClass}" onclick="toggleSelect('${e.course.code}')" title="${escapeHtml(e.course.name)} – ${e.session.time} (click to select)">${e.course.code} ${e.session.time}</div>`;
+        const kind = e.advanced ? 'advanced course' : 'elective';
+        return `<div class="cal-event cat-${cls}${isEvening?' evening':''}${stateClass}" onclick="toggleSelect('${e.course.code}')" title="${escapeHtml(e.course.name)} (${kind}) – ${e.session.time} (click to select)">${e.course.code} ${e.session.time}</div>`;
       }).join('');
 
       let dayClass = 'cal-day';
@@ -1389,7 +1564,7 @@ function renderCards() {
 
 // ─── MODAL ─────────────────────────────────────────────────────────────
 function openModal(code) {
-  const c = COURSES.find(x => x.code === code);
+  const c = findCourse(code);
   if (!c) return;
   const cat = primaryCat(c);
   const cls = catClass(cat);
@@ -1400,7 +1575,7 @@ function openModal(code) {
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="course-subject sub-${cls}" style="margin-bottom:0.5rem">${c.categories.join(' / ')}</div>
     <h3>${escapeHtml(c.name)}</h3>
-    <div class="modal-code">${escapeHtml(c.code)} &middot; ${c.period === 'weekday' ? '📅 Weekday' : '🗓️ Weekend'} &middot; ${c.sessions.length} sessions</div>
+    <div class="modal-code">${escapeHtml(c.code)} &middot; ${c.isAdvanced ? '⭐ Advanced course' : (c.period === 'weekday' ? '📅 Weekday' : '🗓️ Weekend')} &middot; ${c.sessions.length ? c.sessions.length + ' sessions' : 'schedule TBA'}</div>
     <div class="modal-faculty">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       ${escapeHtml(c.faculty)}
@@ -1416,12 +1591,12 @@ function openModal(code) {
     ${displayNotes ? '<div class="modal-notes">' + formatNotesHtml(displayNotes) + '</div>' : ''}
     <div class="modal-sessions">
       <div class="course-schedule-title" style="margin-bottom:0.75rem">All Sessions</div>
-      ${c.sessions.map(s => {
+      ${c.sessions.length ? c.sessions.map(s => {
         const d = new Date(s.date);
         const dayName = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()];
         const dateLabel = dayName + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()+1] + ' ' + d.getFullYear();
         return '<div class="modal-session-row"><span class="modal-session-date">' + dateLabel + '</span><span class="modal-session-time">' + s.time + '</span></div>';
-      }).join('')}
+      }).join('') : '<div style="color:var(--text-secondary);font-size:0.9rem;">Session dates are not listed in the draft outline. Check Canvas or MyTimetable once enrolled.</div>'}
     </div>
   `;
 
@@ -1512,6 +1687,8 @@ function getCalendarConflicts(courses) {
 function renderSidebar() {
   const el = document.getElementById('calSidebar');
   const picked = selectedCourses();
+  const advanced = selectedAdvancedCourse();
+  const overlapCourses = advanced ? [...picked, advanced] : picked;
   const programme = currentProgramme;
   const required = requiredElectiveCount(programme);
   const isMBA = programme === 'MBA';
@@ -1524,11 +1701,11 @@ function renderSidebar() {
   const weekdayCoursesPicked = picked.filter(c => c.period === 'weekday');
   const examCourses = picked.filter(c => c.notes.includes('in-class exam'));
 
-  const overlaps = detectOverlaps(picked);
+  const overlaps = detectOverlaps(overlapCourses);
   const hardConflicts = overlaps.filter(o => o.hardConflict);
   const softConflicts = overlaps.filter(o => !o.hardConflict);
 
-  // Total sessions & unique days
+  // Total sessions & unique days (electives only for elective summary)
   let totalSessions = 0;
   const uniqueDays = new Set();
   picked.forEach(c => {
@@ -1574,6 +1751,29 @@ function renderSidebar() {
   }
   html += `</div>`;
 
+  // --- Advanced course panel ---
+  html += `<div class="my-sched-panel advanced-panel">
+    <h3>My Advanced Course</h3>`;
+  if (!advanced) {
+    html += `<div class="my-sched-empty">Select your advanced course above to check for overlaps with electives. Not part of preference ranking.</div>`;
+  } else {
+    const cat = primaryCat(advanced);
+    html += `<div class="my-sched-item">
+      <div class="dot" style="background:#fbbf24"></div>
+      <span class="name" style="cursor:pointer" onclick="openModal('${advanced.code}')" title="${escapeHtml(advanced.name)}">${advanced.code}</span>
+      <span class="rm" onclick="toggleSelect('${advanced.code}')" title="Remove">✕</span>
+    </div>`;
+    if (advanced.sessions.length) {
+      html += `<div class="sched-summary"><strong>${advanced.sessions.length}</strong> sessions scheduled</div>`;
+    } else {
+      html += `<div class="sched-summary" style="color:#fde68a;">Session dates not in draft outline — check Canvas/MyTimetable</div>`;
+    }
+    if (advanced.notes && advanced.sessions.length === 0) {
+      html += `<div class="sched-summary" style="margin-top:0.35rem;">${escapeHtml(advanced.notes)}</div>`;
+    }
+  }
+  html += `</div>`;
+
   // --- Programme restriction warnings ---
   if (mbaOnlyPicked.length > 0 && !isMBA) {
     html += `<div class="conflict-banner" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);">
@@ -1606,7 +1806,7 @@ function renderSidebar() {
   if (hardConflicts.length > 0) {
     html += `<div class="conflict-banner">
       <h4>🚫 Too Many Overlapping Sessions</h4>
-      <div class="conflict-row">You cannot take courses with more than 2 shared sessions. Fix these before submitting your EPRS choices.</div>`;
+      <div class="conflict-row">You cannot take courses with more than 2 shared sessions. Check clashes between your advanced course and electives before submitting EPRS choices.</div>`;
     hardConflicts.forEach(o => {
       html += `<div class="conflict-row"><span style="color:#f87171;font-weight:700;">${o.code1}</span> shares <strong>${o.sharedDates} sessions</strong> with <span style="color:#f87171;font-weight:700;">${o.code2}</span></div>`;
     });
@@ -1658,7 +1858,9 @@ function setProgramme(prog) {
 
 function clearSelection() {
   selected = new Set();
+  selectedAdvanced = null;
   saveSelection();
+  saveAdvancedSelection();
   applyFilters();
 }
 
