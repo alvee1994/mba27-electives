@@ -118,6 +118,32 @@
         .chip[data-cat="Entrepreneurship"].active { background: var(--cat-entrepreneurship); }
         .chip:hover:not(.active) { background: rgba(255,255,255,0.1); color: var(--text-color); }
 
+        .course-picker {
+            margin-bottom: 1.5rem;
+        }
+        .course-picker-label {
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 0.5rem;
+        }
+        .course-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+        .course-chip {
+            padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
+            cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05); color: var(--text-secondary);
+            transition: all 0.2s ease; user-select: none;
+        }
+        .course-chip:hover { background: rgba(255,255,255,0.1); color: var(--text-color); }
+        .course-chip.selected {
+            color: #fff; border-color: rgba(255,255,255,0.35);
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.25);
+        }
+        .course-chip.cat-finance.selected { background: rgba(245,158,11,0.45); }
+        .course-chip.cat-marketing.selected { background: rgba(236,72,153,0.45); }
+        .course-chip.cat-strategy.selected { background: rgba(139,92,252,0.45); }
+        .course-chip.cat-leadership.selected { background: rgba(6,182,212,0.45); }
+        .course-chip.cat-supplychain.selected { background: rgba(16,185,129,0.45); }
+        .course-chip.cat-sustainability.selected { background: rgba(34,197,94,0.45); }
+        .course-chip.cat-entrepreneurship.selected { background: rgba(249,115,22,0.45); }
 
         /* ── Calendar ── */
         .calendar-section { display: none; }
@@ -208,14 +234,26 @@
         .course-session .date { color: var(--primary); font-weight: 500; }
         .course-session .time { color: var(--text-secondary); }
 
-        /* Star / bookmark button on cards */
-        .star-btn {
-            position: absolute; top: 0.75rem; right: 0.75rem; background: none; border: none;
-            cursor: pointer; font-size: 1.1rem; color: var(--text-secondary); transition: color 0.2s, transform 0.2s;
-            padding: 0.2rem;
+        .course-card { cursor: pointer; }
+        .course-card.is-selected {
+            border-color: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.06);
         }
-        .star-btn:hover { transform: scale(1.2); }
-        .star-btn.starred { color: #fbbf24; }
+        .card-code-chip {
+            display: inline-block; font-size: 0.75rem; font-weight: 700;
+            padding: 0.2rem 0.55rem; border-radius: 5px; margin-bottom: 0.5rem;
+            background: rgba(255,255,255,0.08); color: var(--primary);
+            border: 1px solid rgba(56,189,248,0.25);
+        }
+        .course-card.is-selected .card-code-chip {
+            background: rgba(56,189,248,0.25); color: #fff;
+        }
+        .details-link {
+            font-size: 0.8rem; color: var(--primary); background: none; border: none;
+            cursor: pointer; font-family: inherit; padding: 0; margin-left: 0.5rem;
+            text-decoration: underline; text-underline-offset: 2px;
+        }
+        .details-link:hover { color: var(--accent); }
 
         /* ── Detail modal ── */
         .modal-overlay {
@@ -297,7 +335,6 @@
             .course-grid { grid-template-columns: 1fr; }
             .toolbar { flex-direction: column; }
             .search-box { min-width: unset; width: 100%; }
-            .sched-toggle { margin-left: 0; }
             .cal-day { min-height: 55px; }
             .cal-sidebar { display: none; }
             .cal-layout { flex-direction: column; }
@@ -311,23 +348,6 @@
         }
         .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--text-secondary); }
         .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
-
-        /* ── My Schedule toggle ── */
-        .sched-toggle {
-            display: flex; align-items: center; gap: 0.5rem; margin-left: auto;
-            font-size: 0.9rem; color: var(--text-secondary); cursor: pointer; user-select: none;
-        }
-        .sched-toggle input { display: none; }
-        .toggle-track {
-            width: 40px; height: 22px; border-radius: 11px; background: rgba(255,255,255,0.1);
-            position: relative; transition: background 0.2s;
-        }
-        .toggle-track::after {
-            content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
-            border-radius: 50%; background: #fff; transition: transform 0.2s;
-        }
-        .sched-toggle input:checked + .toggle-track { background: var(--primary); }
-        .sched-toggle input:checked + .toggle-track::after { transform: translateX(18px); }
 
         /* ── My Schedule sidebar ── */
         .cal-layout { display: flex; gap: 1.5rem; }
@@ -432,13 +452,6 @@
             border: 1px dashed rgba(139,92,246,0.5);
         }
 
-        /* ── Star on card also triggers calendar highlight ── */
-        .course-card.is-selected {
-            border-color: rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.06);
-        }
-        .course-card.is-selected .star-btn { color: #fbbf24; text-shadow: 0 0 8px rgba(251,191,36,0.4); }
-
         /* ── Programme restriction badges ── */
         .restr-badge {
             display: inline-block; font-size: 0.68rem; font-weight: 600;
@@ -456,7 +469,7 @@
 <div class="container">
     <header>
         <h1>MBA Electives 2026</h1>
-        <p class="subtitle">Browse the interactive schedule, filter by subject, search courses, and bookmark your picks.</p>
+        <p class="subtitle">Browse the schedule, filter by subject, and click course chips to build your elective plan.</p>
     </header>
 
     <div class="resources">
@@ -482,11 +495,11 @@
     <div class="toolbar">
         <input type="text" class="search-box" placeholder="Search courses, faculty, code…" id="searchBox" oninput="applyFilters()">
         <div class="filter-chips" id="filterChips"></div>
-        <label class="sched-toggle" title="Show only bookmarked courses">
-            <input type="checkbox" id="mySchedToggle" onchange="applyFilters()">
-            <span class="toggle-track"></span>
-            <span>My Picks</span>
-        </label>
+    </div>
+
+    <div class="course-picker">
+        <div class="course-picker-label">Click to select electives</div>
+        <div class="course-chips" id="courseChips"></div>
     </div>
 
     <!-- Programme info banner -->
@@ -821,15 +834,26 @@ function buildBadges(course) {
   return html;
 }
 
-// ─── BOOKMARKS (localStorage) ────────────────────────────────────────
-let starred = new Set(JSON.parse(localStorage.getItem('mba_stars') || '[]'));
-function toggleStar(code) {
-  if (starred.has(code)) starred.delete(code); else starred.add(code);
-  localStorage.setItem('mba_stars', JSON.stringify([...starred]));
-  applyFilters();
-  renderSidebar();
+// ─── SELECTION (localStorage) ────────────────────────────────────────
+const savedSelection = localStorage.getItem('mba_selected') || localStorage.getItem('mba_stars') || '[]';
+let selected = new Set(JSON.parse(savedSelection));
+
+function saveSelection() {
+  localStorage.setItem('mba_selected', JSON.stringify([...selected]));
 }
-function isStarred(code) { return starred.has(code); }
+
+function toggleSelect(code) {
+  if (selected.has(code)) selected.delete(code);
+  else selected.add(code);
+  saveSelection();
+  applyFilters();
+}
+
+function isSelected(code) { return selected.has(code); }
+
+function selectedCourses() {
+  return COURSES.filter(c => isSelected(c.code));
+}
 
 // ─── STATE ─────────────────────────────────────────────────────────────
 // Calendar state removed — all months rendered at once
@@ -872,9 +896,6 @@ function filteredCourses() {
   if (activeFilters.size > 0) {
     list = list.filter(c => c.categories.some(cat => activeFilters.has(cat)));
   }
-  if (document.getElementById('mySchedToggle').checked) {
-    list = list.filter(c => isStarred(c.code));
-  }
   list = list.filter(c => isAvailableForProgramme(c, currentProgramme));
   if (activeCardTab !== 'all' && activeView === 'cards') {
     list = list.filter(c => c.period === activeCardTab);
@@ -882,24 +903,9 @@ function filteredCourses() {
   return list;
 }
 
-function updateMyPicksToggle() {
-  const toggle = document.getElementById('mySchedToggle');
-  const starredCount = COURSES.filter(c => isStarred(c.code)).length;
-  const canUse = starredCount > 0;
-  toggle.disabled = !canUse;
-  if (!canUse && toggle.checked) {
-    toggle.checked = false;
-  }
-  toggle.parentElement.title = canUse
-    ? 'Show only bookmarked courses'
-    : 'Bookmark courses first to use My Picks';
-  toggle.parentElement.style.opacity = canUse ? '1' : '0.5';
-  toggle.parentElement.style.cursor = canUse ? 'pointer' : 'not-allowed';
-}
-
 function applyFilters() {
   searchQuery = document.getElementById('searchBox').value;
-  updateMyPicksToggle();
+  renderCourseChips();
   if (activeView === 'calendar') { renderCalendar(); renderSidebar(); }
   if (activeView === 'cards') renderCards();
 }
@@ -915,6 +921,21 @@ function toggleFilter(cat) {
   if (activeFilters.has(cat)) activeFilters.delete(cat); else activeFilters.add(cat);
   renderChips();
   applyFilters();
+}
+
+function renderCourseChips() {
+  const el = document.getElementById('courseChips');
+  const courses = filteredCourses().slice().sort((a, b) => a.code.localeCompare(b.code));
+  if (courses.length === 0) {
+    el.innerHTML = '<span style="color:var(--text-secondary);font-size:0.85rem;">No courses match your filters.</span>';
+    return;
+  }
+  el.innerHTML = courses.map(c => {
+    const cls = catClass(primaryCat(c));
+    const sel = isSelected(c.code) ? ' selected' : '';
+    const title = escapeHtml(c.name + ' — ' + c.faculty);
+    return `<span class="course-chip cat-${cls}${sel}" onclick="toggleSelect('${c.code}')" title="${title}">${escapeHtml(c.code)}</span>`;
+  }).join('');
 }
 
 // ─── LEGEND ────────────────────────────────────────────────────────────
@@ -936,19 +957,19 @@ function renderCalendar() {
   // Build day → events map
   const eventsByDate = {};
   COURSES.forEach(c => {
-    const isSelected = isStarred(c.code);
+    const picked = isSelected(c.code);
     c.sessions.forEach(s => {
       const d = s.date;
       if (!eventsByDate[d]) eventsByDate[d] = [];
-      eventsByDate[d].push({ course: c, session: s, selected: isSelected });
+      eventsByDate[d].push({ course: c, session: s, selected: picked });
     });
   });
 
   const selectedDates = new Set();
-  const starredCourses = COURSES.filter(c => isStarred(c.code));
-  starredCourses.forEach(c => c.sessions.forEach(s => selectedDates.add(s.date)));
+  const pickedCourses = selectedCourses();
+  pickedCourses.forEach(c => c.sessions.forEach(s => selectedDates.add(s.date)));
 
-  const { conflictDates, conflictEvents } = getCalendarConflicts(starredCourses);
+  const { conflictDates, conflictEvents } = getCalendarConflicts(pickedCourses);
 
   const today = new Date();
   const todayStr = today.toISOString().slice(0, 10);
@@ -984,11 +1005,11 @@ function renderCalendar() {
         const isConflictEvent = conflictEvents.has(dateStr + '|' + e.course.code);
         let stateClass = '';
         if (e.selected) { stateClass = ' selected'; }
-        else if (starred.size > 0) { stateClass = ' unselected'; }
+        else if (selected.size > 0) { stateClass = ' unselected'; }
         if (isConflictEvent) stateClass += ' conflict-event';
         if (e.course.restriction === 'mba' && currentProgramme !== 'MBA') stateClass += ' restricted-mba';
         if (e.course.restriction === 'emba' && (currentProgramme === 'MBA')) stateClass += ' restricted-emba';
-        return `<div class="cal-event cat-${cls}${isEvening?' evening':''}${stateClass}" onclick="openModal('${e.course.code}')" title="${e.course.name} – ${e.session.time}">${e.course.code} ${e.session.time}</div>`;
+        return `<div class="cal-event cat-${cls}${isEvening?' evening':''}${stateClass}" onclick="toggleSelect('${e.course.code}')" title="${escapeHtml(e.course.name)} – ${e.session.time} (click to select)">${e.course.code} ${e.session.time}</div>`;
       }).join('');
 
       let dayClass = 'cal-day';
@@ -1024,7 +1045,6 @@ function renderCards() {
   grid.innerHTML = courses.map(c => {
     const cat = primaryCat(c);
     const cls = catClass(cat);
-    const starCls = isStarred(c.code) ? 'starred' : '';
     const badges = buildBadges(c);
     const displayNotes = noteTextForDisplay(c);
     const notesHtml = displayNotes
@@ -1043,11 +1063,13 @@ function renderCards() {
          </div>`
       : '';
 
-    return '<div class="course-card card-cat-' + cls + (isStarred(c.code)?' is-selected':'') + (badges?' has-badges':'') + '">'
-      + '<button class="star-btn ' + starCls + '" onclick="toggleStar(\'' + c.code + '\');event.stopPropagation();">' + (isStarred(c.code)?'★':'☆') + '</button>'
+    return '<div class="course-card card-cat-' + cls + (isSelected(c.code)?' is-selected':'') + (badges?' has-badges':'') + '" onclick="toggleSelect(\'' + c.code + '\')">'
+      + '<span class="card-code-chip">' + escapeHtml(c.code) + '</span>'
       + '<div class="course-subject sub-' + cls + '">' + c.categories.join(' / ') + '</div>'
-      + '<h3 class="course-title"><a href="' + c.href + '" target="_blank" onclick="event.stopPropagation()">' + c.name + '</a></h3>'
-      + '<div class="course-faculty"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ' + c.faculty + '</div>'
+      + '<h3 class="course-title">' + escapeHtml(c.name)
+      + ' <button class="details-link" onclick="event.stopPropagation();openModal(\'' + c.code + '\')">Details</button></h3>'
+      + '<div class="course-faculty"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ' + escapeHtml(c.faculty) + '</div>'
+      + '<div style="margin-bottom:0.5rem;"><a href="' + c.href + '" target="_blank" onclick="event.stopPropagation()" style="font-size:0.8rem;color:var(--primary);">Draft outline ↗</a></div>'
       + (badges ? '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.5rem;">' + badges + '</div>' : '')
       + notesHtml
       + sessionsHtml
@@ -1079,7 +1101,7 @@ function openModal(code) {
 
     <div style="margin-bottom:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
       <a href="${c.href}" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;text-decoration:none;font-size:0.85rem;font-weight:600;">📄 Draft Outline</a>
-      <button onclick="toggleStar('${c.code}');openModal('${c.code}')" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid var(--card-border);color:${isStarred(c.code)?'#fbbf24':'var(--text-secondary)'};cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;">${isStarred(c.code)?'★ Bookmarked':'☆ Bookmark'}</button>
+      <button onclick="toggleSelect('${c.code}');openModal('${c.code}')" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid var(--card-border);color:${isSelected(c.code)?'var(--primary)':'var(--text-secondary)'};cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;">${isSelected(c.code)?'✓ Selected':'+ Select'}</button>
     </div>
     ${displayNotes ? '<div class="modal-notes">' + formatNotesHtml(displayNotes) + '</div>' : ''}
     <div class="modal-sessions">
@@ -1179,27 +1201,27 @@ function getCalendarConflicts(courses) {
 // ─── SIDEBAR ────────────────────────────────────────────────────────────
 function renderSidebar() {
   const el = document.getElementById('calSidebar');
-  const starredCourses = COURSES.filter(c => isStarred(c.code));
+  const picked = selectedCourses();
   const programme = currentProgramme;
   const required = requiredElectiveCount(programme);
   const isMBA = programme === 'MBA';
   const isWeekendStudent = programme === 'EMBA' || programme === 'GEMBA';
 
   // Collect warnings
-  const mbaOnlyStarred = starredCourses.filter(c => c.restriction === 'mba');
-  const embaOnlyStarred = starredCourses.filter(c => c.restriction === 'emba');
-  const weekendCoursesStarred = starredCourses.filter(c => c.period === 'weekend');
-  const weekdayCoursesStarred = starredCourses.filter(c => c.period === 'weekday');
-  const examCourses = starredCourses.filter(c => c.notes.includes('in-class exam'));
+  const mbaOnlyPicked = picked.filter(c => c.restriction === 'mba');
+  const embaOnlyPicked = picked.filter(c => c.restriction === 'emba');
+  const weekendCoursesPicked = picked.filter(c => c.period === 'weekend');
+  const weekdayCoursesPicked = picked.filter(c => c.period === 'weekday');
+  const examCourses = picked.filter(c => c.notes.includes('in-class exam'));
 
-  const overlaps = detectOverlaps(starredCourses);
+  const overlaps = detectOverlaps(picked);
   const hardConflicts = overlaps.filter(o => o.hardConflict);
   const softConflicts = overlaps.filter(o => !o.hardConflict);
 
   // Total sessions & unique days
   let totalSessions = 0;
   const uniqueDays = new Set();
-  starredCourses.forEach(c => {
+  picked.forEach(c => {
     totalSessions += c.sessions.length;
     c.sessions.forEach(s => uniqueDays.add(s.date));
   });
@@ -1216,54 +1238,54 @@ function renderSidebar() {
 
   // --- My electives panel ---
   html += `<div class="my-sched-panel">
-    <h3>⭐ My Electives <span class="count">${starredCourses.length}</span><span style="font-size:0.75rem;font-weight:400;color:var(--text-secondary);margin-left:0.4rem;">/ ${required} needed</span></h3>`;
+    <h3>My Electives <span class="count">${picked.length}</span><span style="font-size:0.75rem;font-weight:400;color:var(--text-secondary);margin-left:0.4rem;">/ ${required} needed</span></h3>`;
 
-  if (starredCourses.length === 0) {
-    html += `<div class="my-sched-empty">Star courses (☆) from the cards view or modal to build your schedule. They'll light up on the calendar.</div>`;
+  if (picked.length === 0) {
+    html += `<div class="my-sched-empty">Click course chips above or on the calendar to build your schedule. Selected courses light up on the calendar.</div>`;
   } else {
-    starredCourses.forEach(c => {
+    picked.forEach(c => {
       const cat = primaryCat(c);
       let badge = '';
       if (c.restriction === 'mba') badge = '<span style="background:rgba(245,158,11,0.3);color:#fbbf24;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600;">MBA only</span>';
       if (c.restriction === 'emba') badge = '<span style="background:rgba(139,92,246,0.3);color:#a78bfa;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600;">EMBA/GEMBA only</span>';
       html += `<div class="my-sched-item">
         <div class="dot" style="background:${catColor(cat)}"></div>
-        <span class="name" title="${c.name}">${c.code} ${badge}</span>
-        <span class="rm" onclick="toggleStar('${c.code}')" title="Remove">✕</span>
+        <span class="name" style="cursor:pointer" onclick="openModal('${c.code}')" title="${escapeHtml(c.name)}">${c.code} ${badge}</span>
+        <span class="rm" onclick="toggleSelect('${c.code}')" title="Remove">✕</span>
       </div>`;
     });
 
     html += `<div class="sched-summary">
       <strong>${totalSessions}</strong> sessions · <strong>${uniqueDays.size}</strong> unique days
-      ${starredCourses.length >= required ? '<span style="color:#4ade80;margin-left:0.5rem;">✅ Selection complete</span>' : `<span style="color:#f87171;margin-left:0.5rem;">Need ${required - starredCourses.length} more</span>`}
+      ${picked.length >= required ? '<span style="color:#4ade80;margin-left:0.5rem;">✅ Selection complete</span>' : `<span style="color:#f87171;margin-left:0.5rem;">Need ${required - picked.length} more</span>`}
     </div>`;
 
-    html += `<button class="clear-btn" onclick="clearAllStars()">✕ Clear all selections</button>`;
+    html += `<button class="clear-btn" onclick="clearSelection()">✕ Clear all selections</button>`;
   }
   html += `</div>`;
 
   // --- Programme restriction warnings ---
-  if (mbaOnlyStarred.length > 0 && !isMBA) {
+  if (mbaOnlyPicked.length > 0 && !isMBA) {
     html += `<div class="conflict-banner" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);">
       <h4 style="color:#fbbf24;">⚠️ MBA-only courses</h4>
-      <div class="conflict-row" style="color:#fde68a;">${mbaOnlyStarred.map(c=>c.code).join(', ')} – only ${isWeekendStudent?'GEMBA/EMBA':'your programme'} can take these</div>
+      <div class="conflict-row" style="color:#fde68a;">${mbaOnlyPicked.map(c=>c.code).join(', ')} – not available for your programme</div>
     </div>`;
   }
-  if (embaOnlyStarred.length > 0 && isMBA) {
+  if (embaOnlyPicked.length > 0 && isMBA) {
     html += `<div class="conflict-banner" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);">
       <h4 style="color:#a78bfa;">⚠️ EMBA/GEMBA-only courses</h4>
-      <div class="conflict-row" style="color:#c4b5fd;">${embaOnlyStarred.map(c=>c.code).join(', ')} – not available for MBA students</div>
+      <div class="conflict-row" style="color:#c4b5fd;">${embaOnlyPicked.map(c=>c.code).join(', ')} – not available for MBA students</div>
     </div>`;
   }
 
   // --- Priority warnings ---
-  if (weekdayCoursesStarred.length > 0 && isWeekendStudent) {
+  if (weekdayCoursesPicked.length > 0 && isWeekendStudent) {
     html += `<div class="conflict-banner" style="background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.2);">
       <h4 style="color:var(--primary);">ℹ️ Weekday course priority</h4>
       <div class="conflict-row" style="color:#7dd3fc;">MBA students get priority for weekday electives. You may have lower chance of securing seats.</div>
     </div>`;
   }
-  if (weekendCoursesStarred.length > 0 && isMBA) {
+  if (weekendCoursesPicked.length > 0 && isMBA) {
     html += `<div class="conflict-banner" style="background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.2);">
       <h4 style="color:var(--primary);">ℹ️ Weekend course priority</h4>
       <div class="conflict-row" style="color:#7dd3fc;">GEMBA/EMBA students get priority for weekend electives. You may have lower chance of securing seats.</div>
@@ -1301,7 +1323,7 @@ function renderSidebar() {
   }
 
   // --- Weekend course reminder ---
-  if (weekendCoursesStarred.length > 0) {
+  if (weekendCoursesPicked.length > 0) {
     html += `<div class="conflict-banner" style="background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.2);">
       <h4 style="color:#4ade80;">🗓️ Weekend Electives</h4>
       <div class="conflict-row" style="color:#86efac;">Weekend courses run over 2 consecutive weekends (3 sessions each = 6 total). Missing any weekend may lead to a fail. Plan accordingly.</div>
@@ -1318,11 +1340,10 @@ function setProgramme(prog) {
   applyFilters();
 }
 
-function clearAllStars() {
-  starred = new Set();
-  localStorage.setItem('mba_stars', JSON.stringify([]));
+function clearSelection() {
+  selected = new Set();
+  saveSelection();
   applyFilters();
-  renderSidebar();
 }
 
 // ─── PROGRAMME BANNER ─────────────────────────────────────────────────
@@ -1345,7 +1366,7 @@ function renderProgBanner() {
 renderChips();
 renderLegend();
 renderProgBanner();
-updateMyPicksToggle();
+renderCourseChips();
 renderCalendar();
 renderSidebar();
 renderCards();
