@@ -127,11 +127,13 @@
         }
         .course-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
         .course-chip {
-            padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
+            padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.76rem; font-weight: 500;
+            line-height: 1.35; max-width: 100%;
             cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
             background: rgba(255,255,255,0.05); color: var(--text-secondary);
             transition: all 0.2s ease; user-select: none;
         }
+        .course-chip .chip-code { font-weight: 700; opacity: 0.9; white-space: nowrap; }
         .course-chip:hover { background: rgba(255,255,255,0.1); color: var(--text-color); }
         .course-chip.selected {
             color: #fff; border-color: rgba(255,255,255,0.35);
@@ -933,8 +935,8 @@ function renderCourseChips() {
   el.innerHTML = courses.map(c => {
     const cls = catClass(primaryCat(c));
     const sel = isSelected(c.code) ? ' selected' : '';
-    const title = escapeHtml(c.name + ' — ' + c.faculty);
-    return `<span class="course-chip cat-${cls}${sel}" onclick="toggleSelect('${c.code}')" title="${title}">${escapeHtml(c.code)}</span>`;
+    const label = `${escapeHtml(c.name)} <span class="chip-code">(${escapeHtml(c.code)})</span>`;
+    return `<span class="course-chip cat-${cls}${sel}" onclick="toggleSelect('${c.code}')" title="${escapeHtml(c.faculty)}">${label}</span>`;
   }).join('');
 }
 
