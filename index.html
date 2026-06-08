@@ -406,12 +406,49 @@
         }
         .clear-btn:hover { background: rgba(248,113,113,0.1); border-color: var(--danger); }
 
+
+        /* ── Programme banner ── */
+        .prog-banner {
+            display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+            padding: 0.75rem 1rem; border-radius: var(--radius); margin-bottom: 1.5rem;
+            font-size: 0.85rem; backdrop-filter: blur(10px);
+        }
+        .prog-banner.mba { background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.25); }
+        .prog-banner.emba { background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.25); }
+        .prog-banner.gemba { background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.25); }
+        .prog-banner strong { font-weight: 700; }
+        .prog-banner.mba strong { color: var(--primary); }
+        .prog-banner.emba strong { color: #a78bfa; }
+        .prog-banner.gemba strong { color: #fb923c; }
+        .prog-banner .prog-note { color: var(--text-secondary); }
+
+        /* ── Calendar programme-restricted events ── */
+        .cal-event.restricted-mba {
+            opacity: 0.4;
+            border: 1px dashed rgba(245,158,11,0.5);
+        }
+        .cal-event.restricted-emba {
+            opacity: 0.4;
+            border: 1px dashed rgba(139,92,246,0.5);
+        }
+
         /* ── Star on card also triggers calendar highlight ── */
         .course-card.is-selected {
             border-color: rgba(255,255,255,0.2);
             background: rgba(255,255,255,0.06);
         }
         .course-card.is-selected .star-btn { color: #fbbf24; text-shadow: 0 0 8px rgba(251,191,36,0.4); }
+
+        /* ── Programme restriction badges ── */
+        .restr-badge {
+            display: inline-block; font-size: 0.68rem; font-weight: 600;
+            padding: 0.15rem 0.5rem; border-radius: 4px;
+        }
+        .mba-badge { background: rgba(245,158,11,0.25); color: #fbbf24; border: 1px solid rgba(245,158,11,0.4); }
+        .emba-badge { background: rgba(139,92,246,0.25); color: #a78bfa; border: 1px solid rgba(139,92,246,0.4); }
+        .exam-badge { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+        .weekend-badge { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+        .course-card.has-badges { padding-top: 0.9rem; }
     </style>
 </head>
 <body>
@@ -452,6 +489,9 @@
         </label>
     </div>
 
+    <!-- Programme info banner -->
+    <div id="progBanner" style="display:none;" class="prog-banner"></div>
+
     <!-- ── Calendar view ── -->
     <div id="calendarView" class="calendar-section active">
         <div class="cal-layout">
@@ -484,7 +524,7 @@
 // ─── DATA ────────────────────────────────────────────────────────────
 const COURSES = [
   // ── Weekday Electives ──
-  { code:"Bneg", name:"Business Negotiations", faculty:"Maartje Schouten & Dimitrios Tsekouras", period:"weekday", categories:["Business & Leadership"], notes:"FT MBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754304?wrap=1",
+  { code:"Bneg", name:"Business Negotiations", faculty:"Maartje Schouten & Dimitrios Tsekouras", period:"weekday", categories:["Business & Leadership"], notes:"FT MBA Only", restriction:"mba", href:"https://canvas.eur.nl/courses/54721/files/101754304?wrap=1",
     sessions:[
       {date:"2026-11-02",time:"09:30–12:30",label:"Session 1"},
       {date:"2026-11-03",time:"09:30–12:30",label:"Session 2"},
@@ -493,13 +533,13 @@ const COURSES = [
       {date:"2026-11-10",time:"09:30–12:30",label:"Session 5"},
       {date:"2026-11-12",time:"09:30–12:30",label:"Session 6"},
     ]},
-  { code:"LWP", name:"Leading with Presence", faculty:"Steffen Giessner, Antonie Knoppers et al", period:"weekday", categories:["Business & Leadership"], notes:"FT MBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754315?wrap=1",
+  { code:"LWP", name:"Leading with Presence", faculty:"Steffen Giessner, Antonie Knoppers et al", period:"weekday", categories:["Business & Leadership"], notes:"FT MBA Only", restriction:"mba", href:"https://canvas.eur.nl/courses/54721/files/101754315?wrap=1",
     sessions:[
       {date:"2026-10-19",time:"09:30–16:30",label:"Sessions 1+2"},
       {date:"2026-10-20",time:"09:30–16:30",label:"Sessions 3+4"},
       {date:"2026-10-21",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"SPM", name:"Strategic People Management", faculty:"Madleen Meier-Barthold & Colin Lee", period:"weekday", categories:["Business & Leadership","Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754320?wrap=1",
+  { code:"SPM", name:"Strategic People Management", faculty:"Madleen Meier-Barthold & Colin Lee", period:"weekday", categories:["Business & Leadership","Strategy"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754320?wrap=1",
     sessions:[
       {date:"2026-11-19",time:"13:30–16:30",label:"Session 1"},
       {date:"2026-11-20",time:"13:30–16:30",label:"Session 2"},
@@ -508,7 +548,7 @@ const COURSES = [
       {date:"2026-11-25",time:"13:30–16:30",label:"Session 5"},
       {date:"2026-11-26",time:"13:30–16:30",label:"Session 6"},
     ]},
-  { code:"IMP", name:"Impact Investing", faculty:"Ronald Huisman et al", period:"weekday", categories:["Finance"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101776800?wrap=1",
+  { code:"IMP", name:"Impact Investing", faculty:"Ronald Huisman et al", period:"weekday", categories:["Finance"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101776800?wrap=1",
     sessions:[
       {date:"2026-11-16",time:"18:30–21:30",label:"Session 1"},
       {date:"2026-11-18",time:"18:30–21:30",label:"Session 2"},
@@ -517,14 +557,14 @@ const COURSES = [
       {date:"2026-11-25",time:"18:30–21:30",label:"Session 5"},
       {date:"2026-11-30",time:"18:30–21:30",label:"Session 6"},
     ]},
-  { code:"MA", name:"Mergers & Acquisitions", faculty:"Arjen Mulder", period:"weekday", categories:["Finance","Strategy"], notes:"Has in-class exam", href:"https://canvas.eur.nl/courses/54721/files/101754316?wrap=1",
+  { code:"MA", name:"Mergers & Acquisitions", faculty:"Arjen Mulder", period:"weekday", categories:["Finance","Strategy"], notes:"Has in-class exam", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754316?wrap=1",
     sessions:[
       {date:"2026-10-06",time:"09:30–16:30",label:"Sessions 1+2"},
       {date:"2026-10-08",time:"09:30–16:30",label:"Sessions 3+4"},
       {date:"2026-10-13",time:"09:30–16:30",label:"Sessions 5+6"},
       {date:"2026-10-22",time:"09:30–13:30",label:"Exam"},
     ]},
-  { code:"SI", name:"Sustainable Investing", faculty:"Emilio Marti", period:"weekday", categories:["Finance","Sustainability"], notes:"Has in-class exam", href:"https://canvas.eur.nl/courses/54721/files/101754319?wrap=1",
+  { code:"SI", name:"Sustainable Investing", faculty:"Emilio Marti", period:"weekday", categories:["Finance","Sustainability"], notes:"Has in-class exam", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754319?wrap=1",
     sessions:[
       {date:"2026-10-19",time:"17:00–20:00",label:"Session 1"},
       {date:"2026-10-21",time:"14:00–17:00",label:"Session 2"},
@@ -533,7 +573,7 @@ const COURSES = [
       {date:"2026-11-02",time:"14:00–17:00",label:"Session 5"},
       {date:"2026-11-04",time:"14:00–17:00",label:"Session 6"},
     ]},
-  { code:"AMSAI", name:"Advanced Marketing Strategy through AI & Analytics", faculty:"Sebastian Gabel", period:"weekday", categories:["Marketing"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754302?wrap=1",
+  { code:"AMSAI", name:"Advanced Marketing Strategy through AI & Analytics", faculty:"Sebastian Gabel", period:"weekday", categories:["Marketing"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754302?wrap=1",
     sessions:[
       {date:"2026-11-04",time:"13:30–16:30",label:"Session 1"},
       {date:"2026-11-06",time:"13:30–16:30",label:"Session 2"},
@@ -542,7 +582,7 @@ const COURSES = [
       {date:"2026-11-20",time:"13:30–16:30",label:"Session 5"},
       {date:"2026-11-26",time:"13:30–16:30",label:"Session 6"},
     ]},
-  { code:"BiBN", name:"The Brain in Business: Neuroscience for Better Managerial Decisions", faculty:"Alex Genevsky", period:"weekday", categories:["Marketing"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754303?wrap=1",
+  { code:"BiBN", name:"The Brain in Business: Neuroscience for Better Managerial Decisions", faculty:"Alex Genevsky", period:"weekday", categories:["Marketing"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754303?wrap=1",
     sessions:[
       {date:"2026-09-30",time:"13:30–16:30",label:"Session 1"},
       {date:"2026-10-02",time:"13:30–16:30",label:"Session 2"},
@@ -551,7 +591,7 @@ const COURSES = [
       {date:"2026-10-15",time:"13:30–16:30",label:"Session 5"},
       {date:"2026-10-28",time:"13:30–16:30",label:"Session 6"},
     ]},
-  { code:"QPA", name:"Quantitative Pricing Analytics", faculty:"Yeqing Zhou", period:"weekday", categories:["Marketing","Supply Chain & Operations"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754318?wrap=1",
+  { code:"QPA", name:"Quantitative Pricing Analytics", faculty:"Yeqing Zhou", period:"weekday", categories:["Marketing","Supply Chain & Operations"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754318?wrap=1",
     sessions:[
       {date:"2026-10-05",time:"09:30–12:30",label:"Session 1"},
       {date:"2026-10-06",time:"09:30–12:30",label:"Session 2"},
@@ -560,13 +600,13 @@ const COURSES = [
       {date:"2026-10-13",time:"09:30–12:30",label:"Session 5"},
       {date:"2026-10-15",time:"09:30–12:30",label:"Session 6"},
     ]},
-  { code:"CSC", name:"Corporate Strategy Consulting", faculty:"Ruud Kuijpers", period:"weekday", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754305?wrap=1",
+  { code:"CSC", name:"Corporate Strategy Consulting", faculty:"Ruud Kuijpers", period:"weekday", categories:["Strategy"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754305?wrap=1",
     sessions:[
       {date:"2026-10-19",time:"09:30–16:30",label:"Sessions 1+2"},
       {date:"2026-10-21",time:"09:30–16:30",label:"Sessions 3+4"},
       {date:"2026-10-23",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"DGBS", name:"Doing Business in the Global South", faculty:"Caroline Witte & Marijn Faling", period:"weekday", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754311?wrap=1",
+  { code:"DGBS", name:"Doing Business in the Global South", faculty:"Caroline Witte & Marijn Faling", period:"weekday", categories:["Strategy"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754311?wrap=1",
     sessions:[
       {date:"2026-10-12",time:"18:30–21:30",label:"Session 1"},
       {date:"2026-10-13",time:"18:30–21:30",label:"Session 2"},
@@ -575,13 +615,13 @@ const COURSES = [
       {date:"2026-10-16",time:"18:30–21:30",label:"Session 5"},
       {date:"2026-10-17",time:"09:30–12:30",label:"Session 6"},
     ]},
-  { code:"MCI", name:"Mastering Corporate Innovation", faculty:"Chandrika Rathee", period:"weekday", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754317?wrap=1",
+  { code:"MCI", name:"Mastering Corporate Innovation", faculty:"Chandrika Rathee", period:"weekday", categories:["Strategy"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754317?wrap=1",
     sessions:[
       {date:"2026-11-20",time:"09:30–16:30",label:"Sessions 1+2"},
       {date:"2026-11-27",time:"09:30–16:30",label:"Sessions 3+4"},
       {date:"2026-12-04",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"GDSCR", name:"Geopolitics, Disasters, and Supply Chain Resilience", faculty:"Harwin de Vries", period:"weekday", categories:["Supply Chain & Operations"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754820?wrap=1",
+  { code:"GDSCR", name:"Geopolitics, Disasters, and Supply Chain Resilience", faculty:"Harwin de Vries", period:"weekday", categories:["Supply Chain & Operations"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754820?wrap=1",
     sessions:[
       {date:"2026-11-02",time:"18:30–21:30",label:"Session 1"},
       {date:"2026-11-03",time:"18:30–21:30",label:"Session 2"},
@@ -590,14 +630,14 @@ const COURSES = [
       {date:"2026-11-10",time:"18:30–21:30",label:"Session 5"},
       {date:"2026-11-11",time:"18:30–21:30",label:"Session 6"},
     ]},
-  { code:"SSCM", name:"Sustainable Supply Chain Management", faculty:"Morteza Pourakbar", period:"weekday", categories:["Supply Chain & Operations","Sustainability"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754321?wrap=1",
+  { code:"SSCM", name:"Sustainable Supply Chain Management", faculty:"Morteza Pourakbar", period:"weekday", categories:["Supply Chain & Operations","Sustainability"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754321?wrap=1",
     sessions:[
       {date:"2026-11-19",time:"09:30–16:30",label:"Sessions 1+2"},
       {date:"2026-11-20",time:"09:30–12:30",label:"Session 3"},
       {date:"2026-11-26",time:"09:30–16:30",label:"Sessions 4+5"},
       {date:"2026-11-27",time:"09:30–12:30",label:"Session 6"},
     ]},
-  { code:"LEVET", name:"Leading Entrepreneurship & Venturing in the Energy Transition", faculty:"Guiseppe Criaco & Vareska van de Vrande", period:"weekday", categories:["Sustainability","Entrepreneurship"], notes:"8 sessions across 4 Fridays; 2 sessions in The Hague", href:"https://canvas.eur.nl/courses/54721/files/101754314?wrap=1",
+  { code:"LEVET", name:"Leading Entrepreneurship & Venturing in the Energy Transition", faculty:"Guiseppe Criaco & Vareska van de Vrande", period:"weekday", categories:["Sustainability","Entrepreneurship"], notes:"8 sessions across 4 Fridays; 2 sessions in The Hague", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754314?wrap=1",
     sessions:[
       {date:"2026-10-30",time:"09:30–16:30",label:"Sessions 1+2"},
       {date:"2026-11-06",time:"09:30–16:30",label:"Sessions 3+4"},
@@ -606,105 +646,105 @@ const COURSES = [
     ]},
 
   // ── Weekend Electives ──
-  { code:"NBD", name:"A Scientific Approach to New Business Development", faculty:"Laura Rosendahl Huber & Luca Berchicci", period:"weekend", categories:["Business & Leadership","Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754336?wrap=1",
+  { code:"NBD", name:"A Scientific Approach to New Business Development", faculty:"Laura Rosendahl Huber & Luca Berchicci", period:"weekend", categories:["Business & Leadership","Strategy"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754336?wrap=1",
     sessions:[
       {date:"2026-11-06",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-11-07",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-11-20",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-11-21",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"PiPE", name:"Leadership Pipeline", faculty:"Anders Ibsen", period:"weekend", categories:["Business & Leadership"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754338?wrap=1",
+  { code:"PiPE", name:"Leadership Pipeline", faculty:"Anders Ibsen", period:"weekend", categories:["Business & Leadership"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754338?wrap=1",
     sessions:[
       {date:"2026-11-06",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-11-07",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-11-20",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-11-21",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"StNeg", name:"Strategic Negotiations", faculty:"Giuseppe Conti", period:"weekend", categories:["Business & Leadership"], notes:"EMBA/GEMBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754339?wrap=1",
+  { code:"StNeg", name:"Strategic Negotiations", faculty:"Giuseppe Conti", period:"weekend", categories:["Business & Leadership"], notes:"EMBA/GEMBA Only", restriction:"emba", href:"https://canvas.eur.nl/courses/54721/files/101754339?wrap=1",
     sessions:[
       {date:"2026-09-04",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-09-05",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-09-18",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-09-19",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"CRV", name:"Corporate Restructurings and Valuation", faculty:"Dennis Jullens", period:"weekend", categories:["Finance"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101774290?wrap=1",
+  { code:"CRV", name:"Corporate Restructurings and Valuation", faculty:"Dennis Jullens", period:"weekend", categories:["Finance"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101774290?wrap=1",
     sessions:[
       {date:"2026-10-30",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-10-31",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-11-13",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-11-14",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"EntFin", name:"Entrepreneurial Finance", faculty:"Yu Liu", period:"weekend", categories:["Finance","Entrepreneurship"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754331?wrap=1",
+  { code:"EntFin", name:"Entrepreneurial Finance", faculty:"Yu Liu", period:"weekend", categories:["Finance","Entrepreneurship"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754331?wrap=1",
     sessions:[
       {date:"2026-09-11",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-09-12",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-09-25",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-09-26",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"FDM", name:"Finance for Decision-Making", faculty:"Stefan Kramer & Marcel van Rinsum", period:"weekend", categories:["Finance"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754332?wrap=1",
+  { code:"FDM", name:"Finance for Decision-Making", faculty:"Stefan Kramer & Marcel van Rinsum", period:"weekend", categories:["Finance"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754332?wrap=1",
     sessions:[
       {date:"2026-11-06",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-11-07",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-11-20",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-11-21",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"MCT", name:"Managing Corporate Turnarounds", faculty:"Joost de Haas", period:"weekend", categories:["Finance","Strategy"], notes:"EMBA/GEMBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754335?wrap=1",
+  { code:"MCT", name:"Managing Corporate Turnarounds", faculty:"Joost de Haas", period:"weekend", categories:["Finance","Strategy"], notes:"EMBA/GEMBA Only", restriction:"emba", href:"https://canvas.eur.nl/courses/54721/files/101754335?wrap=1",
     sessions:[
       {date:"2026-09-11",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-09-12",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-09-25",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-09-26",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"PE", name:"PE: Think like a Private Equity Manager", faculty:"Erik Roelofsen & Daniel van Loenen", period:"weekend", categories:["Finance"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101776838?wrap=1",
+  { code:"PE", name:"PE: Think like a Private Equity Manager", faculty:"Erik Roelofsen & Daniel van Loenen", period:"weekend", categories:["Finance"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101776838?wrap=1",
     sessions:[
       {date:"2026-10-02",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-10-03",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-10-16",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-10-17",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"CCV", name:"Creating Customer Value", faculty:"Aurelie Lemmens & Miriam Tuk", period:"weekend", categories:["Marketing"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754328?wrap=1",
+  { code:"CCV", name:"Creating Customer Value", faculty:"Aurelie Lemmens & Miriam Tuk", period:"weekend", categories:["Marketing"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754328?wrap=1",
     sessions:[
       {date:"2026-10-30",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-10-31",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-11-13",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-11-14",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"CM", name:"Change Management", faculty:"Bill Collins", period:"weekend", categories:["Strategy","Sustainability"], notes:"EMBA/GEMBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754329?wrap=1",
+  { code:"CM", name:"Change Management", faculty:"Bill Collins", period:"weekend", categories:["Strategy","Sustainability"], notes:"EMBA/GEMBA Only", restriction:"emba", href:"https://canvas.eur.nl/courses/54721/files/101754329?wrap=1",
     sessions:[
       {date:"2026-10-30",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-10-31",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-11-13",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-11-14",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"HPCsC", name:"Harnessing the Power of Corporate-Startup Collaboration", faculty:"Vareska van de Vrande & Christopher Sabel", period:"weekend", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754333?wrap=1",
+  { code:"HPCsC", name:"Harnessing the Power of Corporate-Startup Collaboration", faculty:"Vareska van de Vrande & Christopher Sabel", period:"weekend", categories:["Strategy"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754333?wrap=1",
     sessions:[
       {date:"2026-10-09",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-10-10",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-10-23",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-10-24",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"IE", name:"Innovation Ecosystems", faculty:"Juan Pablo Madiedo", period:"weekend", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101775161?wrap=1",
+  { code:"IE", name:"Innovation Ecosystems", faculty:"Juan Pablo Madiedo", period:"weekend", categories:["Strategy"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101775161?wrap=1",
     sessions:[
       {date:"2026-09-04",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-09-05",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-09-18",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-09-19",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"StratS", name:"Strategic Sourcing", faculty:"Juergen Scherer", period:"weekend", categories:["Supply Chain & Operations"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754340?wrap=1",
+  { code:"StratS", name:"Strategic Sourcing", faculty:"Juergen Scherer", period:"weekend", categories:["Supply Chain & Operations"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101754340?wrap=1",
     sessions:[
       {date:"2026-10-09",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-10-10",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-10-23",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-10-24",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"RESG", name:"Resilient ESG Strategy in Action", faculty:"Salla Laasonen", period:"weekend", categories:["Sustainability"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101802857?wrap=1",
+  { code:"RESG", name:"Resilient ESG Strategy in Action", faculty:"Salla Laasonen", period:"weekend", categories:["Sustainability"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101802857?wrap=1",
     sessions:[
       {date:"2026-10-02",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-10-03",time:"09:30–16:30",label:"Sessions 2+3"},
       {date:"2026-10-16",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
       {date:"2026-10-17",time:"09:30–16:30",label:"Sessions 5+6"},
     ]},
-  { code:"ETA", name:"Entrepreneurship through Acquisition", faculty:"Alexander Schuil & Wim Hulsink", period:"weekend", categories:["Entrepreneurship"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101783132?wrap=1",
+  { code:"ETA", name:"Entrepreneurship through Acquisition", faculty:"Alexander Schuil & Wim Hulsink", period:"weekend", categories:["Entrepreneurship"], notes:"", restriction:null, href:"https://canvas.eur.nl/courses/54721/files/101783132?wrap=1",
     sessions:[
       {date:"2026-11-06",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
       {date:"2026-11-07",time:"09:30–16:30",label:"Sessions 2+3"},
@@ -738,6 +778,49 @@ function primaryCat(course) { return course.categories[0]; }
 function catClass(cat) { return CAT_CLASS[cat] || "strategy"; }
 function catColor(cat) { return CAT_COLORS[cat] || "#8b5cf6"; }
 
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function isAvailableForProgramme(course, programme) {
+  if (course.restriction === 'mba' && programme !== 'MBA') return false;
+  if (course.restriction === 'emba' && programme === 'MBA') return false;
+  return true;
+}
+
+function requiredElectiveCount(programme) {
+  return programme === 'EMBA' ? 4 : 3;
+}
+
+function noteTextForDisplay(course) {
+  let notes = course.notes || '';
+  if (course.restriction === 'mba') notes = notes.replace(/FT\s*MBA\s*Only/gi, '').trim();
+  if (course.restriction === 'emba') notes = notes.replace(/EMBA\s*\/?\s*GEMBA\s*Only/gi, '').trim();
+  if (notes.includes('in-class exam')) notes = notes.replace(/Has in-class exam/gi, '').trim();
+  if (notes.includes('sessions in The Hague')) notes = notes.replace(/;?\s*2 sessions in The Hague/gi, '').trim();
+  notes = notes.replace(/^[\s;,.\-–]+|[\s;,.\-–]+$/g, '').replace(/;\s*;/g, ';');
+  return notes;
+}
+
+function formatNotesHtml(notes) {
+  if (!notes) return '';
+  return escapeHtml(notes)
+    .replace(/FT MBA Only/gi, '<strong>FT MBA Only</strong>')
+    .replace(/EMBA\/GEMBA Only/gi, '<strong>EMBA/GEMBA Only</strong>');
+}
+
+function buildBadges(course) {
+  let html = '';
+  if (course.restriction === 'mba') html += '<span class="restr-badge mba-badge">MBA only</span>';
+  else if (course.restriction === 'emba') html += '<span class="restr-badge emba-badge">EMBA/GEMBA only</span>';
+  if ((course.notes || '').includes('in-class exam')) html += '<span class="restr-badge exam-badge">📝 Exam</span>';
+  if (course.period === 'weekend') html += '<span class="restr-badge weekend-badge">🗓️ Weekend</span>';
+  if ((course.notes || '').includes('sessions in The Hague')) {
+    html += '<span class="restr-badge" style="background:rgba(56,189,248,0.15);color:#7dd3fc;border:1px solid rgba(56,189,248,0.3);">📍 The Hague</span>';
+  }
+  return html;
+}
+
 // ─── BOOKMARKS (localStorage) ────────────────────────────────────────
 let starred = new Set(JSON.parse(localStorage.getItem('mba_stars') || '[]'));
 function toggleStar(code) {
@@ -754,6 +837,7 @@ let activeView = 'calendar';
 let activeCardTab = 'all';
 let activeFilters = new Set();  // empty = show all
 let searchQuery = '';
+let currentProgramme = localStorage.getItem('mba_programme') || 'MBA';
 
 // ─── VIEW SWITCHING ────────────────────────────────────────────────────
 function switchView(view) {
@@ -791,14 +875,31 @@ function filteredCourses() {
   if (document.getElementById('mySchedToggle').checked) {
     list = list.filter(c => isStarred(c.code));
   }
+  list = list.filter(c => isAvailableForProgramme(c, currentProgramme));
   if (activeCardTab !== 'all' && activeView === 'cards') {
     list = list.filter(c => c.period === activeCardTab);
   }
   return list;
 }
 
+function updateMyPicksToggle() {
+  const toggle = document.getElementById('mySchedToggle');
+  const starredCount = COURSES.filter(c => isStarred(c.code)).length;
+  const canUse = starredCount > 0;
+  toggle.disabled = !canUse;
+  if (!canUse && toggle.checked) {
+    toggle.checked = false;
+  }
+  toggle.parentElement.title = canUse
+    ? 'Show only bookmarked courses'
+    : 'Bookmark courses first to use My Picks';
+  toggle.parentElement.style.opacity = canUse ? '1' : '0.5';
+  toggle.parentElement.style.cursor = canUse ? 'pointer' : 'not-allowed';
+}
+
 function applyFilters() {
   searchQuery = document.getElementById('searchBox').value;
+  updateMyPicksToggle();
   if (activeView === 'calendar') { renderCalendar(); renderSidebar(); }
   if (activeView === 'cards') renderCards();
 }
@@ -847,11 +948,7 @@ function renderCalendar() {
   const starredCourses = COURSES.filter(c => isStarred(c.code));
   starredCourses.forEach(c => c.sessions.forEach(s => selectedDates.add(s.date)));
 
-  const conflicts = detectConflicts(starredCourses);
-  const conflictDates = new Set();
-  conflicts.forEach(c => { conflictDates.add(c.date); });
-  const conflictEvents = new Set();
-  conflicts.forEach(c => { conflictEvents.add(c.date + '|' + c.code1); conflictEvents.add(c.date + '|' + c.code2); });
+  const { conflictDates, conflictEvents } = getCalendarConflicts(starredCourses);
 
   const today = new Date();
   const todayStr = today.toISOString().slice(0, 10);
@@ -889,6 +986,8 @@ function renderCalendar() {
         if (e.selected) { stateClass = ' selected'; }
         else if (starred.size > 0) { stateClass = ' unselected'; }
         if (isConflictEvent) stateClass += ' conflict-event';
+        if (e.course.restriction === 'mba' && currentProgramme !== 'MBA') stateClass += ' restricted-mba';
+        if (e.course.restriction === 'emba' && (currentProgramme === 'MBA')) stateClass += ' restricted-emba';
         return `<div class="cal-event cat-${cls}${isEvening?' evening':''}${stateClass}" onclick="openModal('${e.course.code}')" title="${e.course.name} – ${e.session.time}">${e.course.code} ${e.session.time}</div>`;
       }).join('');
 
@@ -926,33 +1025,33 @@ function renderCards() {
     const cat = primaryCat(c);
     const cls = catClass(cat);
     const starCls = isStarred(c.code) ? 'starred' : '';
-    const notesHtml = c.notes
-      ? `<div class="course-notes">${c.notes.replace(/FT MBA Only/g,'<strong>FT MBA Only</strong>').replace(/EMBA\/GEMBA Only/g,'<strong>EMBA/GEMBA Only</strong>')}</div>`
+    const badges = buildBadges(c);
+    const displayNotes = noteTextForDisplay(c);
+    const notesHtml = displayNotes
+      ? `<div class="course-notes">${formatNotesHtml(displayNotes)}</div>`
       : '';
 
     const sessionsHtml = c.sessions.length
       ? `<div class="course-schedule">
-           <div class="course-schedule-title">Schedule</div>
+           <div class="course-schedule-title">Schedule <span style="font-size:0.7rem;font-weight:400;color:var(--text-secondary)">(${c.sessions.length} sessions)</span></div>
            ${c.sessions.map(s => {
              const d = new Date(s.date);
              const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
-             const dateLabel = `${dayName} ${d.getDate()} ${MONTHS[d.getMonth()+1].slice(0,3)}`;
-             return `<div class="course-session"><span class="date">${dateLabel}</span><span class="time">${s.time}</span></div>`;
+             const dateLabel = dayName + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()+1].slice(0,3);
+             return '<div class="course-session"><span class="date">' + dateLabel + '</span><span class="time">' + s.time + '</span></div>';
            }).join('')}
          </div>`
       : '';
 
-    return `<div class="course-card card-cat-${cls}${isStarred(c.code)?' is-selected':''}">
-      <button class="star-btn ${starCls}" onclick="toggleStar('${c.code}');event.stopPropagation();">${isStarred(c.code)?'★':'☆'}</button>
-      <div class="course-subject sub-${cls}">${c.categories.join(' / ')}</div>
-      <h3 class="course-title"><a href="${c.href}" target="_blank" onclick="event.stopPropagation()">${c.name}</a></h3>
-      <div class="course-faculty">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        ${c.faculty}
-      </div>
-      ${notesHtml}
-      ${sessionsHtml}
-    </div>`;
+    return '<div class="course-card card-cat-' + cls + (isStarred(c.code)?' is-selected':'') + (badges?' has-badges':'') + '">'
+      + '<button class="star-btn ' + starCls + '" onclick="toggleStar(\'' + c.code + '\');event.stopPropagation();">' + (isStarred(c.code)?'★':'☆') + '</button>'
+      + '<div class="course-subject sub-' + cls + '">' + c.categories.join(' / ') + '</div>'
+      + '<h3 class="course-title"><a href="' + c.href + '" target="_blank" onclick="event.stopPropagation()">' + c.name + '</a></h3>'
+      + '<div class="course-faculty"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ' + c.faculty + '</div>'
+      + (badges ? '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.5rem;">' + badges + '</div>' : '')
+      + notesHtml
+      + sessionsHtml
+      + '</div>';
   }).join('');
 }
 
@@ -962,43 +1061,49 @@ function openModal(code) {
   if (!c) return;
   const cat = primaryCat(c);
   const cls = catClass(cat);
-  const starCls = isStarred(c.code) ? 'starred' : '';
+  const badges = buildBadges(c);
+  const displayNotes = noteTextForDisplay(c);
 
   document.getElementById('modal').innerHTML = `
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="course-subject sub-${cls}" style="margin-bottom:0.5rem">${c.categories.join(' / ')}</div>
-    <h3>${c.name}</h3>
-    <div class="modal-code">${c.code} · ${c.period === 'weekday' ? '📅 Weekday' : '🗓️ Weekend'}</div>
+    <h3>${escapeHtml(c.name)}</h3>
+    <div class="modal-code">${escapeHtml(c.code)} &middot; ${c.period === 'weekday' ? '📅 Weekday' : '🗓️ Weekend'} &middot; ${c.sessions.length} sessions</div>
     <div class="modal-faculty">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      ${c.faculty}
+      ${escapeHtml(c.faculty)}
     </div>
+
+    ${badges ? '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;">' + badges + '</div>' : ''}
+    ${c.period === 'weekend' ? '<div style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);padding:0.5rem 0.75rem;border-radius:8px;margin-bottom:1rem;font-size:0.85rem;color:#86efac;"><strong>Weekend course:</strong> 2 consecutive weekends (3 sessions each = 6 total). Missing any weekend may lead to a fail.</div>' : ''}
+
     <div style="margin-bottom:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
       <a href="${c.href}" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;text-decoration:none;font-size:0.85rem;font-weight:600;">📄 Draft Outline</a>
       <button onclick="toggleStar('${c.code}');openModal('${c.code}')" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid var(--card-border);color:${isStarred(c.code)?'#fbbf24':'var(--text-secondary)'};cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;">${isStarred(c.code)?'★ Bookmarked':'☆ Bookmark'}</button>
     </div>
-    ${c.notes ? `<div class="modal-notes">${c.notes.replace(/FT MBA Only/g,'<strong>FT MBA Only</strong>').replace(/EMBA\/GEMBA Only/g,'<strong>EMBA/GEMBA Only</strong>')}</div>` : ''}
+    ${displayNotes ? '<div class="modal-notes">' + formatNotesHtml(displayNotes) + '</div>' : ''}
     <div class="modal-sessions">
       <div class="course-schedule-title" style="margin-bottom:0.75rem">All Sessions</div>
       ${c.sessions.map(s => {
         const d = new Date(s.date);
         const dayName = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()];
-        const dateLabel = `${dayName}, ${d.getDate()} ${MONTHS[d.getMonth()+1]} ${d.getFullYear()}`;
-        return `<div class="modal-session-row"><span class="modal-session-date">${dateLabel}</span><span class="modal-session-time">${s.time}</span></div>`;
+        const dateLabel = dayName + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()+1] + ' ' + d.getFullYear();
+        return '<div class="modal-session-row"><span class="modal-session-date">' + dateLabel + '</span><span class="modal-session-time">' + s.time + '</span></div>';
       }).join('')}
     </div>
   `;
 
   document.getElementById('modalOverlay').classList.add('active');
 }
+
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('active');
 }
+
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ─── CONFLICT DETECTION ───────────────────────────────────────────────
 function parseTime(t) {
-  // Parse "09:30–16:30" or "17:00–20:00" → {start, end} in minutes from midnight
   const parts = t.split('–');
   if (parts.length !== 2) return null;
   const [h1,m1] = parts[0].trim().split(':').map(Number);
@@ -1011,89 +1116,206 @@ function timesOverlap(a, b) {
   return a.start < b.end && b.start < a.end;
 }
 
-function detectConflicts(courses) {
-  // Returns array of {date, code1, code2, name1, name2, time1, time2}
-  const conflicts = [];
-  const allSessions = [];
-  courses.forEach(c => {
-    c.sessions.forEach(s => {
-      allSessions.push({ code: c.code, name: c.name, date: s.date, time: s.time, parsed: parseTime(s.time) });
-    });
-  });
-  // Group by date
-  const byDate = {};
-  allSessions.forEach(s => {
-    if (!byDate[s.date]) byDate[s.date] = [];
-    byDate[s.date].push(s);
-  });
-  Object.keys(byDate).forEach(date => {
-    const sessions = byDate[date];
-    for (let i = 0; i < sessions.length; i++) {
-      for (let j = i+1; j < sessions.length; j++) {
-        if (sessions[i].code !== sessions[j].code && timesOverlap(sessions[i].parsed, sessions[j].parsed)) {
-          conflicts.push({
-            date, code1: sessions[i].code, code2: sessions[j].code,
-            name1: sessions[i].name, name2: sessions[j].name,
-            time1: sessions[i].time, time2: sessions[j].time
-          });
-        }
+function countSharedDates(c1, c2) {
+  // Count how many dates two courses share
+  const s1 = new Set(c1.sessions.map(s => s.date));
+  const s2 = new Set(c2.sessions.map(s => s.date));
+  let count = 0;
+  s1.forEach(d => { if (s2.has(d)) count++; });
+  return count;
+}
+
+function detectOverlaps(courses) {
+  // Returns array of {code1, code2, name1, name2, sharedDates, hardConflict}
+  // hardConflict = more than 2 shared session dates
+  const result = [];
+  for (let i = 0; i < courses.length; i++) {
+    for (let j = i+1; j < courses.length; j++) {
+      const c1 = courses[i], c2 = courses[j];
+      const sharedDates = countSharedDates(c1, c2);
+      if (sharedDates === 0) continue;
+      // Check if any time overlaps on shared dates
+      let hasTimeOverlap = false;
+      c1.sessions.forEach(s1 => {
+        c2.sessions.forEach(s2 => {
+          if (s1.date === s2.date && timesOverlap(parseTime(s1.time), parseTime(s2.time))) {
+            hasTimeOverlap = true;
+          }
+        });
+      });
+      if (hasTimeOverlap) {
+        result.push({
+          code1: c1.code, code2: c2.code,
+          name1: c1.name, name2: c2.name,
+          sharedDates,
+          hardConflict: sharedDates > 2
+        });
       }
     }
-  });
-  return conflicts;
+  }
+  return result;
+}
+
+function getCalendarConflicts(courses) {
+  const conflictDates = new Set();
+  const conflictEvents = new Set();
+  for (let i = 0; i < courses.length; i++) {
+    for (let j = i + 1; j < courses.length; j++) {
+      const c1 = courses[i], c2 = courses[j];
+      c1.sessions.forEach(s1 => {
+        c2.sessions.forEach(s2 => {
+          if (s1.date === s2.date && timesOverlap(parseTime(s1.time), parseTime(s2.time))) {
+            conflictDates.add(s1.date);
+            conflictEvents.add(s1.date + '|' + c1.code);
+            conflictEvents.add(s1.date + '|' + c2.code);
+          }
+        });
+      });
+    }
+  }
+  return { conflictDates, conflictEvents };
 }
 
 // ─── SIDEBAR ────────────────────────────────────────────────────────────
 function renderSidebar() {
   const el = document.getElementById('calSidebar');
   const starredCourses = COURSES.filter(c => isStarred(c.code));
-  const conflicts = detectConflicts(starredCourses);
+  const programme = currentProgramme;
+  const required = requiredElectiveCount(programme);
+  const isMBA = programme === 'MBA';
+  const isWeekendStudent = programme === 'EMBA' || programme === 'GEMBA';
 
-  // Count total session-days for selected courses
+  // Collect warnings
+  const mbaOnlyStarred = starredCourses.filter(c => c.restriction === 'mba');
+  const embaOnlyStarred = starredCourses.filter(c => c.restriction === 'emba');
+  const weekendCoursesStarred = starredCourses.filter(c => c.period === 'weekend');
+  const weekdayCoursesStarred = starredCourses.filter(c => c.period === 'weekday');
+  const examCourses = starredCourses.filter(c => c.notes.includes('in-class exam'));
+
+  const overlaps = detectOverlaps(starredCourses);
+  const hardConflicts = overlaps.filter(o => o.hardConflict);
+  const softConflicts = overlaps.filter(o => !o.hardConflict);
+
+  // Total sessions & unique days
   let totalSessions = 0;
-  starredCourses.forEach(c => totalSessions += c.sessions.length);
-
-  // Collect unique days
   const uniqueDays = new Set();
-  starredCourses.forEach(c => c.sessions.forEach(s => uniqueDays.add(s.date)));
+  starredCourses.forEach(c => {
+    totalSessions += c.sessions.length;
+    c.sessions.forEach(s => uniqueDays.add(s.date));
+  });
 
+  // --- Programme selector panel ---
   let html = `<div class="my-sched-panel">
-    <h3>⭐ My Electives <span class="count">${starredCourses.length}</span></h3>`;
+    <h3>👤 My Programme</h3>
+    <select id="progSelect" onchange="setProgramme(this.value)" style="width:100%;padding:0.5rem;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);color:var(--text-color);font-family:inherit;font-size:0.9rem;margin-bottom:0.5rem;">
+      <option value="MBA" ${programme==='MBA'?'selected':''}>MBA – need 3 electives</option>
+      <option value="GEMBA" ${programme==='GEMBA'?'selected':''}>GEMBA – need 3 electives</option>
+      <option value="EMBA" ${programme==='EMBA'?'selected':''}>EMBA – need 4 electives</option>
+    </select>
+  </div>`;
+
+  // --- My electives panel ---
+  html += `<div class="my-sched-panel">
+    <h3>⭐ My Electives <span class="count">${starredCourses.length}</span><span style="font-size:0.75rem;font-weight:400;color:var(--text-secondary);margin-left:0.4rem;">/ ${required} needed</span></h3>`;
 
   if (starredCourses.length === 0) {
     html += `<div class="my-sched-empty">Star courses (☆) from the cards view or modal to build your schedule. They'll light up on the calendar.</div>`;
   } else {
     starredCourses.forEach(c => {
       const cat = primaryCat(c);
+      let badge = '';
+      if (c.restriction === 'mba') badge = '<span style="background:rgba(245,158,11,0.3);color:#fbbf24;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600;">MBA only</span>';
+      if (c.restriction === 'emba') badge = '<span style="background:rgba(139,92,246,0.3);color:#a78bfa;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600;">EMBA/GEMBA only</span>';
       html += `<div class="my-sched-item">
         <div class="dot" style="background:${catColor(cat)}"></div>
-        <span class="name" title="${c.name}">${c.code} – ${c.name}</span>
+        <span class="name" title="${c.name}">${c.code} ${badge}</span>
         <span class="rm" onclick="toggleStar('${c.code}')" title="Remove">✕</span>
       </div>`;
     });
 
-    html += `<div class="sched-summary" style="margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid rgba(255,255,255,0.05);">
-      <strong>${totalSessions}</strong> sessions across <strong>${uniqueDays.size}</strong> days
+    html += `<div class="sched-summary">
+      <strong>${totalSessions}</strong> sessions · <strong>${uniqueDays.size}</strong> unique days
+      ${starredCourses.length >= required ? '<span style="color:#4ade80;margin-left:0.5rem;">✅ Selection complete</span>' : `<span style="color:#f87171;margin-left:0.5rem;">Need ${required - starredCourses.length} more</span>`}
     </div>`;
 
     html += `<button class="clear-btn" onclick="clearAllStars()">✕ Clear all selections</button>`;
   }
   html += `</div>`;
 
-  // Conflicts
-  if (conflicts.length > 0) {
+  // --- Programme restriction warnings ---
+  if (mbaOnlyStarred.length > 0 && !isMBA) {
+    html += `<div class="conflict-banner" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);">
+      <h4 style="color:#fbbf24;">⚠️ MBA-only courses</h4>
+      <div class="conflict-row" style="color:#fde68a;">${mbaOnlyStarred.map(c=>c.code).join(', ')} – only ${isWeekendStudent?'GEMBA/EMBA':'your programme'} can take these</div>
+    </div>`;
+  }
+  if (embaOnlyStarred.length > 0 && isMBA) {
+    html += `<div class="conflict-banner" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);">
+      <h4 style="color:#a78bfa;">⚠️ EMBA/GEMBA-only courses</h4>
+      <div class="conflict-row" style="color:#c4b5fd;">${embaOnlyStarred.map(c=>c.code).join(', ')} – not available for MBA students</div>
+    </div>`;
+  }
+
+  // --- Priority warnings ---
+  if (weekdayCoursesStarred.length > 0 && isWeekendStudent) {
+    html += `<div class="conflict-banner" style="background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.2);">
+      <h4 style="color:var(--primary);">ℹ️ Weekday course priority</h4>
+      <div class="conflict-row" style="color:#7dd3fc;">MBA students get priority for weekday electives. You may have lower chance of securing seats.</div>
+    </div>`;
+  }
+  if (weekendCoursesStarred.length > 0 && isMBA) {
+    html += `<div class="conflict-banner" style="background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.2);">
+      <h4 style="color:var(--primary);">ℹ️ Weekend course priority</h4>
+      <div class="conflict-row" style="color:#7dd3fc;">GEMBA/EMBA students get priority for weekend electives. You may have lower chance of securing seats.</div>
+    </div>`;
+  }
+
+  // --- Hard conflicts (more than 2 overlapping sessions) ---
+  if (hardConflicts.length > 0) {
     html += `<div class="conflict-banner">
-      <h4>⚠️ Schedule Conflicts</h4>`;
-    conflicts.forEach(c => {
-      const d = new Date(c.date);
-      const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
-      const dateLabel = `${dayName} ${d.getDate()} ${MONTHS[d.getMonth()+1].slice(0,3)}`;
-      html += `<div class="conflict-row">${dateLabel}: ${c.code1} (${c.time1}) <span class="vs">vs</span> ${c.code2} (${c.time2})</div>`;
+      <h4>🚫 Too Many Overlapping Sessions</h4>
+      <div class="conflict-row">You cannot take courses with more than 2 shared sessions. Fix these before submitting your EPRS choices.</div>`;
+    hardConflicts.forEach(o => {
+      html += `<div class="conflict-row"><span style="color:#f87171;font-weight:700;">${o.code1}</span> shares <strong>${o.sharedDates} sessions</strong> with <span style="color:#f87171;font-weight:700;">${o.code2}</span></div>`;
     });
     html += `</div>`;
   }
 
+  // --- Soft conflicts (1-2 overlapping sessions) ---
+  if (softConflicts.length > 0) {
+    html += `<div class="conflict-banner" style="background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.25);">
+      <h4 style="color:#fbbf24;">⚠️ Session Overlaps</h4>
+      <div class="conflict-row" style="color:#fde68a;">${softConflicts.length} overlap${softConflicts.length>1?'s':''} found (1-2 sessions each). Review carefully before finalising your choices.</div>`;
+    softConflicts.forEach(o => {
+      html += `<div class="conflict-row"><span style="color:#fbbf24;font-weight:600;">${o.code1}</span> <span class="vs">↔</span> <span style="color:#fbbf24;font-weight:600;">${o.code2}</span> – ${o.sharedDates} session${o.sharedDates>1?'s':''} shared</div>`;
+    });
+    html += `</div>`;
+  }
+
+  // --- Exam warning ---
+  if (examCourses.length > 0) {
+    html += `<div class="conflict-banner" style="background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.2);">
+      <h4 style="color:#f87171;">📝 In-Class Exams</h4>
+      ${examCourses.map(c=>`<div class="conflict-row" style="color:#fca5a5;">${c.code} has an in-class exam – check the date before selecting</div>`).join('')}
+    </div>`;
+  }
+
+  // --- Weekend course reminder ---
+  if (weekendCoursesStarred.length > 0) {
+    html += `<div class="conflict-banner" style="background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.2);">
+      <h4 style="color:#4ade80;">🗓️ Weekend Electives</h4>
+      <div class="conflict-row" style="color:#86efac;">Weekend courses run over 2 consecutive weekends (3 sessions each = 6 total). Missing any weekend may lead to a fail. Plan accordingly.</div>
+    </div>`;
+  }
+
   el.innerHTML = html;
+}
+
+function setProgramme(prog) {
+  currentProgramme = prog;
+  localStorage.setItem('mba_programme', prog);
+  renderProgBanner();
+  applyFilters();
 }
 
 function clearAllStars() {
@@ -1103,9 +1325,27 @@ function clearAllStars() {
   renderSidebar();
 }
 
+// ─── PROGRAMME BANNER ─────────────────────────────────────────────────
+function renderProgBanner() {
+  const el = document.getElementById('progBanner');
+  const prog = currentProgramme;
+  const req = requiredElectiveCount(prog);
+  const progClass = prog.toLowerCase().replace(' ', '');
+  const progNotes = {
+    MBA: 'You need 3 electives. GEMBA/EMBA students get priority for weekend courses.',
+    GEMBA: 'You need 3 electives. GEMBA/EMBA students get priority for weekend courses.',
+    EMBA: 'You need 4 electives. MBA students get priority for weekday courses.',
+  };
+  el.className = 'prog-banner ' + progClass;
+  el.innerHTML = '<strong>' + prog + '</strong> &ndash; select ' + req + ' electives &nbsp;&middot;&nbsp; <span class="prog-note">' + progNotes[prog] + '</span>';
+  el.style.display = 'flex';
+}
+
 // ─── INIT ──────────────────────────────────────────────────────────────
 renderChips();
 renderLegend();
+renderProgBanner();
+updateMyPicksToggle();
 renderCalendar();
 renderSidebar();
 renderCards();
