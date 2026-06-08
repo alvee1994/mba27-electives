@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBA Electives 2026</title>
+    <meta name="description" content="Interactive navigation for 2026 MBA Electives — browse the calendar, filter by subject, search courses, and plan your schedule.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-hover: rgba(255, 255, 255, 0.06);
+            --primary: #38bdf8;
+            --primary-dim: rgba(56, 189, 248, 0.15);
+            --accent: #c084fc;
+            --cat-finance: #f59e0b;
+            --cat-marketing: #ec4899;
+            --cat-strategy: #8b5cf6;
+            --cat-leadership: #06b6d4;
+            --cat-supplychain: #10b981;
+            --cat-sustainability: #22c55e;
+            --cat-entrepreneurship: #f97316;
+            --danger: #f87171;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(192, 132, 252, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 3rem 2rem; }
+
+        /* ── Header ── */
+        header { text-align: center; margin-bottom: 3rem; animation: fadeInDown 0.6s ease-out; }
+        h1 {
+            font-size: 3.2rem; font-weight: 800; margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 650px; margin: 0 auto; }
+
+        /* ── Resource cards ── */
+        .resources {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem; margin-bottom: 3rem; animation: fadeInUp 0.6s ease-out 0.15s both;
+        }
+        .resource-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+            padding: 1.75rem; text-align: center; backdrop-filter: blur(10px);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+        }
+        .resource-card:hover {
+            transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: var(--card-hover); border-color: rgba(255,255,255,0.1);
+        }
+        .resource-icon { font-size: 2.5rem; }
+        .resource-title { font-size: 1.25rem; font-weight: 600; }
+        .resource-sub { color: var(--text-secondary); font-size: 0.85rem; }
+
+        /* ── View switcher ── */
+        .view-bar {
+            display: flex; gap: 0.75rem; margin-bottom: 2rem; justify-content: center; flex-wrap: wrap; align-items: center;
+        }
+        .view-btn {
+            background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-color);
+            padding: 0.6rem 1.5rem; border-radius: 30px; font-family: inherit; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: all 0.25s ease; backdrop-filter: blur(5px);
+        }
+        .view-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-color: transparent; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25);
+        }
+        .view-btn:hover:not(.active) { background: rgba(255,255,255,0.08); }
+
+        /* ── Search & Filter ── */
+        .toolbar {
+            display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;
+        }
+        .search-box {
+            flex: 1; min-width: 200px; padding: 0.7rem 1.2rem; border-radius: 30px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
+            color: var(--text-color); font-family: inherit; font-size: 0.95rem; outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .search-box::placeholder { color: #64748b; }
+        .search-box:focus { border-color: var(--primary); background: rgba(255,255,255,0.08); }
+
+        .filter-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .chip {
+            padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
+            cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease;
+            background: rgba(255,255,255,0.05); color: var(--text-secondary);
+        }
+        .chip.active { color: #fff; border-color: transparent; }
+        .chip[data-cat="Finance"].active { background: var(--cat-finance); }
+        .chip[data-cat="Marketing"].active { background: var(--cat-marketing); }
+        .chip[data-cat="Strategy"].active { background: var(--cat-strategy); }
+        .chip[data-cat="Business & Leadership"].active { background: var(--cat-leadership); }
+        .chip[data-cat="Supply Chain & Operations"].active { background: var(--cat-supplychain); }
+        .chip[data-cat="Sustainability"].active { background: var(--cat-sustainability); }
+        .chip[data-cat="Entrepreneurship"].active { background: var(--cat-entrepreneurship); }
+        .chip:hover:not(.active) { background: rgba(255,255,255,0.1); color: var(--text-color); }
+
+
+        /* ── Calendar ── */
+        .calendar-section { display: none; }
+        .calendar-section.active { display: block; }
+
+        .month-heading {
+            font-size: 1.4rem; font-weight: 700; margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .month-heading:first-child { margin-top: 0; }
+
+        .cal-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px;
+            background: rgba(255,255,255,0.03); border-radius: var(--radius); overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+        .cal-header {
+            background: rgba(255,255,255,0.04); padding: 0.6rem; text-align: center;
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+        .cal-day {
+            background: rgba(15, 23, 42, 0.6); padding: 0.5rem; min-height: 100px;
+            transition: background 0.2s; position: relative; cursor: default;
+        }
+        .cal-day:hover { background: rgba(255,255,255,0.03); }
+        .cal-day.other-month { opacity: 0.3; }
+        .cal-day.today { outline: 2px solid var(--primary); outline-offset: -2px; }
+        .cal-day-num { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.35rem; }
+        .cal-event {
+            font-size: 0.68rem; padding: 0.2rem 0.4rem; border-radius: 4px;
+            margin-bottom: 2px; cursor: pointer; font-weight: 500; line-height: 1.3;
+            transition: transform 0.15s ease, box-shadow 0.15s ease; overflow: hidden;
+            text-overflow: ellipsis; white-space: nowrap;
+        }
+        .cal-event:hover {
+            transform: scale(1.03); box-shadow: 0 2px 8px rgba(0,0,0,0.4); z-index: 5; position: relative;
+        }
+        .cal-event.evening { font-style: italic; opacity: 0.85; }
+
+        /* ── Course cards view ── */
+        .cards-section { display: none; }
+        .cards-section.active { display: block; }
+
+        .course-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.25rem;
+        }
+        .course-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);
+            padding: 1.25rem; backdrop-filter: blur(10px);
+            transition: transform 0.25s ease, border-color 0.25s ease;
+            display: flex; flex-direction: column; position: relative; overflow: hidden;
+        }
+        .course-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            opacity: 0; transition: opacity 0.25s ease;
+        }
+        .course-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.12); }
+        .course-card:hover::before { opacity: 1; }
+        .course-subject {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.8px;
+            margin-bottom: 0.4rem; font-weight: 600;
+        }
+        .course-title {
+            font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; line-height: 1.3;
+        }
+        .course-title a { color: var(--text-color); text-decoration: none; transition: color 0.2s; }
+        .course-title a:hover { color: var(--primary); }
+        .course-faculty {
+            display: flex; align-items: center; gap: 0.4rem; color: #cbd5e1;
+            font-size: 0.9rem; margin-bottom: 0.4rem;
+        }
+        .course-notes {
+            margin-top: auto; padding-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .course-notes strong { color: var(--danger); font-weight: 600; }
+        .course-schedule {
+            margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .course-schedule-title { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem; }
+        .course-session {
+            font-size: 0.78rem; color: #cbd5e1; padding: 0.15rem 0;
+            display: flex; justify-content: space-between;
+        }
+        .course-session .date { color: var(--primary); font-weight: 500; }
+        .course-session .time { color: var(--text-secondary); }
+
+        /* Star / bookmark button on cards */
+        .star-btn {
+            position: absolute; top: 0.75rem; right: 0.75rem; background: none; border: none;
+            cursor: pointer; font-size: 1.1rem; color: var(--text-secondary); transition: color 0.2s, transform 0.2s;
+            padding: 0.2rem;
+        }
+        .star-btn:hover { transform: scale(1.2); }
+        .star-btn.starred { color: #fbbf24; }
+
+        /* ── Detail modal ── */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100;
+            display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg);
+            padding: 2rem; max-width: 560px; width: 90%; max-height: 85vh; overflow-y: auto;
+            animation: modalIn 0.25s ease-out;
+        }
+        .modal-close {
+            float: right; background: none; border: none; color: var(--text-secondary);
+            cursor: pointer; font-size: 1.5rem; line-height: 1; padding: 0.25rem;
+        }
+        .modal-close:hover { color: var(--text-color); }
+        .modal h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .modal .modal-code { font-size: 0.85rem; color: var(--primary); font-weight: 600; margin-bottom: 1rem; }
+        .modal .modal-faculty { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 1rem; }
+        .modal .modal-sessions { margin-top: 1rem; }
+        .modal .modal-session-row {
+            display: flex; justify-content: space-between; padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem;
+        }
+        .modal .modal-session-row:last-child { border-bottom: none; }
+        .modal .modal-session-date { color: var(--primary); font-weight: 500; }
+        .modal .modal-session-time { color: var(--text-secondary); }
+        .modal .modal-notes {
+            margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem; color: var(--text-secondary);
+        }
+        .modal .modal-notes strong { color: var(--danger); }
+
+        /* ── Color utilities ── */
+        .cat-finance { background: rgba(245,158,11,0.25); color: #fbbf24; border-left: 3px solid var(--cat-finance); }
+        .cat-marketing { background: rgba(236,72,153,0.25); color: #f472b6; border-left: 3px solid var(--cat-marketing); }
+        .cat-strategy { background: rgba(139,92,252,0.25); color: #a78bfa; border-left: 3px solid var(--cat-strategy); }
+        .cat-leadership { background: rgba(6,182,212,0.25); color: #22d3ee; border-left: 3px solid var(--cat-leadership); }
+        .cat-supplychain { background: rgba(16,185,129,0.25); color: #34d399; border-left: 3px solid var(--cat-supplychain); }
+        .cat-sustainability { background: rgba(34,197,94,0.25); color: #4ade80; border-left: 3px solid var(--cat-sustainability); }
+        .cat-entrepreneurship { background: rgba(249,115,22,0.25); color: #fb923c; border-left: 3px solid var(--cat-entrepreneurship); }
+
+        .card-cat-finance::before { background: var(--cat-finance); }
+        .card-cat-marketing::before { background: var(--cat-marketing); }
+        .card-cat-strategy::before { background: var(--cat-strategy); }
+        .card-cat-leadership::before { background: var(--cat-leadership); }
+        .card-cat-supplychain::before { background: var(--cat-supplychain); }
+        .card-cat-sustainability::before { background: var(--cat-sustainability); }
+        .card-cat-entrepreneurship::before { background: var(--cat-entrepreneurship); }
+
+        .sub-finance { color: var(--cat-finance); }
+        .sub-marketing { color: var(--cat-marketing); }
+        .sub-strategy { color: var(--cat-strategy); }
+        .sub-leadership { color: var(--cat-leadership); }
+        .sub-supplychain { color: var(--cat-supplychain); }
+        .sub-sustainability { color: var(--cat-sustainability); }
+        .sub-entrepreneurship { color: var(--cat-entrepreneurship); }
+
+        /* ── Animations ── */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* ── No results ── */
+        .no-results { text-align: center; padding: 3rem; color: var(--text-secondary); font-size: 1.1rem; }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .cal-day { min-height: 70px; padding: 0.3rem; }
+            .cal-event { font-size: 0.6rem; padding: 0.15rem 0.3rem; }
+            .cal-day-num { font-size: 0.7rem; }
+            .cal-sidebar { display: none; }
+            .cal-layout { flex-direction: column; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .container { padding: 2rem 1rem; }
+            .course-grid { grid-template-columns: 1fr; }
+            .toolbar { flex-direction: column; }
+            .search-box { min-width: unset; width: 100%; }
+            .sched-toggle { margin-left: 0; }
+            .cal-day { min-height: 55px; }
+            .cal-sidebar { display: none; }
+            .cal-layout { flex-direction: column; }
+        }
+
+        /* ── Legend ── */
+        .legend {
+            display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem; background: rgba(255,255,255,0.02);
+            border-radius: var(--radius-sm); border: 1px solid var(--card-border);
+        }
+        .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--text-secondary); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+        /* ── My Schedule toggle ── */
+        .sched-toggle {
+            display: flex; align-items: center; gap: 0.5rem; margin-left: auto;
+            font-size: 0.9rem; color: var(--text-secondary); cursor: pointer; user-select: none;
+        }
+        .sched-toggle input { display: none; }
+        .toggle-track {
+            width: 40px; height: 22px; border-radius: 11px; background: rgba(255,255,255,0.1);
+            position: relative; transition: background 0.2s;
+        }
+        .toggle-track::after {
+            content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+            border-radius: 50%; background: #fff; transition: transform 0.2s;
+        }
+        .sched-toggle input:checked + .toggle-track { background: var(--primary); }
+        .sched-toggle input:checked + .toggle-track::after { transform: translateX(18px); }
+
+        /* ── My Schedule sidebar ── */
+        .cal-layout { display: flex; gap: 1.5rem; }
+        .cal-main { flex: 1; min-width: 0; }
+        .cal-sidebar {
+            width: 280px; flex-shrink: 0;
+            position: sticky; top: 1rem; align-self: flex-start;
+            max-height: calc(100vh - 2rem); overflow-y: auto;
+        }
+        .my-sched-panel {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+            border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem;
+        }
+        .my-sched-panel h3 {
+            font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .my-sched-panel h3 .count {
+            background: var(--primary); color: #0f172a; font-size: 0.75rem; font-weight: 700;
+            padding: 0.1rem 0.5rem; border-radius: 10px;
+        }
+        .my-sched-empty { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
+        .my-sched-item {
+            display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem;
+        }
+        .my-sched-item:last-child { border-bottom: none; }
+        .my-sched-item .dot { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+        .my-sched-item .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .my-sched-item .rm { color: var(--text-secondary); cursor: pointer; font-size: 1rem; line-height: 1; transition: color 0.2s; flex-shrink: 0; }
+        .my-sched-item .rm:hover { color: var(--danger); }
+        .conflict-banner {
+            background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3);
+            border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1rem;
+        }
+        .conflict-banner h4 { color: var(--danger); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem; }
+        .conflict-row { font-size: 0.8rem; color: #fca5a5; padding: 0.15rem 0; }
+        .conflict-row .vs { color: var(--danger); font-weight: 600; margin: 0 0.3rem; }
+        .sched-summary {
+            font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;
+        }
+        .sched-summary strong { color: var(--text-color); font-weight: 600; }
+
+        /* ── Calendar event states ── */
+        .cal-event.selected {
+            outline: 2px solid #fff;
+            outline-offset: -1px;
+            box-shadow: 0 0 8px rgba(255,255,255,0.2);
+            font-weight: 700;
+            opacity: 1 !important;
+        }
+        .cal-event.unselected {
+            opacity: 0.25;
+        }
+        .cal-day.has-selected {
+            background: rgba(56, 189, 248, 0.04);
+        }
+        .cal-day.conflict-day {
+            background: rgba(248, 113, 113, 0.08);
+        }
+        .cal-day.conflict-day .cal-day-num {
+            color: var(--danger);
+            font-weight: 700;
+        }
+        .cal-event.conflict-event {
+            border: 1px solid var(--danger);
+            background: rgba(248,113,113,0.2) !important;
+        }
+
+        /* ── Clear button ── */
+        .clear-btn {
+            background: none; border: 1px solid rgba(248,113,113,0.3); color: var(--danger);
+            padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;
+            font-size: 0.75rem; font-weight: 600; font-family: inherit;
+            transition: background 0.2s, border-color 0.2s; margin-top: 0.75rem; width: 100%;
+        }
+        .clear-btn:hover { background: rgba(248,113,113,0.1); border-color: var(--danger); }
+
+        /* ── Star on card also triggers calendar highlight ── */
+        .course-card.is-selected {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.06);
+        }
+        .course-card.is-selected .star-btn { color: #fbbf24; text-shadow: 0 0 8px rgba(251,191,36,0.4); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>MBA Electives 2026</h1>
+        <p class="subtitle">Browse the interactive schedule, filter by subject, search courses, and bookmark your picks.</p>
+    </header>
+
+    <div class="resources">
+        <a href="Electives Overview 2026_UPDATED 1 June.pdf" target="_blank" class="resource-card">
+            <div class="resource-icon">📄</div>
+            <div class="resource-title">Electives Overview PDF</div>
+            <div class="resource-sub">Updated June 1, 2026</div>
+        </a>
+        <a href="Electives Schedule_2026_1 JUNE.pdf" target="_blank" class="resource-card">
+            <div class="resource-icon">🗓️</div>
+            <div class="resource-title">Schedule PDF</div>
+            <div class="resource-sub">Updated June 1, 2026</div>
+        </a>
+    </div>
+
+    <!-- View switcher -->
+    <div class="view-bar">
+        <button class="view-btn active" onclick="switchView('calendar')">📅 Calendar</button>
+        <button class="view-btn" onclick="switchView('cards')">🃏 Course Cards</button>
+    </div>
+
+    <!-- Toolbar: search + filters -->
+    <div class="toolbar">
+        <input type="text" class="search-box" placeholder="Search courses, faculty, code…" id="searchBox" oninput="applyFilters()">
+        <div class="filter-chips" id="filterChips"></div>
+        <label class="sched-toggle" title="Show only bookmarked courses">
+            <input type="checkbox" id="mySchedToggle" onchange="applyFilters()">
+            <span class="toggle-track"></span>
+            <span>My Picks</span>
+        </label>
+    </div>
+
+    <!-- ── Calendar view ── -->
+    <div id="calendarView" class="calendar-section active">
+        <div class="cal-layout">
+            <div class="cal-main">
+                <div class="legend" id="legend"></div>
+                <h2 class="month-heading" id="monthLabel"></h2>
+                <div id="calGrids"></div>
+            </div>
+            <div class="cal-sidebar" id="calSidebar"></div>
+        </div>
+    </div>
+
+    <!-- ── Cards view ── -->
+    <div id="cardsView" class="cards-section">
+        <div class="tabs" style="display:flex;gap:1rem;margin-bottom:1.5rem;justify-content:center;">
+            <button class="tab-btn view-btn active" onclick="showCardTab('weekday')">Weekday</button>
+            <button class="tab-btn view-btn" onclick="showCardTab('weekend')">Weekend</button>
+            <button class="tab-btn view-btn" onclick="showCardTab('all')">All</button>
+        </div>
+        <div class="course-grid" id="courseGrid"></div>
+    </div>
+</div>
+
+<!-- Detail modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal" id="modal"></div>
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────
+const COURSES = [
+  // ── Weekday Electives ──
+  { code:"Bneg", name:"Business Negotiations", faculty:"Maartje Schouten & Dimitrios Tsekouras", period:"weekday", categories:["Business & Leadership"], notes:"FT MBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754304?wrap=1",
+    sessions:[
+      {date:"2026-11-02",time:"09:30–12:30",label:"Session 1"},
+      {date:"2026-11-03",time:"09:30–12:30",label:"Session 2"},
+      {date:"2026-11-05",time:"09:30–12:30",label:"Session 3"},
+      {date:"2026-11-09",time:"09:30–12:30",label:"Session 4"},
+      {date:"2026-11-10",time:"09:30–12:30",label:"Session 5"},
+      {date:"2026-11-12",time:"09:30–12:30",label:"Session 6"},
+    ]},
+  { code:"LWP", name:"Leading with Presence", faculty:"Steffen Giessner, Antonie Knoppers et al", period:"weekday", categories:["Business & Leadership"], notes:"FT MBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754315?wrap=1",
+    sessions:[
+      {date:"2026-10-19",time:"09:30–16:30",label:"Sessions 1+2"},
+      {date:"2026-10-20",time:"09:30–16:30",label:"Sessions 3+4"},
+      {date:"2026-10-21",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"SPM", name:"Strategic People Management", faculty:"Madleen Meier-Barthold & Colin Lee", period:"weekday", categories:["Business & Leadership","Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754320?wrap=1",
+    sessions:[
+      {date:"2026-11-19",time:"13:30–16:30",label:"Session 1"},
+      {date:"2026-11-20",time:"13:30–16:30",label:"Session 2"},
+      {date:"2026-11-23",time:"13:30–16:30",label:"Session 3"},
+      {date:"2026-11-24",time:"13:30–16:30",label:"Session 4"},
+      {date:"2026-11-25",time:"13:30–16:30",label:"Session 5"},
+      {date:"2026-11-26",time:"13:30–16:30",label:"Session 6"},
+    ]},
+  { code:"IMP", name:"Impact Investing", faculty:"Ronald Huisman et al", period:"weekday", categories:["Finance"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101776800?wrap=1",
+    sessions:[
+      {date:"2026-11-16",time:"18:30–21:30",label:"Session 1"},
+      {date:"2026-11-18",time:"18:30–21:30",label:"Session 2"},
+      {date:"2026-11-23",time:"18:30–21:30",label:"Session 3"},
+      {date:"2026-11-24",time:"18:30–21:30",label:"Session 4"},
+      {date:"2026-11-25",time:"18:30–21:30",label:"Session 5"},
+      {date:"2026-11-30",time:"18:30–21:30",label:"Session 6"},
+    ]},
+  { code:"MA", name:"Mergers & Acquisitions", faculty:"Arjen Mulder", period:"weekday", categories:["Finance","Strategy"], notes:"Has in-class exam", href:"https://canvas.eur.nl/courses/54721/files/101754316?wrap=1",
+    sessions:[
+      {date:"2026-10-06",time:"09:30–16:30",label:"Sessions 1+2"},
+      {date:"2026-10-08",time:"09:30–16:30",label:"Sessions 3+4"},
+      {date:"2026-10-13",time:"09:30–16:30",label:"Sessions 5+6"},
+      {date:"2026-10-22",time:"09:30–13:30",label:"Exam"},
+    ]},
+  { code:"SI", name:"Sustainable Investing", faculty:"Emilio Marti", period:"weekday", categories:["Finance","Sustainability"], notes:"Has in-class exam", href:"https://canvas.eur.nl/courses/54721/files/101754319?wrap=1",
+    sessions:[
+      {date:"2026-10-19",time:"17:00–20:00",label:"Session 1"},
+      {date:"2026-10-21",time:"14:00–17:00",label:"Session 2"},
+      {date:"2026-10-26",time:"14:00–17:00",label:"Session 3"},
+      {date:"2026-10-28",time:"14:00–17:00",label:"Session 4"},
+      {date:"2026-11-02",time:"14:00–17:00",label:"Session 5"},
+      {date:"2026-11-04",time:"14:00–17:00",label:"Session 6"},
+    ]},
+  { code:"AMSAI", name:"Advanced Marketing Strategy through AI & Analytics", faculty:"Sebastian Gabel", period:"weekday", categories:["Marketing"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754302?wrap=1",
+    sessions:[
+      {date:"2026-11-04",time:"13:30–16:30",label:"Session 1"},
+      {date:"2026-11-06",time:"13:30–16:30",label:"Session 2"},
+      {date:"2026-11-11",time:"13:30–16:30",label:"Session 3"},
+      {date:"2026-11-18",time:"13:30–16:30",label:"Session 4"},
+      {date:"2026-11-20",time:"13:30–16:30",label:"Session 5"},
+      {date:"2026-11-26",time:"13:30–16:30",label:"Session 6"},
+    ]},
+  { code:"BiBN", name:"The Brain in Business: Neuroscience for Better Managerial Decisions", faculty:"Alex Genevsky", period:"weekday", categories:["Marketing"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754303?wrap=1",
+    sessions:[
+      {date:"2026-09-30",time:"13:30–16:30",label:"Session 1"},
+      {date:"2026-10-02",time:"13:30–16:30",label:"Session 2"},
+      {date:"2026-10-06",time:"13:30–16:30",label:"Session 3"},
+      {date:"2026-10-14",time:"13:30–16:30",label:"Session 4"},
+      {date:"2026-10-15",time:"13:30–16:30",label:"Session 5"},
+      {date:"2026-10-28",time:"13:30–16:30",label:"Session 6"},
+    ]},
+  { code:"QPA", name:"Quantitative Pricing Analytics", faculty:"Yeqing Zhou", period:"weekday", categories:["Marketing","Supply Chain & Operations"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754318?wrap=1",
+    sessions:[
+      {date:"2026-10-05",time:"09:30–12:30",label:"Session 1"},
+      {date:"2026-10-06",time:"09:30–12:30",label:"Session 2"},
+      {date:"2026-10-08",time:"09:30–12:30",label:"Session 3"},
+      {date:"2026-10-09",time:"09:30–12:30",label:"Session 4"},
+      {date:"2026-10-13",time:"09:30–12:30",label:"Session 5"},
+      {date:"2026-10-15",time:"09:30–12:30",label:"Session 6"},
+    ]},
+  { code:"CSC", name:"Corporate Strategy Consulting", faculty:"Ruud Kuijpers", period:"weekday", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754305?wrap=1",
+    sessions:[
+      {date:"2026-10-19",time:"09:30–16:30",label:"Sessions 1+2"},
+      {date:"2026-10-21",time:"09:30–16:30",label:"Sessions 3+4"},
+      {date:"2026-10-23",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"DGBS", name:"Doing Business in the Global South", faculty:"Caroline Witte & Marijn Faling", period:"weekday", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754311?wrap=1",
+    sessions:[
+      {date:"2026-10-12",time:"18:30–21:30",label:"Session 1"},
+      {date:"2026-10-13",time:"18:30–21:30",label:"Session 2"},
+      {date:"2026-10-14",time:"18:30–21:30",label:"Session 3"},
+      {date:"2026-10-15",time:"18:30–21:30",label:"Session 4"},
+      {date:"2026-10-16",time:"18:30–21:30",label:"Session 5"},
+      {date:"2026-10-17",time:"09:30–12:30",label:"Session 6"},
+    ]},
+  { code:"MCI", name:"Mastering Corporate Innovation", faculty:"Chandrika Rathee", period:"weekday", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754317?wrap=1",
+    sessions:[
+      {date:"2026-11-20",time:"09:30–16:30",label:"Sessions 1+2"},
+      {date:"2026-11-27",time:"09:30–16:30",label:"Sessions 3+4"},
+      {date:"2026-12-04",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"GDSCR", name:"Geopolitics, Disasters, and Supply Chain Resilience", faculty:"Harwin de Vries", period:"weekday", categories:["Supply Chain & Operations"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754820?wrap=1",
+    sessions:[
+      {date:"2026-11-02",time:"18:30–21:30",label:"Session 1"},
+      {date:"2026-11-03",time:"18:30–21:30",label:"Session 2"},
+      {date:"2026-11-05",time:"18:30–21:30",label:"Session 3"},
+      {date:"2026-11-09",time:"18:30–21:30",label:"Session 4"},
+      {date:"2026-11-10",time:"18:30–21:30",label:"Session 5"},
+      {date:"2026-11-11",time:"18:30–21:30",label:"Session 6"},
+    ]},
+  { code:"SSCM", name:"Sustainable Supply Chain Management", faculty:"Morteza Pourakbar", period:"weekday", categories:["Supply Chain & Operations","Sustainability"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754321?wrap=1",
+    sessions:[
+      {date:"2026-11-19",time:"09:30–16:30",label:"Sessions 1+2"},
+      {date:"2026-11-20",time:"09:30–12:30",label:"Session 3"},
+      {date:"2026-11-26",time:"09:30–16:30",label:"Sessions 4+5"},
+      {date:"2026-11-27",time:"09:30–12:30",label:"Session 6"},
+    ]},
+  { code:"LEVET", name:"Leading Entrepreneurship & Venturing in the Energy Transition", faculty:"Guiseppe Criaco & Vareska van de Vrande", period:"weekday", categories:["Sustainability","Entrepreneurship"], notes:"8 sessions across 4 Fridays; 2 sessions in The Hague", href:"https://canvas.eur.nl/courses/54721/files/101754314?wrap=1",
+    sessions:[
+      {date:"2026-10-30",time:"09:30–16:30",label:"Sessions 1+2"},
+      {date:"2026-11-06",time:"09:30–16:30",label:"Sessions 3+4"},
+      {date:"2026-11-13",time:"09:30–16:30",label:"Sessions 5+6"},
+      {date:"2026-11-20",time:"09:30–16:30",label:"Sessions 7+8"},
+    ]},
+
+  // ── Weekend Electives ──
+  { code:"NBD", name:"A Scientific Approach to New Business Development", faculty:"Laura Rosendahl Huber & Luca Berchicci", period:"weekend", categories:["Business & Leadership","Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754336?wrap=1",
+    sessions:[
+      {date:"2026-11-06",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-11-07",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-11-20",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-11-21",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"PiPE", name:"Leadership Pipeline", faculty:"Anders Ibsen", period:"weekend", categories:["Business & Leadership"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754338?wrap=1",
+    sessions:[
+      {date:"2026-11-06",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-11-07",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-11-20",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-11-21",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"StNeg", name:"Strategic Negotiations", faculty:"Giuseppe Conti", period:"weekend", categories:["Business & Leadership"], notes:"EMBA/GEMBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754339?wrap=1",
+    sessions:[
+      {date:"2026-09-04",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-09-05",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-09-18",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-09-19",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"CRV", name:"Corporate Restructurings and Valuation", faculty:"Dennis Jullens", period:"weekend", categories:["Finance"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101774290?wrap=1",
+    sessions:[
+      {date:"2026-10-30",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-10-31",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-11-13",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-11-14",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"EntFin", name:"Entrepreneurial Finance", faculty:"Yu Liu", period:"weekend", categories:["Finance","Entrepreneurship"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754331?wrap=1",
+    sessions:[
+      {date:"2026-09-11",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-09-12",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-09-25",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-09-26",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"FDM", name:"Finance for Decision-Making", faculty:"Stefan Kramer & Marcel van Rinsum", period:"weekend", categories:["Finance"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754332?wrap=1",
+    sessions:[
+      {date:"2026-11-06",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-11-07",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-11-20",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-11-21",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"MCT", name:"Managing Corporate Turnarounds", faculty:"Joost de Haas", period:"weekend", categories:["Finance","Strategy"], notes:"EMBA/GEMBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754335?wrap=1",
+    sessions:[
+      {date:"2026-09-11",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-09-12",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-09-25",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-09-26",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"PE", name:"PE: Think like a Private Equity Manager", faculty:"Erik Roelofsen & Daniel van Loenen", period:"weekend", categories:["Finance"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101776838?wrap=1",
+    sessions:[
+      {date:"2026-10-02",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-10-03",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-10-16",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-10-17",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"CCV", name:"Creating Customer Value", faculty:"Aurelie Lemmens & Miriam Tuk", period:"weekend", categories:["Marketing"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754328?wrap=1",
+    sessions:[
+      {date:"2026-10-30",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-10-31",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-11-13",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-11-14",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"CM", name:"Change Management", faculty:"Bill Collins", period:"weekend", categories:["Strategy","Sustainability"], notes:"EMBA/GEMBA Only", href:"https://canvas.eur.nl/courses/54721/files/101754329?wrap=1",
+    sessions:[
+      {date:"2026-10-30",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-10-31",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-11-13",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-11-14",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"HPCsC", name:"Harnessing the Power of Corporate-Startup Collaboration", faculty:"Vareska van de Vrande & Christopher Sabel", period:"weekend", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754333?wrap=1",
+    sessions:[
+      {date:"2026-10-09",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-10-10",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-10-23",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-10-24",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"IE", name:"Innovation Ecosystems", faculty:"Juan Pablo Madiedo", period:"weekend", categories:["Strategy"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101775161?wrap=1",
+    sessions:[
+      {date:"2026-09-04",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-09-05",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-09-18",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-09-19",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"StratS", name:"Strategic Sourcing", faculty:"Juergen Scherer", period:"weekend", categories:["Supply Chain & Operations"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101754340?wrap=1",
+    sessions:[
+      {date:"2026-10-09",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-10-10",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-10-23",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-10-24",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"RESG", name:"Resilient ESG Strategy in Action", faculty:"Salla Laasonen", period:"weekend", categories:["Sustainability"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101802857?wrap=1",
+    sessions:[
+      {date:"2026-10-02",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-10-03",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-10-16",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-10-17",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+  { code:"ETA", name:"Entrepreneurship through Acquisition", faculty:"Alexander Schuil & Wim Hulsink", period:"weekend", categories:["Entrepreneurship"], notes:"", href:"https://canvas.eur.nl/courses/54721/files/101783132?wrap=1",
+    sessions:[
+      {date:"2026-11-06",time:"18:30–21:30",label:"Session 1 (Fri eve)"},
+      {date:"2026-11-07",time:"09:30–16:30",label:"Sessions 2+3"},
+      {date:"2026-11-20",time:"18:30–21:30",label:"Session 4 (Fri eve)"},
+      {date:"2026-11-21",time:"09:30–16:30",label:"Sessions 5+6"},
+    ]},
+];
+
+// ─── CATEGORY HELPERS ──────────────────────────────────────────────────
+const CAT_CLASS = {
+  "Finance": "finance",
+  "Marketing": "marketing",
+  "Strategy": "strategy",
+  "Business & Leadership": "leadership",
+  "Supply Chain & Operations": "supplychain",
+  "Sustainability": "sustainability",
+  "Entrepreneurship": "entrepreneurship",
+};
+const CAT_COLORS = {
+  "Finance": "#f59e0b",
+  "Marketing": "#ec4899",
+  "Strategy": "#8b5cf6",
+  "Business & Leadership": "#06b6d4",
+  "Supply Chain & Operations": "#10b981",
+  "Sustainability": "#22c55e",
+  "Entrepreneurship": "#f97316",
+};
+const ALL_CATEGORIES = Object.keys(CAT_CLASS);
+
+function primaryCat(course) { return course.categories[0]; }
+function catClass(cat) { return CAT_CLASS[cat] || "strategy"; }
+function catColor(cat) { return CAT_COLORS[cat] || "#8b5cf6"; }
+
+// ─── BOOKMARKS (localStorage) ────────────────────────────────────────
+let starred = new Set(JSON.parse(localStorage.getItem('mba_stars') || '[]'));
+function toggleStar(code) {
+  if (starred.has(code)) starred.delete(code); else starred.add(code);
+  localStorage.setItem('mba_stars', JSON.stringify([...starred]));
+  applyFilters();
+  renderSidebar();
+}
+function isStarred(code) { return starred.has(code); }
+
+// ─── STATE ─────────────────────────────────────────────────────────────
+// Calendar state removed — all months rendered at once
+let activeView = 'calendar';
+let activeCardTab = 'all';
+let activeFilters = new Set();  // empty = show all
+let searchQuery = '';
+
+// ─── VIEW SWITCHING ────────────────────────────────────────────────────
+function switchView(view) {
+  activeView = view;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('calendarView').classList.toggle('active', view === 'calendar');
+  document.getElementById('cardsView').classList.toggle('active', view === 'cards');
+  if (view === 'calendar') renderCalendar();
+  if (view === 'cards') renderCards();
+}
+
+function showCardTab(tab) {
+  activeCardTab = tab;
+  document.querySelectorAll('.tabs .view-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  renderCards();
+}
+
+// ─── FILTERING ─────────────────────────────────────────────────────────
+function filteredCourses() {
+  let list = COURSES;
+  const q = searchQuery.toLowerCase();
+  if (q) {
+    list = list.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      c.code.toLowerCase().includes(q) ||
+      c.faculty.toLowerCase().includes(q) ||
+      c.categories.some(cat => cat.toLowerCase().includes(q))
+    );
+  }
+  if (activeFilters.size > 0) {
+    list = list.filter(c => c.categories.some(cat => activeFilters.has(cat)));
+  }
+  if (document.getElementById('mySchedToggle').checked) {
+    list = list.filter(c => isStarred(c.code));
+  }
+  if (activeCardTab !== 'all' && activeView === 'cards') {
+    list = list.filter(c => c.period === activeCardTab);
+  }
+  return list;
+}
+
+function applyFilters() {
+  searchQuery = document.getElementById('searchBox').value;
+  if (activeView === 'calendar') { renderCalendar(); renderSidebar(); }
+  if (activeView === 'cards') renderCards();
+}
+
+// ─── FILTER CHIPS ──────────────────────────────────────────────────────
+function renderChips() {
+  const el = document.getElementById('filterChips');
+  el.innerHTML = ALL_CATEGORIES.map(cat =>
+    `<span class="chip${activeFilters.has(cat)?' active':''}" data-cat="${cat}" onclick="toggleFilter('${cat}')">${cat}</span>`
+  ).join('');
+}
+function toggleFilter(cat) {
+  if (activeFilters.has(cat)) activeFilters.delete(cat); else activeFilters.add(cat);
+  renderChips();
+  applyFilters();
+}
+
+// ─── LEGEND ────────────────────────────────────────────────────────────
+function renderLegend() {
+  const el = document.getElementById('legend');
+  el.innerHTML = ALL_CATEGORIES.map(cat =>
+    `<div class="legend-item"><div class="legend-dot" style="background:${catColor(cat)}"></div>${cat}</div>`
+  ).join('');
+}
+
+// ─── CALENDAR ──────────────────────────────────────────────────────────
+const MONTHS = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
+const SCHEDULE_MONTHS = [9, 10, 11, 12];
+const SCHEDULE_YEAR = 2026;
+
+function renderCalendar() {
+  const gridsEl = document.getElementById('calGrids');
+
+  // Build day → events map
+  const eventsByDate = {};
+  COURSES.forEach(c => {
+    const isSelected = isStarred(c.code);
+    c.sessions.forEach(s => {
+      const d = s.date;
+      if (!eventsByDate[d]) eventsByDate[d] = [];
+      eventsByDate[d].push({ course: c, session: s, selected: isSelected });
+    });
+  });
+
+  const selectedDates = new Set();
+  const starredCourses = COURSES.filter(c => isStarred(c.code));
+  starredCourses.forEach(c => c.sessions.forEach(s => selectedDates.add(s.date)));
+
+  const conflicts = detectConflicts(starredCourses);
+  const conflictDates = new Set();
+  conflicts.forEach(c => { conflictDates.add(c.date); });
+  const conflictEvents = new Set();
+  conflicts.forEach(c => { conflictEvents.add(c.date + '|' + c.code1); conflictEvents.add(c.date + '|' + c.code2); });
+
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  let allHtml = '';
+
+  SCHEDULE_MONTHS.forEach(month => {
+    const firstDay = new Date(SCHEDULE_YEAR, month - 1, 1).getDay();
+    const daysInMonth = new Date(SCHEDULE_YEAR, month, 0).getDate();
+    const prevDays = new Date(SCHEDULE_YEAR, month - 1, 0).getDate();
+
+    allHtml += `<h2 class="month-heading">${MONTHS[month]} ${SCHEDULE_YEAR}</h2>`;
+    allHtml += `<div class="cal-grid">`;
+    days.forEach(d => { allHtml += `<div class="cal-header">${d}</div>`; });
+
+    for (let i = firstDay - 1; i >= 0; i--) {
+      const day = prevDays - i;
+      allHtml += `<div class="cal-day other-month"><div class="cal-day-num">${day}</div></div>`;
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = `${SCHEDULE_YEAR}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isToday = dateStr === todayStr;
+      const events = eventsByDate[dateStr] || [];
+      const hasSelected = selectedDates.has(dateStr);
+      const isConflict = conflictDates.has(dateStr);
+
+      let eventsHtml = events.map(e => {
+        const cat = primaryCat(e.course);
+        const cls = catClass(cat);
+        const isEvening = e.session.time.startsWith('18:') || e.session.time.startsWith('17:');
+        const isConflictEvent = conflictEvents.has(dateStr + '|' + e.course.code);
+        let stateClass = '';
+        if (e.selected) { stateClass = ' selected'; }
+        else if (starred.size > 0) { stateClass = ' unselected'; }
+        if (isConflictEvent) stateClass += ' conflict-event';
+        return `<div class="cal-event cat-${cls}${isEvening?' evening':''}${stateClass}" onclick="openModal('${e.course.code}')" title="${e.course.name} – ${e.session.time}">${e.course.code} ${e.session.time}</div>`;
+      }).join('');
+
+      let dayClass = 'cal-day';
+      if (isToday) dayClass += ' today';
+      if (hasSelected) dayClass += ' has-selected';
+      if (isConflict) dayClass += ' conflict-day';
+
+      allHtml += `<div class="${dayClass}"><div class="cal-day-num">${d}</div>${eventsHtml}</div>`;
+    }
+
+    const totalCells = firstDay + daysInMonth;
+    const remaining = (7 - (totalCells % 7)) % 7;
+    for (let i = 1; i <= remaining; i++) {
+      allHtml += `<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
+    }
+
+    allHtml += `</div>`;
+  });
+
+  gridsEl.innerHTML = allHtml;
+}
+
+// ─── COURSE CARDS ──────────────────────────────────────────────────────
+function renderCards() {
+  const grid = document.getElementById('courseGrid');
+  const courses = filteredCourses();
+
+  if (courses.length === 0) {
+    grid.innerHTML = '<div class="no-results">No courses match your filters.</div>';
+    return;
+  }
+
+  grid.innerHTML = courses.map(c => {
+    const cat = primaryCat(c);
+    const cls = catClass(cat);
+    const starCls = isStarred(c.code) ? 'starred' : '';
+    const notesHtml = c.notes
+      ? `<div class="course-notes">${c.notes.replace(/FT MBA Only/g,'<strong>FT MBA Only</strong>').replace(/EMBA\/GEMBA Only/g,'<strong>EMBA/GEMBA Only</strong>')}</div>`
+      : '';
+
+    const sessionsHtml = c.sessions.length
+      ? `<div class="course-schedule">
+           <div class="course-schedule-title">Schedule</div>
+           ${c.sessions.map(s => {
+             const d = new Date(s.date);
+             const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+             const dateLabel = `${dayName} ${d.getDate()} ${MONTHS[d.getMonth()+1].slice(0,3)}`;
+             return `<div class="course-session"><span class="date">${dateLabel}</span><span class="time">${s.time}</span></div>`;
+           }).join('')}
+         </div>`
+      : '';
+
+    return `<div class="course-card card-cat-${cls}${isStarred(c.code)?' is-selected':''}">
+      <button class="star-btn ${starCls}" onclick="toggleStar('${c.code}');event.stopPropagation();">${isStarred(c.code)?'★':'☆'}</button>
+      <div class="course-subject sub-${cls}">${c.categories.join(' / ')}</div>
+      <h3 class="course-title"><a href="${c.href}" target="_blank" onclick="event.stopPropagation()">${c.name}</a></h3>
+      <div class="course-faculty">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        ${c.faculty}
+      </div>
+      ${notesHtml}
+      ${sessionsHtml}
+    </div>`;
+  }).join('');
+}
+
+// ─── MODAL ─────────────────────────────────────────────────────────────
+function openModal(code) {
+  const c = COURSES.find(x => x.code === code);
+  if (!c) return;
+  const cat = primaryCat(c);
+  const cls = catClass(cat);
+  const starCls = isStarred(c.code) ? 'starred' : '';
+
+  document.getElementById('modal').innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="course-subject sub-${cls}" style="margin-bottom:0.5rem">${c.categories.join(' / ')}</div>
+    <h3>${c.name}</h3>
+    <div class="modal-code">${c.code} · ${c.period === 'weekday' ? '📅 Weekday' : '🗓️ Weekend'}</div>
+    <div class="modal-faculty">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      ${c.faculty}
+    </div>
+    <div style="margin-bottom:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+      <a href="${c.href}" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;text-decoration:none;font-size:0.85rem;font-weight:600;">📄 Draft Outline</a>
+      <button onclick="toggleStar('${c.code}');openModal('${c.code}')" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;background:rgba(255,255,255,0.08);border:1px solid var(--card-border);color:${isStarred(c.code)?'#fbbf24':'var(--text-secondary)'};cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;">${isStarred(c.code)?'★ Bookmarked':'☆ Bookmark'}</button>
+    </div>
+    ${c.notes ? `<div class="modal-notes">${c.notes.replace(/FT MBA Only/g,'<strong>FT MBA Only</strong>').replace(/EMBA\/GEMBA Only/g,'<strong>EMBA/GEMBA Only</strong>')}</div>` : ''}
+    <div class="modal-sessions">
+      <div class="course-schedule-title" style="margin-bottom:0.75rem">All Sessions</div>
+      ${c.sessions.map(s => {
+        const d = new Date(s.date);
+        const dayName = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()];
+        const dateLabel = `${dayName}, ${d.getDate()} ${MONTHS[d.getMonth()+1]} ${d.getFullYear()}`;
+        return `<div class="modal-session-row"><span class="modal-session-date">${dateLabel}</span><span class="modal-session-time">${s.time}</span></div>`;
+      }).join('')}
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── CONFLICT DETECTION ───────────────────────────────────────────────
+function parseTime(t) {
+  // Parse "09:30–16:30" or "17:00–20:00" → {start, end} in minutes from midnight
+  const parts = t.split('–');
+  if (parts.length !== 2) return null;
+  const [h1,m1] = parts[0].trim().split(':').map(Number);
+  const [h2,m2] = parts[1].trim().split(':').map(Number);
+  return { start: h1*60+m1, end: h2*60+m2 };
+}
+
+function timesOverlap(a, b) {
+  if (!a || !b) return false;
+  return a.start < b.end && b.start < a.end;
+}
+
+function detectConflicts(courses) {
+  // Returns array of {date, code1, code2, name1, name2, time1, time2}
+  const conflicts = [];
+  const allSessions = [];
+  courses.forEach(c => {
+    c.sessions.forEach(s => {
+      allSessions.push({ code: c.code, name: c.name, date: s.date, time: s.time, parsed: parseTime(s.time) });
+    });
+  });
+  // Group by date
+  const byDate = {};
+  allSessions.forEach(s => {
+    if (!byDate[s.date]) byDate[s.date] = [];
+    byDate[s.date].push(s);
+  });
+  Object.keys(byDate).forEach(date => {
+    const sessions = byDate[date];
+    for (let i = 0; i < sessions.length; i++) {
+      for (let j = i+1; j < sessions.length; j++) {
+        if (sessions[i].code !== sessions[j].code && timesOverlap(sessions[i].parsed, sessions[j].parsed)) {
+          conflicts.push({
+            date, code1: sessions[i].code, code2: sessions[j].code,
+            name1: sessions[i].name, name2: sessions[j].name,
+            time1: sessions[i].time, time2: sessions[j].time
+          });
+        }
+      }
+    }
+  });
+  return conflicts;
+}
+
+// ─── SIDEBAR ────────────────────────────────────────────────────────────
+function renderSidebar() {
+  const el = document.getElementById('calSidebar');
+  const starredCourses = COURSES.filter(c => isStarred(c.code));
+  const conflicts = detectConflicts(starredCourses);
+
+  // Count total session-days for selected courses
+  let totalSessions = 0;
+  starredCourses.forEach(c => totalSessions += c.sessions.length);
+
+  // Collect unique days
+  const uniqueDays = new Set();
+  starredCourses.forEach(c => c.sessions.forEach(s => uniqueDays.add(s.date)));
+
+  let html = `<div class="my-sched-panel">
+    <h3>⭐ My Electives <span class="count">${starredCourses.length}</span></h3>`;
+
+  if (starredCourses.length === 0) {
+    html += `<div class="my-sched-empty">Star courses (☆) from the cards view or modal to build your schedule. They'll light up on the calendar.</div>`;
+  } else {
+    starredCourses.forEach(c => {
+      const cat = primaryCat(c);
+      html += `<div class="my-sched-item">
+        <div class="dot" style="background:${catColor(cat)}"></div>
+        <span class="name" title="${c.name}">${c.code} – ${c.name}</span>
+        <span class="rm" onclick="toggleStar('${c.code}')" title="Remove">✕</span>
+      </div>`;
+    });
+
+    html += `<div class="sched-summary" style="margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid rgba(255,255,255,0.05);">
+      <strong>${totalSessions}</strong> sessions across <strong>${uniqueDays.size}</strong> days
+    </div>`;
+
+    html += `<button class="clear-btn" onclick="clearAllStars()">✕ Clear all selections</button>`;
+  }
+  html += `</div>`;
+
+  // Conflicts
+  if (conflicts.length > 0) {
+    html += `<div class="conflict-banner">
+      <h4>⚠️ Schedule Conflicts</h4>`;
+    conflicts.forEach(c => {
+      const d = new Date(c.date);
+      const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+      const dateLabel = `${dayName} ${d.getDate()} ${MONTHS[d.getMonth()+1].slice(0,3)}`;
+      html += `<div class="conflict-row">${dateLabel}: ${c.code1} (${c.time1}) <span class="vs">vs</span> ${c.code2} (${c.time2})</div>`;
+    });
+    html += `</div>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function clearAllStars() {
+  starred = new Set();
+  localStorage.setItem('mba_stars', JSON.stringify([]));
+  applyFilters();
+  renderSidebar();
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────
+renderChips();
+renderLegend();
+renderCalendar();
+renderSidebar();
+renderCards();
+</script>
+</body>
+</html>
