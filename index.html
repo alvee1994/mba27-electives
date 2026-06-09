@@ -619,6 +619,153 @@
         @media (max-width: 900px) {
             .ranking-layout { grid-template-columns: 1fr; }
         }
+
+        /* ── Overlap Explorer ── */
+        .overlap-section { display: none; }
+        .overlap-section.active { display: block; }
+        .overlap-intro {
+            background: rgba(255,255,255,0.04); border: 1px solid var(--card-border);
+            border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+            font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55;
+        }
+        .overlap-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+        .overlap-filters .chip { font-size: 0.78rem; }
+        .overlap-pairs { display: flex; flex-direction: column; gap: 0.75rem; }
+        .overlap-pair {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: var(--radius); padding: 1rem 1.25rem;
+            transition: border-color 0.2s;
+        }
+        .overlap-pair:hover { border-color: rgba(255,255,255,0.12); }
+        .overlap-pair-header {
+            display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+            margin-bottom: 0.6rem; font-weight: 600; font-size: 0.95rem;
+        }
+        .overlap-pair-header .course-link {
+            color: var(--primary); cursor: pointer; background: none; border: none;
+            font-family: inherit; font-size: inherit; font-weight: 600; padding: 0;
+            text-align: left; white-space: normal; line-height: 1.35;
+        }
+        .overlap-pair-header .course-link:hover { color: var(--accent); text-decoration: underline; }
+        .overlap-pair-header .course-link.highlighted { text-decoration: underline; }
+        .overlap-pair-header .vs { color: var(--text-secondary); font-weight: 400; }
+        .overlap-badge {
+            display: inline-block; font-size: 0.72rem; font-weight: 600;
+            padding: 0.2rem 0.6rem; border-radius: 12px; margin-bottom: 0.5rem;
+        }
+        .overlap-badge.high { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+        .overlap-badge.partial { background: rgba(56,189,248,0.12); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.25); }
+        .overlap-badge.schedule { background: rgba(248,113,113,0.12); color: #fca5a5; border: 1px solid rgba(248,113,113,0.25); }
+        .overlap-badge.faculty { background: rgba(192,132,252,0.12); color: #c4b5fd; border: 1px solid rgba(192,132,252,0.25); }
+        .overlap-detail { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+        .overlap-detail .cat-pill {
+            display: inline-block; font-size: 0.7rem; font-weight: 600;
+            padding: 0.1rem 0.45rem; border-radius: 10px; margin: 0.1rem 0.15rem 0.1rem 0;
+        }
+        .overlap-count-pill {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.5rem;
+            border-radius: 10px; background: rgba(255,255,255,0.06);
+            border: 1px solid var(--card-border); color: var(--text-secondary);
+            cursor: pointer; margin-left: 0.5rem; vertical-align: middle;
+            transition: background 0.2s, color 0.2s;
+        }
+        .overlap-count-pill:hover { background: rgba(56,189,248,0.12); color: var(--primary); border-color: rgba(56,189,248,0.3); }
+        .topic-warning-banner {
+            background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.25);
+            border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1rem;
+        }
+        .topic-warning-banner h4 { color: #fbbf24; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
+        .topic-warning-row { font-size: 0.8rem; color: #fde68a; padding: 0.15rem 0; }
+
+        /* ── Instructor profiles ── */
+        .exp-badge {
+            display: inline-flex; align-items: center; font-size: 0.65rem;
+            padding: 0.1rem 0.35rem; border-radius: 8px; margin-left: 0.2rem;
+            vertical-align: middle; font-weight: 600; white-space: nowrap;
+        }
+        .exp-badge.exp-academic { background: rgba(56,189,248,0.15); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.3); }
+        .exp-badge.exp-practical { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+        .exp-badge.exp-mixed { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+        .instructor-link {
+            background: none; border: none; color: #cbd5e1; cursor: pointer;
+            font-family: inherit; font-size: inherit; padding: 0; text-decoration: underline;
+            text-underline-offset: 2px; text-decoration-color: rgba(203,213,225,0.3);
+        }
+        .instructor-link:hover { color: var(--primary); text-decoration-color: var(--primary); }
+        .faculty-sep { color: var(--text-secondary); }
+        .faculty-et-al { color: var(--text-secondary); font-size: 0.85em; font-style: italic; }
+        .instructor-index {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--card-border);
+            border-radius: var(--radius); margin-bottom: 1.5rem; overflow: hidden;
+        }
+        .instructor-index-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.85rem 1.25rem; cursor: pointer; user-select: none;
+            transition: background 0.2s;
+        }
+        .instructor-index-header:hover { background: rgba(255,255,255,0.03); }
+        .instructor-index-header h3 { font-size: 1rem; font-weight: 700; }
+        .instructor-index-toggle { color: var(--text-secondary); font-size: 0.85rem; }
+        .instructor-index-body { padding: 0 1.25rem 1.25rem; display: none; }
+        .instructor-index.open .instructor-index-body { display: block; }
+        .instructor-type-filters { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        .instructor-type-filters .chip { font-size: 0.75rem; }
+        .instructor-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.6rem;
+        }
+        .instructor-mini-card {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm); padding: 0.65rem 0.85rem; cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .instructor-mini-card:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); }
+        .instructor-mini-card.active { border-color: var(--primary); background: rgba(56,189,248,0.08); }
+        .instructor-mini-name { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.2rem; line-height: 1.3; }
+        .instructor-mini-role { font-size: 0.72rem; color: var(--text-secondary); }
+        .modal-instructor-type {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            font-size: 0.85rem; font-weight: 600; padding: 0.35rem 0.75rem;
+            border-radius: 8px; margin-bottom: 0.75rem;
+        }
+        .modal-instructor-type.exp-academic { background: rgba(56,189,248,0.12); color: #7dd3fc; }
+        .modal-instructor-type.exp-practical { background: rgba(245,158,11,0.12); color: #fbbf24; }
+        .modal-instructor-type.exp-mixed { background: rgba(34,197,94,0.12); color: #4ade80; }
+        .modal-section-title {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--text-secondary); margin: 1rem 0 0.5rem;
+        }
+        .modal-experience-list { list-style: none; padding: 0; }
+        .modal-experience-list li {
+            font-size: 0.88rem; color: #cbd5e1; padding: 0.3rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .modal-experience-list li:last-child { border-bottom: none; }
+        .modal-teaches-list { list-style: none; padding: 0; }
+        .modal-teaches-list li {
+            font-size: 0.88rem; padding: 0.3rem 0; color: #cbd5e1;
+        }
+        .modal-teaches-list button {
+            background: none; border: none; color: var(--primary); cursor: pointer;
+            font-family: inherit; font-size: inherit; padding: 0;
+        }
+        .modal-teaches-list button:hover { text-decoration: underline; }
+        .modal-profile-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            margin-top: 1rem; padding: 0.5rem 1rem; border-radius: 8px;
+            background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
+            color: var(--primary); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+        }
+        .modal-profile-link:hover { background: rgba(255,255,255,0.1); }
+        .modal-related-courses { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .modal-related-item {
+            display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0;
+            font-size: 0.85rem; cursor: pointer; color: var(--primary);
+        }
+        .modal-related-item:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            .instructor-grid { grid-template-columns: 1fr 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -647,6 +794,7 @@
         <button class="view-btn active" data-view="calendar" onclick="switchView('calendar')">📅 Calendar</button>
         <button class="view-btn" data-view="cards" onclick="switchView('cards')">🃏 Course Cards</button>
         <button class="view-btn" data-view="ranking" onclick="switchView('ranking')">📋 Preference Ranking</button>
+        <button class="view-btn" data-view="overlap" onclick="switchView('overlap')">🔀 Overlap</button>
     </div>
 
     <div id="plannerTools">
@@ -715,12 +863,29 @@
 
     <!-- ── Cards view ── -->
     <div id="cardsView" class="cards-section">
+        <div class="instructor-index" id="instructorIndex">
+            <div class="instructor-index-header" onclick="toggleInstructorIndex()">
+                <h3>👤 Browse by Instructor</h3>
+                <span class="instructor-index-toggle" id="instructorIndexToggle">Show ▾</span>
+            </div>
+            <div class="instructor-index-body" id="instructorIndexBody"></div>
+        </div>
         <div class="tabs" style="display:flex;gap:1rem;margin-bottom:1.5rem;justify-content:center;">
             <button class="tab-btn view-btn active" onclick="showCardTab('weekday')">Weekday</button>
             <button class="tab-btn view-btn" onclick="showCardTab('weekend')">Weekend</button>
             <button class="tab-btn view-btn" onclick="showCardTab('all')">All</button>
         </div>
         <div class="course-grid" id="courseGrid"></div>
+    </div>
+
+    <!-- ── Overlap Explorer view ── -->
+    <div id="overlapView" class="overlap-section">
+        <div class="overlap-intro">
+            Explore topical, faculty, and schedule overlap between electives and advanced courses.
+            Use this to build a diverse skill set and avoid redundant coverage.
+        </div>
+        <div class="overlap-filters" id="overlapFilters"></div>
+        <div class="overlap-pairs" id="overlapPairs"></div>
     </div>
 </div>
 
@@ -1026,6 +1191,180 @@ const ADVANCED_COURSES = [
     sessions:[]},
 ];
 
+// ─── INSTRUCTOR PROFILES ───────────────────────────────────────────────
+const INSTRUCTORS = {
+  "Maartje Schouten": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Organizational Psychology, Erasmus University", experience:[{type:"academic",desc:"Assistant Professor at RSM since 2019"},{type:"practical",desc:"Consultant at KPMG Advisory (2014–2018)"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/maartje-schouten/" },
+  "Dimitrios Tsekouras": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Operations Management", experience:[{type:"academic",desc:"Faculty at RSM in operations and analytics"},{type:"practical",desc:"Industry consulting in supply chain transformation"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/dimitrios-tsekouras/" },
+  "Steffen Giessner": { title:"Prof. Dr.", role:"Professor of Organisational Behaviour, RSM", education:"PhD in Psychology, University of Jena", experience:[{type:"academic",desc:"Professor at RSM; research on leadership and presence"},{type:"practical",desc:"Executive education and organisational development"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/steffen-giessner/" },
+  "Antonie Knoppers": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Organisational Behaviour", experience:[{type:"academic",desc:"Research on leadership and team dynamics at RSM"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/antonie-knoppers/" },
+  "Madleen Meier-Barthold": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Management, University of St. Gallen", experience:[{type:"academic",desc:"Research on strategic people management and HR"},{type:"practical",desc:"Prior consulting experience in HR transformation"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/madleen-meier-barthold/" },
+  "Colin Lee": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Management", experience:[{type:"academic",desc:"Faculty in organisational behaviour and people strategy"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/colin-lee/" },
+  "Ronald Huisman": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Finance, Erasmus University", experience:[{type:"academic",desc:"Research on impact investing and sustainable finance"},{type:"practical",desc:"Advisory roles in responsible investment"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/ronald-huisman/" },
+  "Arjen Mulder": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Finance, Erasmus University", experience:[{type:"academic",desc:"M&A and corporate finance researcher at RSM"},{type:"practical",desc:"Experience in valuation and deal advisory"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/arjen-mulder/" },
+  "Emilio Marti": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Management, University of Zurich", experience:[{type:"academic",desc:"Research on sustainable investing and corporate purpose"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/emilio-marti/" },
+  "Sebastian Gabel": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Marketing, University of Mannheim", experience:[{type:"academic",desc:"Research on marketing analytics and AI-driven strategy"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/sebastian-gabel/" },
+  "Alex Genevsky": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Psychology, Stanford University", experience:[{type:"academic",desc:"Neuroscience and decision-making research at RSM"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/alex-genevsky/" },
+  "Yeqing Zhou": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Marketing", experience:[{type:"academic",desc:"Quantitative marketing and pricing research"},{type:"practical",desc:"Industry analytics experience"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/yeqing-zhou/" },
+  "Ruud Kuijpers": { title:"", role:"Executive in Residence, RSM", education:"MBA, RSM", experience:[{type:"practical",desc:"Senior strategy consultant and corporate advisor"},{type:"academic",desc:"Teaches corporate strategy consulting at RSM"}], experienceType:"practical", profileUrl:"https://www.rsm.nl/people/ruud-kuijpers/" },
+  "Caroline Witte": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in International Business, University of Groningen", experience:[{type:"academic",desc:"Research on emerging markets and global strategy"},{type:"practical",desc:"Advisory work on international business expansion"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/caroline-witte/" },
+  "Marijn Faling": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in International Business", experience:[{type:"academic",desc:"Research on business in emerging economies"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/marijn-faling/" },
+  "Chandrika Rathee": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Innovation Management", experience:[{type:"academic",desc:"Corporate innovation and entrepreneurship research"},{type:"practical",desc:"Startup and innovation consulting"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/chandrika-rathee/" },
+  "Harwin de Vries": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Operations Management", experience:[{type:"academic",desc:"Supply chain resilience and disaster management research"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/harwin-de-vries/" },
+  "Morteza Pourakbar": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Operations Management", experience:[{type:"academic",desc:"Sustainable supply chain research at RSM"},{type:"practical",desc:"Industry projects on logistics and sustainability"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/morteza-pourakbar/" },
+  "Guiseppe Criaco": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Entrepreneurship, Bocconi University", experience:[{type:"academic",desc:"Entrepreneurship and energy transition research"},{type:"practical",desc:"Venture and innovation advisory"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/giuseppe-criaco/" },
+  "Vareska van de Vrande": { title:"Prof. Dr.", role:"Professor of Corporate Venturing, RSM", education:"PhD in Innovation Management, TU Delft", experience:[{type:"academic",desc:"Professor researching corporate-startup collaboration"},{type:"practical",desc:"Advisory on open innovation and venturing"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/vareska-van-de-vrande/" },
+  "Laura Rosendahl Huber": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Strategy, INSEAD", experience:[{type:"academic",desc:"Research on new business development and strategy"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/laura-rosendahl-huber/" },
+  "Luca Berchicci": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Management, Bocconi University", experience:[{type:"academic",desc:"Innovation and new venture research"},{type:"practical",desc:"Entrepreneurship and corporate innovation projects"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/luca-berchicci/" },
+  "Anders Ibsen": { title:"", role:"Executive Coach & Adjunct Faculty, RSM", education:"Executive coaching certification", experience:[{type:"practical",desc:"Leadership pipeline and executive coaching practitioner"},{type:"academic",desc:"Teaches leadership development at RSM"}], experienceType:"practical", profileUrl:"" },
+  "Giuseppe Conti": { title:"", role:"Negotiation Trainer & Adjunct Faculty", education:"MBA, INSEAD", experience:[{type:"practical",desc:"Expert negotiation trainer for executives globally"},{type:"academic",desc:"Teaches strategic negotiations at RSM"}], experienceType:"practical", profileUrl:"" },
+  "Dennis Jullens": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Finance", experience:[{type:"academic",desc:"Corporate restructuring and valuation research"},{type:"practical",desc:"Restructuring advisory experience"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/dennis-jullens/" },
+  "Yu Liu": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Finance", experience:[{type:"academic",desc:"Entrepreneurial finance research at RSM"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/yu-liu/" },
+  "Stefan Kramer": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Finance", experience:[{type:"academic",desc:"Finance for decision-making and corporate finance"},{type:"practical",desc:"Financial advisory and executive education"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/stefan-kramer/" },
+  "Marcel van Rinsum": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Finance", experience:[{type:"academic",desc:"Corporate finance and decision-making research"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/marcel-van-rinsum/" },
+  "Joost de Haas": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Finance, Erasmus University", experience:[{type:"academic",desc:"Turnaround management and restructuring research"},{type:"practical",desc:"Corporate turnaround advisory"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/joost-de-haas/" },
+  "Erik Roelofsen": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Finance", experience:[{type:"academic",desc:"Private equity research at RSM"},{type:"practical",desc:"PE and investment banking experience"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/erik-roelofsen/" },
+  "Daniel van Loenen": { title:"", role:"Private Equity Practitioner & Adjunct Faculty", education:"MBA, RSM", experience:[{type:"practical",desc:"Private equity investment professional"},{type:"academic",desc:"Teaches PE at RSM"}], experienceType:"practical", profileUrl:"" },
+  "Aurelie Lemmens": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Marketing, KU Leuven", experience:[{type:"academic",desc:"Customer analytics and value creation research"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/aurelie-lemmens/" },
+  "Miriam Tuk": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Marketing", experience:[{type:"academic",desc:"Consumer behaviour and marketing research"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/miriam-tuk/" },
+  "Bill Collins": { title:"", role:"Change Management Practitioner & Adjunct Faculty", education:"MBA", experience:[{type:"practical",desc:"Senior change management consultant"},{type:"academic",desc:"Teaches change management at RSM"}], experienceType:"practical", profileUrl:"" },
+  "Christopher Sabel": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Strategy", experience:[{type:"academic",desc:"Corporate-startup collaboration research"},{type:"practical",desc:"Innovation and strategy consulting"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/christopher-sabel/" },
+  "Juan Pablo Madiedo": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Strategy", experience:[{type:"academic",desc:"Innovation ecosystems research at RSM"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/juan-pablo-madiedo/" },
+  "Juergen Scherer": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Operations Management", experience:[{type:"academic",desc:"Strategic sourcing and procurement research"},{type:"practical",desc:"Supply chain consulting experience"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/juergen-scherer/" },
+  "Salla Laasonen": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Sustainability", experience:[{type:"academic",desc:"ESG strategy and sustainability research"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/salla-laasonen/" },
+  "Alexander Schuil": { title:"", role:"Entrepreneur & Adjunct Faculty, RSM", education:"MBA", experience:[{type:"practical",desc:"Serial entrepreneur; entrepreneurship through acquisition practitioner"},{type:"academic",desc:"Teaches ETA at RSM"}], experienceType:"practical", profileUrl:"" },
+  "Wim Hulsink": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Entrepreneurship, Erasmus University", experience:[{type:"academic",desc:"Entrepreneurship research at RSM since 1990s"},{type:"practical",desc:"Venture creation and SME advisory"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/wim-hulsink/" },
+  "Claus Schmitt": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Finance", experience:[{type:"academic",desc:"Advanced finance and corporate valuation research"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/claus-schmitt/" },
+  "Gui Liberali": { title:"Prof. Dr.", role:"Professor of Marketing, RSM", education:"PhD in Marketing, MIT Sloan", experience:[{type:"academic",desc:"Professor researching marketing analytics and AI"},{type:"practical",desc:"Industry collaboration on marketing technology"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/gui-liberali/" },
+  "Cynthia Qingxia Kong": { title:"Dr.", role:"Assistant Professor, RSM", education:"PhD in Operations Management", experience:[{type:"academic",desc:"Supply chain management research at RSM"}], experienceType:"academic", profileUrl:"https://www.rsm.nl/people/cynthia-qingxia-kong/" },
+  "Frank Rozemeijer": { title:"Prof. dr", role:"Professor of Purchasing & Supply Management, RSM", education:"PhD in Operations Management", experience:[{type:"academic",desc:"Professor in supply chain and procurement"},{type:"practical",desc:"Extensive industry advisory in SCM"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/frank-rozemeijer/" },
+  "Lawrence Pratt": { title:"Dr.", role:"Associate Professor, RSM", education:"PhD in Sustainability", experience:[{type:"academic",desc:"Sustainability and business research at RSM"},{type:"practical",desc:"Corporate sustainability advisory"}], experienceType:"mixed", profileUrl:"https://www.rsm.nl/people/lawrence-pratt/" },
+};
+
+const EXP_BADGE = {
+  academic: { label:"Academic", icon:"🎓", cls:"exp-academic" },
+  practical: { label:"Practical Experience", icon:"💼", cls:"exp-practical" },
+  mixed: { label:"Academic + Industry", icon:"🔄", cls:"exp-mixed" },
+};
+
+const TITLE_PREFIX_RE = /^(Dr\.|Prof\. Dr\.|Prof\. dr)\s+/i;
+
+function parseFaculty(facultyStr) {
+  const hasEtAl = /\bet\s+al\.?\b/i.test(facultyStr);
+  const cleaned = facultyStr.replace(/\s*et\s+al\.?\s*/i, '').trim();
+  const parts = cleaned.split(/\s*&\s*|\s*,\s*/).map(s => s.trim()).filter(Boolean);
+  const instructors = parts.map(raw => {
+    let name = raw.trim();
+    let title = '';
+    const m = name.match(/^(Dr\.|Prof\. Dr\.|Prof\. dr)\s+(.+)$/i);
+    if (m) { title = m[1]; name = m[2]; }
+    return { name, title, normalizedName: name };
+  });
+  return { instructors, hasEtAl };
+}
+
+function allPlannerCourses() {
+  return [...COURSES, ...ADVANCED_COURSES];
+}
+
+function coursesForInstructor(name) {
+  return allPlannerCourses().filter(c =>
+    parseFaculty(c.faculty).instructors.some(i => i.normalizedName === name)
+  );
+}
+
+function allUniqueInstructors() {
+  const map = new Map();
+  allPlannerCourses().forEach(c => {
+    parseFaculty(c.faculty).instructors.forEach(i => {
+      if (!map.has(i.normalizedName)) map.set(i.normalizedName, i);
+    });
+  });
+  return [...map.values()].sort((a, b) => a.normalizedName.localeCompare(b.normalizedName));
+}
+
+function buildFacultyHtml(facultyStr, stopPropagation) {
+  const { instructors, hasEtAl } = parseFaculty(facultyStr);
+  const parts = instructors.map(inst => {
+    const profile = INSTRUCTORS[inst.normalizedName];
+    const badge = profile ? EXP_BADGE[profile.experienceType] : null;
+    const badgeHtml = badge ? `<span class="exp-badge ${badge.cls}" title="${badge.label}">${badge.icon}</span>` : '';
+    const display = inst.title ? `${inst.title} ${inst.name}` : inst.name;
+    const click = stopPropagation ? "event.stopPropagation();" : "";
+    return `<button type="button" class="instructor-link" onclick="${click}openInstructorModal('${inst.normalizedName.replace(/'/g, "\\'")}')">${escapeHtml(display)}</button>${badgeHtml}`;
+  });
+  let html = parts.join(' <span class="faculty-sep">&</span> ');
+  if (hasEtAl) html += ' <span class="faculty-et-al">+ more faculty</span>';
+  return html;
+}
+
+let topicOverlapsCache = null;
+function computeTopicOverlaps() {
+  if (topicOverlapsCache) return topicOverlapsCache;
+  const courses = allPlannerCourses();
+  const result = [];
+  for (let i = 0; i < courses.length; i++) {
+    for (let j = i + 1; j < courses.length; j++) {
+      const c1 = courses[i], c2 = courses[j];
+      const sharedCats = c1.categories.filter(cat => c2.categories.includes(cat));
+      const fac1 = parseFaculty(c1.faculty).instructors.map(f => f.normalizedName);
+      const fac2 = parseFaculty(c2.faculty).instructors.map(f => f.normalizedName);
+      const sharedFaculty = fac1.filter(f => fac2.includes(f));
+      const sharedDateCount = countSharedDates(c1, c2);
+      let hasScheduleOverlap = false;
+      if (sharedDateCount > 0) {
+        c1.sessions.forEach(s1 => {
+          c2.sessions.forEach(s2 => {
+            if (s1.date === s2.date && timesOverlap(parseTime(s1.time), parseTime(s2.time))) {
+              hasScheduleOverlap = true;
+            }
+          });
+        });
+      }
+      if (sharedCats.length > 0 || sharedFaculty.length > 0 || hasScheduleOverlap) {
+        result.push({
+          code1: c1.code, code2: c2.code,
+          name1: c1.name, name2: c2.name,
+          sharedCats, sharedFaculty,
+          sharedDates: hasScheduleOverlap ? sharedDateCount : 0,
+          hasScheduleOverlap,
+        });
+      }
+    }
+  }
+  topicOverlapsCache = result;
+  return result;
+}
+
+function overlapsForCourse(code) {
+  return computeTopicOverlaps().filter(o => o.code1 === code || o.code2 === code);
+}
+
+function overlapPartner(o, code) {
+  return o.code1 === code ? { code: o.code2, name: o.name2 } : { code: o.code1, name: o.name1 };
+}
+
+function getOverlapBadge(o) {
+  if (o.sharedCats.length >= 2) return { text:"⚠️ High topic overlap — consider diversifying", cls:"high" };
+  if (o.sharedCats.length === 1) return { text:"💡 Partial overlap", cls:"partial" };
+  if (o.hasScheduleOverlap) return { text:"📅 Schedule conflict", cls:"schedule" };
+  if (o.sharedFaculty.length > 0) return { text:"👤 Shared instructor", cls:"faculty" };
+  return { text:"Overlap", cls:"partial" };
+}
+
+function detectTopicOverlapWarnings(courses) {
+  const warnings = [];
+  for (let i = 0; i < courses.length; i++) {
+    for (let j = i + 1; j < courses.length; j++) {
+      const c1 = courses[i], c2 = courses[j];
+      const sharedCats = c1.categories.filter(cat => c2.categories.includes(cat));
+      if (sharedCats.length >= 2) {
+        warnings.push({ code1: c1.code, code2: c2.code, sharedCats });
+      }
+    }
+  }
+  return warnings;
+}
+
 // ─── CATEGORY HELPERS ──────────────────────────────────────────────────
 const CAT_CLASS = {
   "Finance": "finance",
@@ -1313,6 +1652,10 @@ let activeCardTab = 'all';
 let activeFilters = new Set();  // empty = show all
 let searchQuery = '';
 let currentProgramme = localStorage.getItem('mba_programme') || 'MBA';
+let overlapCategoryFilter = null;
+let instructorIndexOpen = false;
+let instructorTypeFilter = 'all';
+let instructorCourseFilter = null;
 
 // ─── VIEW SWITCHING ────────────────────────────────────────────────────
 function switchView(view) {
@@ -1320,14 +1663,46 @@ function switchView(view) {
   document.querySelectorAll('#viewBar .view-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.view === view);
   });
-  document.getElementById('plannerTools').style.display = view === 'ranking' ? 'none' : 'block';
-  document.getElementById('progBanner').style.display = view === 'ranking' ? 'none' : 'flex';
+  document.getElementById('plannerTools').style.display = (view === 'ranking' || view === 'overlap') ? 'none' : 'block';
+  document.getElementById('progBanner').style.display = (view === 'ranking' || view === 'overlap') ? 'none' : 'flex';
   document.getElementById('calendarView').classList.toggle('active', view === 'calendar');
   document.getElementById('cardsView').classList.toggle('active', view === 'cards');
   document.getElementById('rankingView').classList.toggle('active', view === 'ranking');
+  document.getElementById('overlapView').classList.toggle('active', view === 'overlap');
   if (view === 'calendar') { renderCalendar(); renderSidebar(); }
-  if (view === 'cards') renderCards();
+  if (view === 'cards') { renderInstructorIndex(); renderCards(); }
   if (view === 'ranking') renderRanking();
+  if (view === 'overlap') renderOverlapExplorer();
+}
+
+function showOverlapForCourse(code) {
+  switchView('overlap');
+  overlapCategoryFilter = null;
+  renderOverlapExplorer(code);
+}
+
+function setOverlapCategoryFilter(cat) {
+  overlapCategoryFilter = overlapCategoryFilter === cat ? null : cat;
+  renderOverlapExplorer();
+}
+
+function toggleInstructorIndex() {
+  instructorIndexOpen = !instructorIndexOpen;
+  document.getElementById('instructorIndex').classList.toggle('open', instructorIndexOpen);
+  document.getElementById('instructorIndexToggle').textContent = instructorIndexOpen ? 'Hide ▴' : 'Show ▾';
+  if (instructorIndexOpen) renderInstructorIndex();
+}
+
+function setInstructorTypeFilter(type) {
+  instructorTypeFilter = type;
+  renderInstructorIndex();
+}
+
+function filterByInstructor(name) {
+  if (name == null) instructorCourseFilter = null;
+  else instructorCourseFilter = instructorCourseFilter === name ? null : name;
+  renderInstructorIndex();
+  renderCards();
 }
 
 function showCardTab(tab) {
@@ -1351,6 +1726,11 @@ function filteredCourses() {
   }
   if (activeFilters.size > 0) {
     list = list.filter(c => c.categories.some(cat => activeFilters.has(cat)));
+  }
+  if (instructorCourseFilter) {
+    list = list.filter(c =>
+      parseFaculty(c.faculty).instructors.some(i => i.normalizedName === instructorCourseFilter)
+    );
   }
   list = list.filter(c => isAvailableForProgramme(c, currentProgramme));
   if (activeCardTab !== 'all' && activeView === 'cards') {
@@ -1517,6 +1897,150 @@ function renderCalendar() {
   gridsEl.innerHTML = allHtml;
 }
 
+// ─── OVERLAP EXPLORER ──────────────────────────────────────────────────
+function courseLabel(name, code) {
+  return `${name} (${code})`;
+}
+
+function renderOverlapExplorer(highlightCode) {
+  const filtersEl = document.getElementById('overlapFilters');
+  const pairsEl = document.getElementById('overlapPairs');
+
+  filtersEl.innerHTML = `<span class="chip${overlapCategoryFilter === null ? ' active' : ''}" onclick="setOverlapCategoryFilter(null)">All categories</span>`
+    + ALL_CATEGORIES.map(cat =>
+      `<span class="chip${overlapCategoryFilter === cat ? ' active' : ''}" data-cat="${escapeHtml(cat)}" onclick="setOverlapCategoryFilter(this.dataset.cat)">${escapeHtml(cat)}</span>`
+    ).join('');
+
+  let pairs = computeTopicOverlaps();
+  if (overlapCategoryFilter) {
+    pairs = pairs.filter(o => o.sharedCats.includes(overlapCategoryFilter));
+  }
+  if (highlightCode) {
+    pairs = pairs.filter(o => o.code1 === highlightCode || o.code2 === highlightCode);
+  }
+  pairs.sort((a, b) => {
+    const score = o => o.sharedCats.length * 10 + o.sharedFaculty.length * 3 + (o.hasScheduleOverlap ? 5 : 0);
+    return score(b) - score(a);
+  });
+
+  if (pairs.length === 0) {
+    pairsEl.innerHTML = '<div class="no-results" style="padding:2rem;">No overlap pairs match your filter.</div>';
+    return;
+  }
+
+  pairsEl.innerHTML = pairs.map(o => {
+    const badge = getOverlapBadge(o);
+    const catPills = o.sharedCats.map(cat =>
+      `<span class="cat-pill" style="background:${catColor(cat)}22;color:${catColor(cat)};border:1px solid ${catColor(cat)}44">${escapeHtml(cat)}</span>`
+    ).join('');
+    const facultyLine = o.sharedFaculty.length
+      ? `<div>👤 Shared faculty: ${o.sharedFaculty.map(f => escapeHtml(f)).join(', ')}</div>` : '';
+    const scheduleLine = o.hasScheduleOverlap
+      ? `<div>📅 ${o.sharedDates} shared session date${o.sharedDates > 1 ? 's' : ''} with time overlap</div>` : '';
+    const hl1 = highlightCode === o.code1 ? ' highlighted' : '';
+    const hl2 = highlightCode === o.code2 ? ' highlighted' : '';
+    return `<div class="overlap-pair">
+      <span class="overlap-badge ${badge.cls}">${badge.text}</span>
+      <div class="overlap-pair-header">
+        <button type="button" class="course-link${hl1}" onclick="openModal('${o.code1}')">${escapeHtml(courseLabel(o.name1, o.code1))}</button>
+        <span class="vs">↔</span>
+        <button type="button" class="course-link${hl2}" onclick="openModal('${o.code2}')">${escapeHtml(courseLabel(o.name2, o.code2))}</button>
+      </div>
+      <div class="overlap-detail">
+        ${catPills ? '<div>' + catPills + '</div>' : ''}
+        ${facultyLine}${scheduleLine}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── INSTRUCTOR INDEX ──────────────────────────────────────────────────
+function renderInstructorIndex() {
+  const body = document.getElementById('instructorIndexBody');
+  const types = [
+    { id:'all', label:'All' },
+    { id:'academic', label:'🎓 Academic' },
+    { id:'practical', label:'💼 Industry' },
+    { id:'mixed', label:'🔄 Mixed' },
+  ];
+  let instructors = allUniqueInstructors();
+  if (instructorTypeFilter !== 'all') {
+    instructors = instructors.filter(i => {
+      const p = INSTRUCTORS[i.normalizedName];
+      return p && p.experienceType === instructorTypeFilter;
+    });
+  }
+
+  const filtersHtml = types.map(t =>
+    `<span class="chip${instructorTypeFilter === t.id ? ' active' : ''}" onclick="setInstructorTypeFilter('${t.id}')">${t.label}</span>`
+  ).join('');
+
+  const cardsHtml = instructors.map(i => {
+    const profile = INSTRUCTORS[i.normalizedName];
+    const badge = profile ? EXP_BADGE[profile.experienceType] : null;
+    const role = profile ? profile.role : 'Instructor';
+    const active = instructorCourseFilter === i.normalizedName ? ' active' : '';
+    const badgeIcon = badge ? badge.icon + ' ' : '';
+    return `<div class="instructor-mini-card${active}" onclick="filterByInstructor('${i.normalizedName.replace(/'/g, "\\'")}')">
+      <div class="instructor-mini-name">${badgeIcon}${escapeHtml(i.normalizedName)}</div>
+      <div class="instructor-mini-role">${escapeHtml(role)}</div>
+    </div>`;
+  }).join('');
+
+  const clearFilter = instructorCourseFilter
+    ? `<div style="margin-top:0.75rem;font-size:0.82rem;color:var(--text-secondary);">Filtering courses by <strong style="color:var(--primary);">${escapeHtml(instructorCourseFilter)}</strong> — <button type="button" class="instructor-link" onclick="filterByInstructor(null)">clear</button></div>`
+    : '';
+
+  body.innerHTML = `<div class="instructor-type-filters">${filtersHtml}</div>
+    <div class="instructor-grid">${cardsHtml || '<div class="no-results" style="padding:1rem;font-size:0.85rem;">No instructors match this filter.</div>'}</div>${clearFilter}`;
+}
+
+function openInstructorModal(name) {
+  const inst = INSTRUCTORS[name];
+  const teaches = coursesForInstructor(name);
+  const modal = document.getElementById('modal');
+
+  if (!inst) {
+    modal.innerHTML = `
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h3>${escapeHtml(name)}</h3>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin:1rem 0;">Profile not yet available. Check the <a href="https://www.rsm.nl/people/" target="_blank" style="color:var(--primary);">RSM faculty directory</a> for more information.</p>
+      ${teaches.length ? `<div class="modal-section-title">📖 Teaches</div><ul class="modal-teaches-list">${teaches.map(c =>
+        `<li><button type="button" onclick="openModal('${c.code}')">${escapeHtml(c.name)} (${escapeHtml(c.code)})</button></li>`
+      ).join('')}</ul>` : ''}
+    `;
+    document.getElementById('modalOverlay').classList.add('active');
+    return;
+  }
+
+  const badge = EXP_BADGE[inst.experienceType];
+  const displayName = (inst.title ? inst.title + ' ' : '') + name;
+  const expHtml = inst.experience.map(e =>
+    `<li>${e.type === 'academic' ? '🎓' : '💼'} ${escapeHtml(e.desc)}</li>`
+  ).join('');
+  const teachesHtml = teaches.map(c =>
+    `<li><button type="button" onclick="openModal('${c.code}')">${escapeHtml(c.name)} (${escapeHtml(c.code)})</button></li>`
+  ).join('');
+  const profileLink = inst.profileUrl
+    ? `<a href="${inst.profileUrl}" target="_blank" class="modal-profile-link">🔗 RSM Profile ↗</a>`
+    : '';
+
+  modal.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>${escapeHtml(displayName)}</h3>
+    <div class="modal-instructor-type ${badge.cls}">${badge.icon} ${badge.label}</div>
+    <div style="color:#cbd5e1;font-size:0.95rem;margin-bottom:0.5rem;">${escapeHtml(inst.role)}</div>
+    <div class="modal-section-title">📚 Education</div>
+    <div style="font-size:0.88rem;color:#cbd5e1;">${escapeHtml(inst.education)}</div>
+    <div class="modal-section-title">💼 Experience</div>
+    <ul class="modal-experience-list">${expHtml}</ul>
+    <div class="modal-section-title">📖 Teaches</div>
+    <ul class="modal-teaches-list">${teachesHtml}</ul>
+    ${profileLink}
+  `;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
 // ─── COURSE CARDS ──────────────────────────────────────────────────────
 function renderCards() {
   const grid = document.getElementById('courseGrid');
@@ -1535,6 +2059,10 @@ function renderCards() {
     const notesHtml = displayNotes
       ? `<div class="course-notes">${formatNotesHtml(displayNotes)}</div>`
       : '';
+    const overlapCount = overlapsForCourse(c.code).length;
+    const overlapPill = overlapCount
+      ? `<button type="button" class="overlap-count-pill" onclick="event.stopPropagation();showOverlapForCourse('${c.code}')" title="View overlaps">↔ ${overlapCount} overlap${overlapCount > 1 ? 's' : ''}</button>`
+      : '';
 
     const sessionsHtml = c.sessions.length
       ? `<div class="course-schedule">
@@ -1550,10 +2078,10 @@ function renderCards() {
 
     return '<div class="course-card card-cat-' + cls + (isSelected(c.code)?' is-selected':'') + (badges?' has-badges':'') + '" onclick="toggleSelect(\'' + c.code + '\')">'
       + '<span class="card-code-chip">' + escapeHtml(c.code) + '</span>'
-      + '<div class="course-subject sub-' + cls + '">' + c.categories.join(' / ') + '</div>'
+      + '<div class="course-subject sub-' + cls + '">' + c.categories.join(' / ') + overlapPill + '</div>'
       + '<h3 class="course-title">' + escapeHtml(c.name)
       + ' <button class="details-link" onclick="event.stopPropagation();openModal(\'' + c.code + '\')">Details</button></h3>'
-      + '<div class="course-faculty"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ' + escapeHtml(c.faculty) + '</div>'
+      + '<div class="course-faculty"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ' + buildFacultyHtml(c.faculty, true) + '</div>'
       + '<div style="margin-bottom:0.5rem;"><a href="' + c.href + '" target="_blank" onclick="event.stopPropagation()" style="font-size:0.8rem;color:var(--primary);">Draft outline ↗</a></div>'
       + (badges ? '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.5rem;">' + badges + '</div>' : '')
       + notesHtml
@@ -1578,7 +2106,7 @@ function openModal(code) {
     <div class="modal-code">${escapeHtml(c.code)} &middot; ${c.isAdvanced ? '⭐ Advanced course' : (c.period === 'weekday' ? '📅 Weekday' : '🗓️ Weekend')} &middot; ${c.sessions.length ? c.sessions.length + ' sessions' : 'schedule TBA'}</div>
     <div class="modal-faculty">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      ${escapeHtml(c.faculty)}
+      ${buildFacultyHtml(c.faculty, false)}
     </div>
 
     ${badges ? '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;">' + badges + '</div>' : ''}
@@ -1598,6 +2126,18 @@ function openModal(code) {
         return '<div class="modal-session-row"><span class="modal-session-date">' + dateLabel + '</span><span class="modal-session-time">' + s.time + '</span></div>';
       }).join('') : '<div style="color:var(--text-secondary);font-size:0.9rem;">Session dates are not listed in the draft outline. Check Canvas or MyTimetable once enrolled.</div>'}
     </div>
+    ${(() => {
+      const related = overlapsForCourse(c.code);
+      if (!related.length) return '';
+      const items = related.slice(0, 8).map(o => {
+        const partner = overlapPartner(o, c.code);
+        const badge = getOverlapBadge(o);
+        const cats = o.sharedCats.length ? o.sharedCats.join(', ') : (o.sharedFaculty.length ? 'shared faculty' : 'schedule');
+        return `<div class="modal-related-item" onclick="openModal('${partner.code}')">${escapeHtml(partner.code)} — ${escapeHtml(cats)} <span style="font-size:0.75rem;color:var(--text-secondary);">(${badge.text.replace(/^[^\s]+\s/, '')})</span></div>`;
+      }).join('');
+      const more = related.length > 8 ? `<div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.35rem;"><button type="button" class="instructor-link" onclick="showOverlapForCourse('${c.code}')">View all ${related.length} overlaps →</button></div>` : '';
+      return `<div class="modal-related-courses"><div class="course-schedule-title" style="margin-bottom:0.5rem">Related Courses</div>${items}${more}</div>`;
+    })()}
   `;
 
   document.getElementById('modalOverlay').classList.add('active');
@@ -1813,6 +2353,18 @@ function renderSidebar() {
     html += `</div>`;
   }
 
+  // --- Topical overlap warnings (2+ shared categories among selected) ---
+  const topicWarnings = detectTopicOverlapWarnings(picked);
+  if (topicWarnings.length > 0) {
+    html += `<div class="topic-warning-banner">
+      <h4>⚠️ Topical Overlap</h4>
+      <div class="topic-warning-row">These selected courses cover similar ground — consider diversifying your skill set.</div>`;
+    topicWarnings.forEach(w => {
+      html += `<div class="topic-warning-row"><strong>${w.code1}</strong> and <strong>${w.code2}</strong> share ${w.sharedCats.map(cat => escapeHtml(cat)).join(' + ')}</div>`;
+    });
+    html += `</div>`;
+  }
+
   // --- Soft conflicts (1-2 overlapping sessions) ---
   if (softConflicts.length > 0) {
     html += `<div class="conflict-banner" style="background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.25);">
@@ -1892,6 +2444,7 @@ renderCourseChips();
 renderCalendar();
 renderSidebar();
 renderCards();
+renderInstructorIndex();
 </script>
 </body>
 </html>
