@@ -2498,6 +2498,92 @@ function getCalendarConflicts(courses) {
   return { conflictDates, conflictEvents };
 }
 
+// ─── CALENDAR EXPORT (.ics) ─────────────────────────────────────────────
+const ICS_TZ_BLOCK = `BEGIN:VTIMEZONE
+TZID:Europe/Amsterdam
+X-LIC-LOCATION:Europe/Amsterdam
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+`;
+
+function icsEscape(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+}
+
+function icsFold(line) {
+  // RFC 5545: lines >75 octets should be folded with CRLF + space
+  const out = [];
+  let rest = line;
+  while (rest.length > 74) {
+    out.push(rest.slice(0, 74));
+    rest = ' ' + rest.slice(74);
+  }
+  out.push(rest);
+  return out.join('\r\n');
+}
+
+function buildICS(courses) {
+  const now = new Date();
+  const stamp = now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Electives Navigator//RSM MBA//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+  lines.push(ICS_TZ_BLOCK.trim());
+
+  courses.forEach(c => {
+    c.sessions.forEach((s, idx) => {
+      const times = parseTime(s.time);
+      if (!times) return;
+      const dtStart = s.date.replace(/-/g, '') + 'T' + String(Math.floor(times.start / 60)).padStart(2, '0') + String(times.start % 60).padStart(2, '0') + '00';
+      const dtEnd = s.date.replace(/-/g, '') + 'T' + String(Math.floor(times.end / 60)).padStart(2, '0') + String(times.end % 60).padStart(2, '0') + '00';
+      const uid = `${c.code}-${s.date}-${idx}@electives-navigator`;
+      lines.push('BEGIN:VEVENT');
+      lines.push(icsFold(`UID:${uid}`));
+      lines.push(`DTSTAMP:${stamp}`);
+      lines.push(icsFold(`DTSTART;TZID=Europe/Amsterdam:${dtStart}`));
+      lines.push(icsFold(`DTEND;TZID=Europe/Amsterdam:${dtEnd}`));
+      lines.push(icsFold(`SUMMARY:${icsEscape(c.code + ' – ' + c.name)}`));
+      lines.push(icsFold(`DESCRIPTION:${icsEscape(s.label + ' · ' + c.faculty)}`));
+      lines.push(icsFold(`LOCATION:${icsEscape('Rotterdam School of Management')}`));
+      lines.push('END:VEVENT');
+    });
+  });
+
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+
+function exportScheduleToICS() {
+  const picked = selectedCourses();
+  const advanced = selectedAdvancedCourse();
+  const courses = advanced ? [...picked, advanced] : picked;
+  if (courses.length === 0) {
+    alert('Select at least one elective first.');
+    return;
+  }
+  const ics = buildICS(courses);
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `my-electives-${currentProgramme.toLowerCase()}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 // ─── SIDEBAR ────────────────────────────────────────────────────────────
 function renderSidebar() {
   const el = document.getElementById('calSidebar');
@@ -2562,6 +2648,7 @@ function renderSidebar() {
       ${picked.length >= required ? '<span style="color:var(--status-green);margin-left:0.5rem;">✅ Selection complete</span>' : `<span style="color:var(--status-red);margin-left:0.5rem;">Need ${required - picked.length} more</span>`}
     </div>`;
 
+    html += `<button class="clear-btn" style="background:var(--primary);color:#fff;border-color:var(--primary);margin-bottom:0.4rem;" onclick="exportScheduleToICS()">📅 Export to Calendar (.ics)</button>`;
     html += `<button class="clear-btn" onclick="clearSelection()">✕ Clear all selections</button>`;
   }
   html += `</div>`;
