@@ -25,7 +25,7 @@
             /* Text */
             --text-color: #fafafa;
             --text-secondary: #a3a3a3;
-            --text-tertiary: #737373;
+            --text-tertiary: #9ca3af;
             --heading-color: #ffffff;
             --placeholder-color: #525252;
 
@@ -55,7 +55,9 @@
             /* Status & danger (readable as text in both themes via per-theme overrides) */
             --danger: #ef4444;
             --status-amber: #854d0e;
+            --status-amber-text: #fbbf24;
             --status-purple: #7c3aed;
+            --status-purple-text: #a78bfa;
             --status-cyan: #22d3ee;
             --status-red: #ef4444;
             --status-green: #4ade80;
@@ -97,7 +99,7 @@
 
             --text-color: #0a0a0a;
             --text-secondary: #525252;
-            --text-tertiary: #737373;
+            --text-tertiary: #525252;
             --heading-color: #000000;
             --placeholder-color: #a3a3a3;
 
@@ -123,7 +125,9 @@
 
             --danger: #dc2626;
             --status-amber: #854d0e;
+            --status-amber-text: #854d0e;
             --status-purple: #7c3aed;
+            --status-purple-text: #5b21b6;
             --status-cyan: #155e75;
             --status-red: #dc2626;
             --status-green: #166534;
@@ -316,16 +320,16 @@
         .advanced-picker { margin-top: 0.25rem; }
         .advanced-picker-label {
             font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 0.5px; color: var(--status-amber); margin-bottom: 0.5rem;
+            letter-spacing: 0.5px; color: var(--status-amber-text); margin-bottom: 0.5rem;
         }
         .advanced-picker-hint {
             font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.6rem; line-height: 1.45;
         }
         .course-chip.advanced-chip {
             border-style: solid; border-color: var(--status-amber);
-            background: var(--bg-elevated); color: var(--status-amber);
+            background: var(--bg-elevated); color: var(--status-amber-text);
         }
-        .course-chip.advanced-chip:hover { background: var(--bg-elevated); color: var(--status-amber); }
+        .course-chip.advanced-chip:hover { background: var(--bg-elevated); color: var(--status-amber-text); }
         .course-chip.advanced-chip.selected {
             background: var(--status-amber); color: var(--gray-0);
             border-color: var(--status-amber);
@@ -623,7 +627,7 @@
             border-color: var(--status-amber);
             background: var(--bg-elevated);
         }
-        .my-sched-panel.advanced-panel h3 { color: var(--status-amber); }
+        .my-sched-panel.advanced-panel h3 { color: var(--status-amber-text); }
 
         /* ── Clear button ── */
         .clear-btn {
@@ -832,8 +836,8 @@
             background: var(--bg-elevated); border: 1px solid var(--status-amber);
             border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1rem;
         }
-        .topic-warning-banner h4 { color: var(--status-amber); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
-        .topic-warning-row { font-size: 0.8rem; color: var(--status-amber); padding: 0.15rem 0; }
+        .topic-warning-banner h4 { color: var(--status-amber-text); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
+        .topic-warning-row { font-size: 0.8rem; color: var(--status-amber-text); padding: 0.15rem 0; }
 
         /* ── Instructor profiles ── */
         .exp-badge {
@@ -842,7 +846,7 @@
             vertical-align: middle; font-weight: 600; white-space: nowrap;
         }
         .exp-badge.exp-academic { background: var(--bg-elevated); color: var(--primary); border: 1px solid var(--primary); }
-        .exp-badge.exp-practical { background: var(--bg-elevated); color: var(--status-amber); border: 1px solid var(--cat-finance); }
+        .exp-badge.exp-practical { background: var(--bg-elevated); color: var(--status-amber-text); border: 1px solid var(--cat-finance); }
         .exp-badge.exp-mixed { background: var(--bg-elevated); color: #4ade80; border: 1px solid var(--cat-sustainability); }
         .instructor-link {
             background: none; border: none; color: var(--text-tertiary); cursor: pointer;
@@ -886,7 +890,7 @@
             border-radius: 0; margin-bottom: 0.75rem;
         }
         .modal-instructor-type.exp-academic { background: var(--bg-elevated); color: var(--primary); }
-        .modal-instructor-type.exp-practical { background: var(--bg-elevated); color: var(--status-amber); }
+        .modal-instructor-type.exp-practical { background: var(--bg-elevated); color: var(--status-amber-text); }
         .modal-instructor-type.exp-mixed { background: var(--bg-elevated); color: #4ade80; }
         .modal-section-title {
             font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
@@ -944,7 +948,7 @@
         html[data-theme="light"] .prog-banner.emba strong { color: var(--cat-strategy); }
         html[data-theme="light"] .prog-banner.gemba strong { color: var(--cat-entrepreneurship); }
 
-        html[data-theme="light"] .overlap-badge.high { color: var(--status-amber); }
+        html[data-theme="light"] .overlap-badge.high { color: var(--status-amber-text); }
         html[data-theme="light"] .overlap-badge.partial { color: var(--primary-strong); }
         html[data-theme="light"] .overlap-badge.schedule { color: var(--status-red); }
         html[data-theme="light"] .overlap-badge.faculty { color: var(--cat-strategy); }
@@ -960,9 +964,9 @@
         html[data-theme="light"] .advanced-picker-label,
         html[data-theme="light"] .my-sched-panel.advanced-panel h3 { color: var(--cat-finance); }
         html[data-theme="light"] .course-chip.advanced-chip {
-            color: var(--status-amber); background: var(--bg-elevated);
+            color: var(--status-amber-text); background: var(--bg-elevated);
         }
-        html[data-theme="light"] .course-chip.advanced-chip:hover { color: var(--status-amber); background: var(--bg-elevated); }
+        html[data-theme="light"] .course-chip.advanced-chip:hover { color: var(--status-amber-text); background: var(--bg-elevated); }
         html[data-theme="light"] .course-chip.advanced-chip.selected {
             background: var(--cat-finance); color: var(--gray-0); border-color: var(--status-amber);
         }
@@ -2653,7 +2657,7 @@ function renderSidebar() {
     if (advanced.sessions.length) {
       html += `<div class="sched-summary"><strong>${advanced.sessions.length}</strong> sessions scheduled</div>`;
     } else {
-      html += `<div class="sched-summary" style="color:var(--status-amber);">Session dates not in draft outline — check Canvas/MyTimetable</div>`;
+      html += `<div class="sched-summary" style="color: var(--status-amber-text);">Session dates not in draft outline — check Canvas/MyTimetable</div>`;
     }
     if (advanced.notes && advanced.sessions.length === 0) {
       html += `<div class="sched-summary" style="margin-top:0.35rem;">${escapeHtml(advanced.notes)}</div>`;
@@ -2664,14 +2668,14 @@ function renderSidebar() {
   // --- Programme restriction warnings ---
   if (mbaOnlyPicked.length > 0 && !isMBA) {
     html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--cat-finance);">
-      <h4 style="color:var(--status-amber);">⚠️ MBA-only courses</h4>
-      <div class="conflict-row" style="color:var(--status-amber);">${mbaOnlyPicked.map(c=>c.code).join(', ')} – not available for your programme</div>
+      <h4 style="color: var(--status-amber-text);">⚠️ MBA-only courses</h4>
+      <div class="conflict-row" style="color: var(--status-amber-text);">${mbaOnlyPicked.map(c=>c.code).join(', ')} – not available for your programme</div>
     </div>`;
   }
   if (embaOnlyPicked.length > 0 && isMBA) {
     html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--cat-strategy);">
-      <h4 style="color:var(--status-purple);">⚠️ EMBA/GEMBA-only courses</h4>
-      <div class="conflict-row" style="color:var(--status-purple);">${embaOnlyPicked.map(c=>c.code).join(', ')} – not available for MBA students</div>
+      <h4 style="color: var(--status-purple-text);">⚠️ EMBA/GEMBA-only courses</h4>
+      <div class="conflict-row" style="color: var(--status-purple-text);">${embaOnlyPicked.map(c=>c.code).join(', ')} – not available for MBA students</div>
     </div>`;
   }
 
@@ -2714,11 +2718,11 @@ function renderSidebar() {
 
   // --- Soft conflicts (1-2 overlapping sessions) ---
   if (softConflicts.length > 0) {
-    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--status-amber);">
-      <h4 style="color:var(--status-amber);">⚠️ Session Overlaps</h4>
-      <div class="conflict-row" style="color:var(--status-amber);">${softConflicts.length} overlap${softConflicts.length>1?'s':''} found (1-2 sessions each). Review carefully before finalising your choices.</div>`;
+    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color: var(--status-amber);">
+      <h4 style="color: var(--status-amber-text);">⚠️ Session Overlaps</h4>
+      <div class="conflict-row" style="color: var(--status-amber-text);">${softConflicts.length} overlap${softConflicts.length>1?'s':''} found (1-2 sessions each). Review carefully before finalising your choices.</div>`;
     softConflicts.forEach(o => {
-      html += `<div class="conflict-row"><span style="color:var(--status-amber);font-weight:600;">${o.code1}</span> <span class="vs">↔</span> <span style="color:var(--status-amber);font-weight:600;">${o.code2}</span> – ${o.sharedDates} session${o.sharedDates>1?'s':''} shared</div>`;
+      html += `<div class="conflict-row"><span style="color: var(--status-amber-text);font-weight:600;">${o.code1}</span> <span class="vs">↔</span> <span style="color: var(--status-amber-text);font-weight:600;">${o.code2}</span> – ${o.sharedDates} session${o.sharedDates>1?'s':''} shared</div>`;
     });
     html += `</div>`;
   }
