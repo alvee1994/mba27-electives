@@ -13,133 +13,139 @@
     </script>
     <link rel="stylesheet" href="open-props.css">
     <style>
-        /* ── Design tokens (backed by Open Props primitives) ── */
+        /* ── Design tokens — flat, no transparency, muted, sharp corners ── */
         :root {
-            /* Surfaces */
-            --bg-color: var(--gray-12);
-            --bg-elevated: var(--gray-11);
-            --modal-bg: var(--gray-11);
-            --cal-day-bg: var(--gray-11);
+            /* Surfaces — three solid levels of elevation */
+            --bg-color: #0a0a0a;
+            --bg-elevated: #171717;
+            --bg-recessed: #000000;
+            --modal-bg: #171717;
+            --cal-day-bg: #0a0a0a;
 
             /* Text */
-            --text-color: var(--gray-1);
-            --text-secondary: var(--gray-5);
-            --text-tertiary: var(--gray-4);
-            --heading-color: var(--gray-0);
+            --text-color: #fafafa;
+            --text-secondary: #a3a3a3;
+            --text-tertiary: #737373;
+            --heading-color: #ffffff;
+            --placeholder-color: #525252;
 
-            /* Cards & panels — semantic gray shades that adapt to theme */
-            --card-bg: var(--gray-11);
-            --card-border: color-mix(in srgb, var(--gray-0) 8%, transparent);
-            --card-hover: color-mix(in srgb, var(--gray-0) 4%, transparent);
-            --placeholder-color: var(--gray-6);
+            /* Cards & panels */
+            --card-bg: #171717;
+            --card-border: #262626;
+            --card-hover: #262626;
 
             /* Selection & focus */
-            --selected-outline: var(--gray-0);
+            --selected-outline: #fafafa;
 
             /* Brand & actions */
-            --primary: var(--blue-5);
-            --primary-strong: var(--blue-7);
-            --primary-dim: color-mix(in srgb, var(--blue-5) 18%, transparent);
-            --accent: var(--blue-4);
+            --primary: #3b82f6;
+            --primary-strong: #2563eb;
+            --primary-dim: #1e3a8a;
+            --accent: #60a5fa;
 
-            /* Categories — vivid for dark mode */
-            --cat-finance: var(--yellow-5);
-            --cat-marketing: var(--pink-5);
-            --cat-strategy: var(--violet-5);
-            --cat-leadership: var(--cyan-5);
-            --cat-supplychain: var(--teal-5);
-            --cat-sustainability: var(--green-5);
-            --cat-entrepreneurship: var(--orange-5);
+            /* Categories — muted, flat (no neon) */
+            --cat-finance: #ca8a04;
+            --cat-marketing: #be185d;
+            --cat-strategy: #7c3aed;
+            --cat-leadership: #0e7490;
+            --cat-supplychain: #0f766e;
+            --cat-sustainability: #16a34a;
+            --cat-entrepreneurship: #c2410c;
 
             /* Status & danger */
-            --danger: var(--red-5);
-            --status-amber: var(--yellow-5);
-            --status-purple: var(--violet-4);
-            --status-cyan: var(--cyan-4);
-            --status-red: var(--red-4);
-            --status-green: var(--green-4);
+            --danger: #ef4444;
+            --status-amber: #ca8a04;
+            --status-purple: #7c3aed;
+            --status-cyan: #0e7490;
+            --status-red: #ef4444;
+            --status-green: #16a34a;
 
-            /* Geometry */
-            --radius: var(--radius-2);
-            --radius-sm: var(--radius-2);
-            --radius-lg: var(--radius-3);
+            /* Geometry — aggressively sharp */
+            --radius: 0;
+            --radius-sm: 0;
+            --radius-lg: 0;
 
-            /* Tonal wash — light-on-dark by default (color-mix adapts to theme) */
-            --wash-02: color-mix(in srgb, var(--gray-0) 2%, transparent);
-            --wash-03: color-mix(in srgb, var(--gray-0) 3%, transparent);
-            --wash-04: color-mix(in srgb, var(--gray-0) 4%, transparent);
-            --wash-05: color-mix(in srgb, var(--gray-0) 5%, transparent);
-            --wash-06: color-mix(in srgb, var(--gray-0) 6%, transparent);
-            --wash-08: color-mix(in srgb, var(--gray-0) 8%, transparent);
-            --wash-10: color-mix(in srgb, var(--gray-0) 10%, transparent);
-            --wash-12: color-mix(in srgb, var(--gray-0) 12%, transparent);
-            --wash-14: color-mix(in srgb, var(--gray-0) 14%, transparent);
-            --wash-15: color-mix(in srgb, var(--gray-0) 15%, transparent);
-            --wash-16: color-mix(in srgb, var(--gray-0) 16%, transparent);
-            --wash-20: color-mix(in srgb, var(--gray-0) 20%, transparent);
-            --wash-24: color-mix(in srgb, var(--gray-0) 24%, transparent);
-            --wash-25: color-mix(in srgb, var(--gray-0) 25%, transparent);
-            --wash-35: color-mix(in srgb, var(--gray-0) 35%, transparent);
+            /* Borders */
+            --border: #262626;
+            --border-strong: #404040;
 
-            /* Shadows — minimal, no glow */
-            --shadow-1: 0 1px 2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 9%));
+            /* Washes repurposed as solid surfaces (no transparency) */
+            --wash-02: #0a0a0a;
+            --wash-03: #0a0a0a;
+            --wash-04: #0a0a0a;
+            --wash-05: #171717;
+            --wash-06: #171717;
+            --wash-08: #262626;
+            --wash-10: #262626;
+            --wash-12: #262626;
+            --wash-14: #262626;
+            --wash-15: #262626;
+            --wash-16: #262626;
+            --wash-20: #404040;
+            --wash-24: #404040;
+            --wash-25: #404040;
+            --wash-35: #525252;
         }
 
         /* ── Light theme ── */
         html[data-theme="light"] {
-            --bg-color: var(--gray-1);
-            --bg-elevated: var(--gray-0);
-            --modal-bg: var(--gray-0);
-            --cal-day-bg: var(--gray-2);
+            --bg-color: #fafafa;
+            --bg-elevated: #ffffff;
+            --bg-recessed: #f5f5f5;
+            --modal-bg: #ffffff;
+            --cal-day-bg: #fafafa;
 
-            --text-color: var(--gray-9);
-            --text-secondary: var(--gray-7);
-            --text-tertiary: var(--gray-8);
-            --heading-color: var(--gray-11);
+            --text-color: #0a0a0a;
+            --text-secondary: #525252;
+            --text-tertiary: #737373;
+            --heading-color: #000000;
+            --placeholder-color: #a3a3a3;
 
-            --card-bg: var(--gray-0);
-            --card-border: color-mix(in srgb, var(--gray-12) 12%, transparent);
-            --card-hover: color-mix(in srgb, var(--gray-12) 4%, transparent);
-            --placeholder-color: var(--gray-6);
+            --card-bg: #ffffff;
+            --card-border: #e5e5e5;
+            --card-hover: #f5f5f5;
 
-            --selected-outline: var(--gray-11);
+            --selected-outline: #0a0a0a;
 
-            --primary: var(--blue-7);
-            --primary-strong: var(--blue-9);
-            --primary-dim: color-mix(in srgb, var(--blue-7) 12%, transparent);
-            --accent: var(--blue-6);
+            --primary: #2563eb;
+            --primary-strong: #1d4ed8;
+            --primary-dim: #dbeafe;
+            --accent: #3b82f6;
 
-            --cat-finance: var(--yellow-9);
-            --cat-marketing: var(--pink-8);
-            --cat-strategy: var(--violet-8);
-            --cat-leadership: var(--cyan-8);
-            --cat-supplychain: var(--teal-8);
-            --cat-sustainability: var(--green-8);
-            --cat-entrepreneurship: var(--orange-8);
+            /* Categories stay consistent across themes — already muted */
+            --cat-finance: #ca8a04;
+            --cat-marketing: #be185d;
+            --cat-strategy: #7c3aed;
+            --cat-leadership: #0e7490;
+            --cat-supplychain: #0f766e;
+            --cat-sustainability: #16a34a;
+            --cat-entrepreneurship: #c2410c;
 
-            --danger: var(--red-8);
-            --status-amber: var(--yellow-9);
-            --status-purple: var(--violet-9);
-            --status-cyan: var(--cyan-9);
-            --status-red: var(--red-9);
-            --status-green: var(--green-9);
+            --danger: #dc2626;
+            --status-amber: #ca8a04;
+            --status-purple: #7c3aed;
+            --status-cyan: #0e7490;
+            --status-red: #dc2626;
+            --status-green: #16a34a;
 
-            /* Light theme flips the wash direction (dark-on-light) */
-            --wash-02: color-mix(in srgb, var(--gray-12) 2%, transparent);
-            --wash-03: color-mix(in srgb, var(--gray-12) 3%, transparent);
-            --wash-04: color-mix(in srgb, var(--gray-12) 4%, transparent);
-            --wash-05: color-mix(in srgb, var(--gray-12) 5%, transparent);
-            --wash-06: color-mix(in srgb, var(--gray-12) 6%, transparent);
-            --wash-08: color-mix(in srgb, var(--gray-12) 8%, transparent);
-            --wash-10: color-mix(in srgb, var(--gray-12) 10%, transparent);
-            --wash-12: color-mix(in srgb, var(--gray-12) 12%, transparent);
-            --wash-14: color-mix(in srgb, var(--gray-12) 14%, transparent);
-            --wash-15: color-mix(in srgb, var(--gray-12) 15%, transparent);
-            --wash-16: color-mix(in srgb, var(--gray-12) 16%, transparent);
-            --wash-20: color-mix(in srgb, var(--gray-12) 20%, transparent);
-            --wash-24: color-mix(in srgb, var(--gray-12) 24%, transparent);
-            --wash-25: color-mix(in srgb, var(--gray-12) 25%, transparent);
-            --wash-35: color-mix(in srgb, var(--gray-12) 35%, transparent);
+            --border: #e5e5e5;
+            --border-strong: #d4d4d4;
+
+            --wash-02: #fafafa;
+            --wash-03: #fafafa;
+            --wash-04: #f5f5f5;
+            --wash-05: #f5f5f5;
+            --wash-06: #f5f5f5;
+            --wash-08: #e5e5e5;
+            --wash-10: #e5e5e5;
+            --wash-12: #e5e5e5;
+            --wash-14: #d4d4d4;
+            --wash-15: #d4d4d4;
+            --wash-16: #d4d4d4;
+            --wash-20: #d4d4d4;
+            --wash-24: #a3a3a3;
+            --wash-25: #a3a3a3;
+            --wash-35: #737373;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -162,7 +168,7 @@
             max-width: 1360px; margin: 0 auto; padding: 1.1rem 2rem;
         }
         .topbar .brand-mark {
-            width: 30px; height: 30px; border-radius: var(--radius-2); flex-shrink: 0;
+            width: 30px; height: 30px; border-radius: 0; flex-shrink: 0;
             background: var(--primary);
             display: flex; align-items: center; justify-content: center;
             font-weight: 700; font-size: 0.95rem; color: var(--gray-0);
@@ -173,7 +179,7 @@
             margin-left: auto; width: 34px; height: 34px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
             background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 9px; color: var(--text-secondary); cursor: pointer;
+            border-radius: 0; color: var(--text-secondary); cursor: pointer;
             transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
         }
         .theme-toggle:hover { background: var(--card-hover); color: var(--text-color); }
@@ -189,11 +195,10 @@
             animation: fadeInDown 0.5s ease-out;
         }
         .eyebrow {
-            display: inline-flex; align-items: center; gap: 0.5rem;
+            display: inline-block;
             font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
             letter-spacing: 0.12em; color: var(--primary);
-            background: var(--primary-dim); border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
-            padding: 0.3rem 0.7rem; border-radius: 999px; margin-bottom: 1rem;
+            padding: 0; margin-bottom: 1rem;
         }
         h1 {
             font-family: var(--font-system-ui);
@@ -210,7 +215,7 @@
         .resource-card {
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);
             padding: 1.1rem 1.25rem; text-align: left;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
             text-decoration: none; color: inherit; display: flex; flex-direction: row; align-items: center; gap: 0.9rem;
         }
         .resource-card:hover {
@@ -219,8 +224,8 @@
         .resource-icon {
             font-size: 1.25rem; width: 42px; height: 42px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
-            background: var(--primary-dim); border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
-            border-radius: 10px; color: var(--primary);
+            background: var(--primary-dim); border: 1px solid var(--bg-elevated);
+            border-radius: 0; color: var(--primary);
         }
         .resource-body { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
         .resource-title { font-size: 0.98rem; font-weight: 600; }
@@ -230,17 +235,17 @@
         .view-bar {
             display: inline-flex; gap: 0.25rem; margin-bottom: 2rem; justify-content: center; flex-wrap: wrap; align-items: center;
             background: var(--bg-elevated); border: 1px solid var(--card-border);
-            border-radius: 12px; padding: 0.3rem;
+            border-radius: 0; padding: 0.3rem;
         }
         .view-bar-wrap { display: flex; justify-content: center; margin-bottom: 2rem; }
         .view-bar-wrap .view-bar { margin-bottom: 0; }
         .view-btn {
-            background: transparent; border: 1px solid transparent; color: var(--text-secondary);
-            padding: 0.55rem 1.25rem; border-radius: 9px; font-family: inherit; font-size: 0.92rem;
+            background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 0.55rem 1.25rem; border-radius: 0; font-family: inherit; font-size: 0.92rem;
             font-weight: 600; cursor: pointer; transition: all 0.18s ease;
             display: inline-flex; align-items: center; gap: 0.45rem;
         }
-        .view-btn svg { width: 16px; height: 16px; opacity: 0.85; }
+        .view-btn svg { width: 16px; height: 16px; }
         .view-btn.active {
             background: var(--primary); border-color: transparent; color: var(--gray-0);
             
@@ -248,7 +253,7 @@
         .view-btn.active svg { opacity: 1; }
         .view-btn:hover:not(.active) { background: var(--wash-05); color: var(--text-color); }
         /* Card view tabs keep a lighter segmented style */
-        .tabs .tab-btn { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 9px; }
+        .tabs .tab-btn { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 0; }
         .tabs .tab-btn.active { background: var(--primary); border-color: transparent; }
 
         /* ── Search & Filter ── */
@@ -256,17 +261,17 @@
             display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;
         }
         .search-box {
-            flex: 1; min-width: 200px; padding: 0.7rem 1.1rem; border-radius: 10px;
+            flex: 1; min-width: 200px; padding: 0.7rem 1.1rem; border-radius: 0;
             background: var(--bg-elevated); border: 1px solid var(--card-border);
             color: var(--text-color); font-family: inherit; font-size: 0.95rem; outline: none;
             transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
         }
         .search-box::placeholder { color: var(--placeholder-color); }
-        .search-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-dim); }
+        .search-box:focus { border-color: var(--primary); }
 
         .filter-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .chip {
-            padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
+            padding: 0.35rem 0.9rem; border-radius: 0; font-size: 0.8rem; font-weight: 500;
             cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease;
             background: var(--wash-05); color: var(--text-secondary);
         }
@@ -289,25 +294,24 @@
         }
         .course-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
         .course-chip {
-            padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.76rem; font-weight: 500;
+            padding: 0.4rem 0.75rem; border-radius: 0; font-size: 0.76rem; font-weight: 500;
             line-height: 1.35; max-width: 100%;
             cursor: pointer; border: 1px solid var(--wash-10);
             background: var(--wash-05); color: var(--text-secondary);
             transition: all 0.2s ease; user-select: none;
         }
-        .course-chip .chip-code { font-weight: 700; opacity: 0.9; white-space: nowrap; }
+        .course-chip .chip-code { font-weight: 700; white-space: nowrap; }
         .course-chip:hover { background: var(--wash-10); color: var(--text-color); }
         .course-chip.selected {
-            color: var(--gray-0); border-color: var(--wash-35);
-            box-shadow: 0 0 0 2px var(--wash-25);
+            color: var(--gray-0); border-color: var(--gray-0);
         }
-        .course-chip.cat-finance.selected { background: color-mix(in srgb, var(--cat-finance) 45%, transparent); }
-        .course-chip.cat-marketing.selected { background: color-mix(in srgb, var(--cat-marketing) 45%, transparent); }
-        .course-chip.cat-strategy.selected { background: color-mix(in srgb, var(--cat-strategy) 45%, transparent); }
-        .course-chip.cat-leadership.selected { background: color-mix(in srgb, var(--cat-leadership) 45%, transparent); }
-        .course-chip.cat-supplychain.selected { background: color-mix(in srgb, var(--cat-supplychain) 45%, transparent); }
-        .course-chip.cat-sustainability.selected { background: color-mix(in srgb, var(--cat-sustainability) 45%, transparent); }
-        .course-chip.cat-entrepreneurship.selected { background: color-mix(in srgb, var(--cat-entrepreneurship) 45%, transparent); }
+        .course-chip.cat-finance.selected { background: var(--cat-finance); }
+        .course-chip.cat-marketing.selected { background: var(--cat-marketing); }
+        .course-chip.cat-strategy.selected { background: var(--cat-strategy); }
+        .course-chip.cat-leadership.selected { background: var(--cat-leadership); }
+        .course-chip.cat-supplychain.selected { background: var(--cat-supplychain); }
+        .course-chip.cat-sustainability.selected { background: var(--cat-sustainability); }
+        .course-chip.cat-entrepreneurship.selected { background: var(--cat-entrepreneurship); }
 
         .advanced-picker { margin-top: 0.25rem; }
         .advanced-picker-label {
@@ -318,17 +322,17 @@
             font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.6rem; line-height: 1.45;
         }
         .course-chip.advanced-chip {
-            border-style: dashed; border-color: color-mix(in srgb, var(--status-amber) 45%, transparent);
-            background: color-mix(in srgb, var(--status-amber) 6%, transparent); color: var(--status-amber);
+            border-style: solid; border-color: var(--status-amber);
+            background: var(--bg-elevated); color: var(--status-amber);
         }
-        .course-chip.advanced-chip:hover { background: color-mix(in srgb, var(--status-amber) 12%, transparent); color: var(--status-amber); }
+        .course-chip.advanced-chip:hover { background: var(--bg-elevated); color: var(--status-amber); }
         .course-chip.advanced-chip.selected {
-            background: color-mix(in srgb, var(--status-amber) 28%, transparent); color: var(--gray-0);
-            border-color: var(--status-amber); box-shadow: 0 0 0 2px color-mix(in srgb, var(--status-amber) 25%, transparent);
+            background: var(--status-amber); color: var(--gray-0);
+            border-color: var(--status-amber);
         }
         .course-chip.advanced-chip .chip-adv-tag {
             font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.4px; opacity: 0.85; margin-right: 0.25rem;
+            letter-spacing: 0.4px; margin-right: 0.25rem;
         }
 
         /* ── Calendar ── */
@@ -357,11 +361,11 @@
             transition: background 0.2s; position: relative; cursor: default;
         }
         .cal-day:hover { background: var(--wash-03); }
-        .cal-day.other-month { opacity: 0.3; }
+        .cal-day.other-month { color: var(--text-tertiary); }
         .cal-day.today { outline: 2px solid var(--primary); outline-offset: -2px; }
         .cal-day-num { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.35rem; }
         .cal-event {
-            font-size: 0.68rem; padding: 0.2rem 0.4rem; border-radius: 4px;
+            font-size: 0.68rem; padding: 0.2rem 0.4rem; border-radius: 0;
             margin-bottom: 2px; cursor: pointer; font-weight: 500; line-height: 1.3;
             transition: transform 0.15s ease, box-shadow 0.15s ease; overflow: hidden;
             text-overflow: ellipsis; white-space: nowrap;
@@ -369,7 +373,7 @@
         .cal-event:hover {
             background-color: var(--cat-color, var(--primary));
         }
-        .cal-event.evening { font-style: italic; opacity: 0.85; }
+        .cal-event.evening { font-style: italic; }
 
         /* ── Course cards view ── */
         .cards-section { display: none; }
@@ -427,12 +431,12 @@
         }
         .card-code-chip {
             display: inline-block; font-size: 0.75rem; font-weight: 700;
-            padding: 0.2rem 0.55rem; border-radius: 5px; margin-bottom: 0.5rem;
+            padding: 0.2rem 0.55rem; border-radius: 0; margin-bottom: 0.5rem;
             background: var(--wash-08); color: var(--primary);
-            border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+            border: 1px solid var(--primary);
         }
         .course-card.is-selected .card-code-chip {
-            background: color-mix(in srgb, var(--primary) 25%, transparent); color: var(--gray-0);
+            background: var(--primary); color: var(--gray-0);
         }
         .details-link {
             font-size: 0.8rem; color: var(--primary); background: none; border: none;
@@ -443,7 +447,7 @@
 
         /* ── Detail modal ── */
         .modal-overlay {
-            position: fixed; inset: 0; background: color-mix(in srgb, var(--gray-12) 70%, transparent); z-index: 100;
+            position: fixed; inset: 0; background: #000000; z-index: 100;
             display: none; align-items: center; justify-content: center;
         }
         .modal-overlay.active { display: flex; }
@@ -475,13 +479,13 @@
         .modal .modal-notes strong { color: var(--danger); }
 
         /* ── Color utilities ── */
-        .cat-finance { background: color-mix(in srgb, var(--cat-finance) 25%, transparent); color: var(--status-amber); border-left: 3px solid var(--cat-finance); }
-        .cat-marketing { background: color-mix(in srgb, var(--cat-marketing) 25%, transparent); color: var(--cat-marketing); border-left: 3px solid var(--cat-marketing); }
-        .cat-strategy { background: color-mix(in srgb, var(--cat-strategy) 25%, transparent); color: var(--cat-strategy); border-left: 3px solid var(--cat-strategy); }
-        .cat-leadership { background: color-mix(in srgb, var(--cat-leadership) 25%, transparent); color: var(--cat-leadership); border-left: 3px solid var(--cat-leadership); }
-        .cat-supplychain { background: color-mix(in srgb, var(--cat-supplychain) 25%, transparent); color: var(--cat-supplychain); border-left: 3px solid var(--cat-supplychain); }
-        .cat-sustainability { background: color-mix(in srgb, var(--cat-sustainability) 25%, transparent); color: var(--cat-sustainability); border-left: 3px solid var(--cat-sustainability); }
-        .cat-entrepreneurship { background: color-mix(in srgb, var(--cat-entrepreneurship) 25%, transparent); color: var(--cat-entrepreneurship); border-left: 3px solid var(--cat-entrepreneurship); }
+        .cat-finance { background: var(--cat-finance); color: var(--status-amber); border-left: 3px solid var(--cat-finance); }
+        .cat-marketing { background: var(--cat-marketing); color: var(--cat-marketing); border-left: 3px solid var(--cat-marketing); }
+        .cat-strategy { background: var(--cat-strategy); color: var(--cat-strategy); border-left: 3px solid var(--cat-strategy); }
+        .cat-leadership { background: var(--cat-leadership); color: var(--cat-leadership); border-left: 3px solid var(--cat-leadership); }
+        .cat-supplychain { background: var(--cat-supplychain); color: var(--cat-supplychain); border-left: 3px solid var(--cat-supplychain); }
+        .cat-sustainability { background: var(--cat-sustainability); color: var(--cat-sustainability); border-left: 3px solid var(--cat-sustainability); }
+        .cat-entrepreneurship { background: var(--cat-entrepreneurship); color: var(--cat-entrepreneurship); border-left: 3px solid var(--cat-entrepreneurship); }
 
         .card-cat-finance::before { background: var(--cat-finance); }
         .card-cat-marketing::before { background: var(--cat-marketing); }
@@ -533,7 +537,7 @@
             border-radius: var(--radius-sm); border: 1px solid var(--card-border);
         }
         .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--text-secondary); }
-        .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 0; }
 
         /* ── My Schedule sidebar ── */
         .cal-layout { display: flex; gap: 1.5rem; }
@@ -553,7 +557,7 @@
         }
         .my-sched-panel h3 .count {
             background: var(--primary); color: #0f172a; font-size: 0.75rem; font-weight: 700;
-            padding: 0.1rem 0.5rem; border-radius: 10px;
+            padding: 0.1rem 0.5rem; border-radius: 0;
         }
         .my-sched-empty { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
         .my-sched-item {
@@ -561,12 +565,12 @@
             border-bottom: 1px solid var(--wash-04); font-size: 0.85rem;
         }
         .my-sched-item:last-child { border-bottom: none; }
-        .my-sched-item .dot { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+        .my-sched-item .dot { width: 8px; height: 8px; border-radius: 0; flex-shrink: 0; }
         .my-sched-item .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .my-sched-item .rm { color: var(--text-secondary); cursor: pointer; font-size: 1rem; line-height: 1; transition: color 0.2s; flex-shrink: 0; }
         .my-sched-item .rm:hover { color: var(--danger); }
         .conflict-banner {
-            background: color-mix(in srgb, var(--danger) 10%, transparent); border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+            background: var(--bg-elevated); border: 1px solid var(--danger);
             border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1rem;
         }
         .conflict-banner h4 { color: var(--danger); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem; }
@@ -581,18 +585,17 @@
         .cal-event.selected {
             outline: 2px solid var(--selected-outline);
             outline-offset: -1px;
-            box-shadow: 0 0 8px var(--wash-20);
             font-weight: 700;
             opacity: 1 !important;
         }
         .cal-event.unselected {
-            opacity: 0.25;
+            background: var(--bg-color); color: var(--text-tertiary);
         }
         .cal-day.has-selected {
-            background: color-mix(in srgb, var(--primary) 4%, transparent);
+            background: var(--bg-elevated);
         }
         .cal-day.conflict-day {
-            background: color-mix(in srgb, var(--danger) 8%, transparent);
+            background: var(--bg-elevated);
         }
         .cal-day.conflict-day .cal-day-num {
             color: var(--danger);
@@ -600,35 +603,35 @@
         }
         .cal-event.conflict-event {
             border: 1px solid var(--danger);
-            background: color-mix(in srgb, var(--danger) 20%, transparent) !important;
+            background: var(--bg-elevated) !important;
         }
         .cal-event.advanced {
-            border: 1px dashed var(--status-amber);
+            border: 1px solid var(--status-amber);
         }
         .cal-event.advanced.selected {
-            outline: 2px dashed var(--status-amber);
+            outline: 2px solid var(--status-amber);
             outline-offset: -1px;
             font-weight: 700;
             opacity: 1 !important;
         }
         .legend-dot.advanced-dot {
-            border: 1px dashed var(--status-amber);
-            background: color-mix(in srgb, var(--status-amber) 20%, transparent);
+            border: 1px solid var(--status-amber);
+            background: var(--bg-elevated);
         }
         .my-sched-panel.advanced-panel {
-            border-color: color-mix(in srgb, var(--status-amber) 25%, transparent);
-            background: color-mix(in srgb, var(--status-amber) 4%, transparent);
+            border-color: var(--status-amber);
+            background: var(--bg-elevated);
         }
         .my-sched-panel.advanced-panel h3 { color: var(--status-amber); }
 
         /* ── Clear button ── */
         .clear-btn {
-            background: none; border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent); color: var(--danger);
-            padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;
+            background: none; border: 1px solid var(--danger); color: var(--danger);
+            padding: 0.35rem 0.75rem; border-radius: 0; cursor: pointer;
             font-size: 0.75rem; font-weight: 600; font-family: inherit;
             transition: background 0.2s, border-color 0.2s; margin-top: 0.75rem; width: 100%;
         }
-        .clear-btn:hover { background: color-mix(in srgb, var(--danger) 10%, transparent); border-color: var(--danger); }
+        .clear-btn:hover { background: var(--bg-elevated); border-color: var(--danger); }
 
 
         /* ── Programme banner ── */
@@ -637,9 +640,9 @@
             padding: 0.75rem 1rem; border-radius: var(--radius); margin-bottom: 1.5rem;
             font-size: 0.85rem;
         }
-        .prog-banner.mba { background: color-mix(in srgb, var(--primary) 12%, transparent); border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent); }
-        .prog-banner.emba { background: color-mix(in srgb, var(--cat-strategy) 12%, transparent); border: 1px solid color-mix(in srgb, var(--cat-strategy) 25%, transparent); }
-        .prog-banner.gemba { background: color-mix(in srgb, var(--cat-entrepreneurship) 12%, transparent); border: 1px solid color-mix(in srgb, var(--cat-entrepreneurship) 25%, transparent); }
+        .prog-banner.mba { background: var(--bg-elevated); border: 1px solid var(--primary); }
+        .prog-banner.emba { background: var(--bg-elevated); border: 1px solid var(--cat-strategy); }
+        .prog-banner.gemba { background: var(--bg-elevated); border: 1px solid var(--cat-entrepreneurship); }
         .prog-banner strong { font-weight: 700; }
         .prog-banner.mba strong { color: var(--primary); }
         .prog-banner.emba strong { color: var(--cat-strategy); }
@@ -648,23 +651,23 @@
 
         /* ── Calendar programme-restricted events ── */
         .cal-event.restricted-mba {
-            opacity: 0.4;
-            border: 1px dashed color-mix(in srgb, var(--cat-finance) 50%, transparent);
+            color: var(--text-tertiary);
+            border: 1px solid var(--cat-finance);
         }
         .cal-event.restricted-emba {
-            opacity: 0.4;
-            border: 1px dashed color-mix(in srgb, var(--cat-strategy) 50%, transparent);
+            color: var(--text-tertiary);
+            border: 1px solid var(--cat-strategy);
         }
 
         /* ── Programme restriction badges ── */
         .restr-badge {
             display: inline-block; font-size: 0.68rem; font-weight: 600;
-            padding: 0.15rem 0.5rem; border-radius: 4px;
+            padding: 0.15rem 0.5rem; border-radius: 0;
         }
-        .mba-badge { background: color-mix(in srgb, var(--cat-finance) 25%, transparent); color: var(--status-amber); border: 1px solid color-mix(in srgb, var(--cat-finance) 40%, transparent); }
-        .emba-badge { background: color-mix(in srgb, var(--cat-strategy) 25%, transparent); color: var(--cat-strategy); border: 1px solid color-mix(in srgb, var(--cat-strategy) 40%, transparent); }
-        .exam-badge { background: color-mix(in srgb, var(--danger) 20%, transparent); color: var(--danger); border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent); }
-        .weekend-badge { background: color-mix(in srgb, var(--cat-sustainability) 15%, transparent); color: var(--cat-sustainability); border: 1px solid color-mix(in srgb, var(--cat-sustainability) 30%, transparent); }
+        .mba-badge { background: var(--cat-finance); color: var(--status-amber); border: 1px solid var(--cat-finance); }
+        .emba-badge { background: var(--cat-strategy); color: var(--cat-strategy); border: 1px solid var(--cat-strategy); }
+        .exam-badge { background: var(--bg-elevated); color: var(--danger); border: 1px solid var(--danger); }
+        .weekend-badge { background: var(--bg-elevated); color: var(--cat-sustainability); border: 1px solid var(--cat-sustainability); }
         .course-card.has-badges { padding-top: 0.9rem; }
 
         /* ── Preference ranking ── */
@@ -695,29 +698,29 @@
         }
         .ranking-hint strong { color: var(--text-color); }
         .save-btn {
-            background: var(--primary); color: var(--gray-0); border: none; border-radius: 8px;
+            background: var(--primary); color: var(--gray-0); border: none; border-radius: 0;
             padding: 0.55rem 1.4rem; font-family: inherit; font-size: 0.85rem;
             font-weight: 700; cursor: pointer; letter-spacing: 0.04em;
-            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            transition: transform 0.2s, background 0.2s;
         }
         .save-btn:hover { background: var(--primary-strong); }
         .ranking-filters {
             display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;
         }
         .ranking-filters input, .ranking-filters select {
-            flex: 1; min-width: 140px; padding: 0.55rem 0.85rem; border-radius: 8px;
+            flex: 1; min-width: 140px; padding: 0.55rem 0.85rem; border-radius: 0;
             background: var(--wash-06); border: 1px solid var(--card-border);
             color: var(--text-color); font-family: inherit; font-size: 0.9rem; outline: none;
         }
         .ranking-filters input:focus, .ranking-filters select:focus { border-color: var(--primary); }
         .rank-list { display: flex; flex-direction: column; gap: 0.5rem; min-height: 200px; }
         .rank-drop-zone {
-            min-height: 280px; border: 2px dashed var(--wash-08);
+            min-height: 280px; border: 1px solid var(--border);
             border-radius: var(--radius-sm); padding: 0.5rem;
             transition: border-color 0.2s, background 0.2s;
         }
         .rank-drop-zone.drag-over {
-            border-color: var(--primary); background: color-mix(in srgb, var(--primary) 6%, transparent);
+            border-color: var(--primary); background: var(--bg-elevated);
         }
         .rank-slot {
             display: flex; align-items: center; gap: 0.75rem;
@@ -727,9 +730,9 @@
         }
         .rank-slot.empty {
             justify-content: center; color: var(--text-secondary); font-size: 0.82rem;
-            border-style: dashed; background: transparent;
+            border-style: solid; background: var(--bg-elevated);
         }
-        .rank-slot.drag-over { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 8%, transparent); }
+        .rank-slot.drag-over { border-color: var(--primary); background: var(--bg-elevated); }
         .rank-num {
             width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
             background: var(--wash-08); display: flex; align-items: center;
@@ -762,8 +765,8 @@
         .rank-remove:hover { color: var(--danger); }
         .save-toast {
             position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-            background: var(--modal-bg); border: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
-            color: var(--text-color); padding: 0.75rem 1.25rem; border-radius: 8px;
+            background: var(--modal-bg); border: 1px solid var(--primary);
+            color: var(--text-color); padding: 0.75rem 1.25rem; border-radius: 0;
             font-size: 0.9rem; font-weight: 600; z-index: 200; opacity: 0;
             pointer-events: none; transition: opacity 0.25s;
             
@@ -804,28 +807,28 @@
         .overlap-pair-header .vs { color: var(--text-secondary); font-weight: 400; }
         .overlap-badge {
             display: inline-block; font-size: 0.72rem; font-weight: 600;
-            padding: 0.2rem 0.6rem; border-radius: 12px; margin-bottom: 0.5rem;
+            padding: 0.2rem 0.6rem; border-radius: 0; margin-bottom: 0.5rem;
         }
-        .overlap-badge.high { background: color-mix(in srgb, var(--status-amber) 15%, transparent); color: var(--status-amber); border: 1px solid color-mix(in srgb, var(--status-amber) 30%, transparent); }
-        .overlap-badge.partial { background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent); }
-        .overlap-badge.schedule { background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger); border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent); }
-        .overlap-badge.faculty { background: color-mix(in srgb, var(--status-purple) 12%, transparent); color: var(--status-purple); border: 1px solid color-mix(in srgb, var(--status-purple) 25%, transparent); }
+        .overlap-badge.high { background: var(--bg-elevated); color: var(--status-amber); border: 1px solid var(--status-amber); }
+        .overlap-badge.partial { background: var(--bg-elevated); color: var(--primary); border: 1px solid var(--primary); }
+        .overlap-badge.schedule { background: var(--bg-elevated); color: var(--danger); border: 1px solid var(--danger); }
+        .overlap-badge.faculty { background: var(--bg-elevated); color: var(--status-purple); border: 1px solid var(--status-purple); }
         .overlap-detail { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
         .overlap-detail .cat-pill {
             display: inline-block; font-size: 0.7rem; font-weight: 600;
-            padding: 0.1rem 0.45rem; border-radius: 10px; margin: 0.1rem 0.15rem 0.1rem 0;
+            padding: 0.1rem 0.45rem; border-radius: 0; margin: 0.1rem 0.15rem 0.1rem 0;
         }
         .overlap-count-pill {
             display: inline-flex; align-items: center; gap: 0.25rem;
             font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.5rem;
-            border-radius: 10px; background: var(--wash-06);
+            border-radius: 0; background: var(--wash-06);
             border: 1px solid var(--card-border); color: var(--text-secondary);
             cursor: pointer; margin-left: 0.5rem; vertical-align: middle;
             transition: background 0.2s, color 0.2s;
         }
-        .overlap-count-pill:hover { background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); border-color: color-mix(in srgb, var(--primary) 30%, transparent); }
+        .overlap-count-pill:hover { background: var(--bg-elevated); color: var(--primary); border-color: var(--primary); }
         .topic-warning-banner {
-            background: color-mix(in srgb, var(--status-amber) 8%, transparent); border: 1px solid color-mix(in srgb, var(--status-amber) 25%, transparent);
+            background: var(--bg-elevated); border: 1px solid var(--status-amber);
             border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1rem;
         }
         .topic-warning-banner h4 { color: var(--status-amber); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
@@ -834,16 +837,16 @@
         /* ── Instructor profiles ── */
         .exp-badge {
             display: inline-flex; align-items: center; font-size: 0.65rem;
-            padding: 0.1rem 0.35rem; border-radius: 8px; margin-left: 0.2rem;
+            padding: 0.1rem 0.35rem; border-radius: 0; margin-left: 0.2rem;
             vertical-align: middle; font-weight: 600; white-space: nowrap;
         }
-        .exp-badge.exp-academic { background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary); border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent); }
-        .exp-badge.exp-practical { background: color-mix(in srgb, var(--cat-finance) 15%, transparent); color: var(--status-amber); border: 1px solid color-mix(in srgb, var(--cat-finance) 30%, transparent); }
-        .exp-badge.exp-mixed { background: color-mix(in srgb, var(--cat-sustainability) 15%, transparent); color: var(--cat-sustainability); border: 1px solid color-mix(in srgb, var(--cat-sustainability) 30%, transparent); }
+        .exp-badge.exp-academic { background: var(--bg-elevated); color: var(--primary); border: 1px solid var(--primary); }
+        .exp-badge.exp-practical { background: var(--bg-elevated); color: var(--status-amber); border: 1px solid var(--cat-finance); }
+        .exp-badge.exp-mixed { background: var(--bg-elevated); color: var(--cat-sustainability); border: 1px solid var(--cat-sustainability); }
         .instructor-link {
             background: none; border: none; color: var(--text-tertiary); cursor: pointer;
             font-family: inherit; font-size: inherit; padding: 0; text-decoration: underline;
-            text-underline-offset: 2px; text-decoration-color: color-mix(in srgb, var(--gray-3) 30%, transparent);
+            text-underline-offset: 2px; text-decoration-color: var(--bg);
         }
         .instructor-link:hover { color: var(--primary); text-decoration-color: var(--primary); }
         .faculty-sep { color: var(--text-secondary); }
@@ -873,17 +876,17 @@
             transition: border-color 0.2s, background 0.2s;
         }
         .instructor-mini-card:hover { border-color: var(--wash-15); background: var(--wash-05); }
-        .instructor-mini-card.active { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 8%, transparent); }
+        .instructor-mini-card.active { border-color: var(--primary); background: var(--bg-elevated); }
         .instructor-mini-name { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.2rem; line-height: 1.3; }
         .instructor-mini-role { font-size: 0.72rem; color: var(--text-secondary); }
         .modal-instructor-type {
             display: inline-flex; align-items: center; gap: 0.35rem;
             font-size: 0.85rem; font-weight: 600; padding: 0.35rem 0.75rem;
-            border-radius: 8px; margin-bottom: 0.75rem;
+            border-radius: 0; margin-bottom: 0.75rem;
         }
-        .modal-instructor-type.exp-academic { background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); }
-        .modal-instructor-type.exp-practical { background: color-mix(in srgb, var(--cat-finance) 12%, transparent); color: var(--status-amber); }
-        .modal-instructor-type.exp-mixed { background: color-mix(in srgb, var(--cat-sustainability) 12%, transparent); color: var(--cat-sustainability); }
+        .modal-instructor-type.exp-academic { background: var(--bg-elevated); color: var(--primary); }
+        .modal-instructor-type.exp-practical { background: var(--bg-elevated); color: var(--status-amber); }
+        .modal-instructor-type.exp-mixed { background: var(--bg-elevated); color: var(--cat-sustainability); }
         .modal-section-title {
             font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
             letter-spacing: 0.5px; color: var(--text-secondary); margin: 1rem 0 0.5rem;
@@ -905,7 +908,7 @@
         .modal-teaches-list button:hover { text-decoration: underline; }
         .modal-profile-link {
             display: inline-flex; align-items: center; gap: 0.4rem;
-            margin-top: 1rem; padding: 0.5rem 1rem; border-radius: 8px;
+            margin-top: 1rem; padding: 0.5rem 1rem; border-radius: 0;
             background: var(--wash-06); border: 1px solid var(--card-border);
             color: var(--primary); text-decoration: none; font-size: 0.85rem; font-weight: 600;
         }
@@ -953,29 +956,29 @@
         html[data-theme="light"] .advanced-picker-label,
         html[data-theme="light"] .my-sched-panel.advanced-panel h3 { color: var(--status-amber); }
         html[data-theme="light"] .course-chip.advanced-chip {
-            color: var(--status-amber); background: color-mix(in srgb, var(--cat-finance) 10%, transparent);
+            color: var(--status-amber); background: var(--bg-elevated);
         }
-        html[data-theme="light"] .course-chip.advanced-chip:hover { color: var(--status-amber); background: color-mix(in srgb, var(--cat-finance) 16%, transparent); }
+        html[data-theme="light"] .course-chip.advanced-chip:hover { color: var(--status-amber); background: var(--bg-elevated); }
         html[data-theme="light"] .course-chip.advanced-chip.selected {
-            background: color-mix(in srgb, var(--cat-finance) 85%, transparent); color: var(--gray-0); border-color: var(--status-amber);
+            background: var(--cat-finance); color: var(--gray-0); border-color: var(--status-amber);
         }
         html[data-theme="light"] .cal-event.advanced.selected { outline-color: var(--status-amber); }
 
         /* Selected elective chips: deepen tint for contrast against a light page */
-        html[data-theme="light"] .course-chip.cat-finance.selected { background: color-mix(in srgb, var(--cat-finance) 85%, transparent); }
-        html[data-theme="light"] .course-chip.cat-marketing.selected { background: color-mix(in srgb, var(--cat-marketing) 85%, transparent); }
-        html[data-theme="light"] .course-chip.cat-strategy.selected { background: color-mix(in srgb, var(--cat-strategy) 85%, transparent); }
-        html[data-theme="light"] .course-chip.cat-leadership.selected { background: color-mix(in srgb, var(--cat-leadership) 85%, transparent); }
-        html[data-theme="light"] .course-chip.cat-supplychain.selected { background: color-mix(in srgb, var(--cat-supplychain) 85%, transparent); }
-        html[data-theme="light"] .course-chip.cat-sustainability.selected { background: color-mix(in srgb, var(--cat-sustainability) 85%, transparent); }
-        html[data-theme="light"] .course-chip.cat-entrepreneurship.selected { background: color-mix(in srgb, var(--cat-entrepreneurship) 85%, transparent); }
+        html[data-theme="light"] .course-chip.cat-finance.selected { background: var(--cat-finance); }
+        html[data-theme="light"] .course-chip.cat-marketing.selected { background: var(--cat-marketing); }
+        html[data-theme="light"] .course-chip.cat-strategy.selected { background: var(--cat-strategy); }
+        html[data-theme="light"] .course-chip.cat-leadership.selected { background: var(--cat-leadership); }
+        html[data-theme="light"] .course-chip.cat-supplychain.selected { background: var(--cat-supplychain); }
+        html[data-theme="light"] .course-chip.cat-sustainability.selected { background: var(--cat-sustainability); }
+        html[data-theme="light"] .course-chip.cat-entrepreneurship.selected { background: var(--cat-entrepreneurship); }
 
         /* ── Scrollbars ── */
         * { scrollbar-width: thin; scrollbar-color: var(--wash-16) transparent; }
         ::-webkit-scrollbar { width: 10px; height: 10px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb {
-            background: var(--wash-14); border-radius: 999px;
+            background: var(--wash-14); border-radius: 0;
             border: 2px solid transparent; background-clip: padding-box;
         }
         ::-webkit-scrollbar-thumb:hover { background: var(--wash-24); background-clip: padding-box; }
@@ -1623,19 +1626,19 @@ const CAT_CLASS = {
   "Entrepreneurship": "entrepreneurship",
 };
 const CAT_COLORS = {
-  "Finance": "#fcc419",
-  "Marketing": "#f06595",
-  "Strategy": "#845ef7",
-  "Business & Leadership": "#22b8cf",
-  "Supply Chain & Operations": "#20c997",
-  "Sustainability": "#51cf66",
-  "Entrepreneurship": "#ff922b",
+  "Finance": "#ca8a04",
+  "Marketing": "#be185d",
+  "Strategy": "#7c3aed",
+  "Business & Leadership": "#0e7490",
+  "Supply Chain & Operations": "#0f766e",
+  "Sustainability": "#16a34a",
+  "Entrepreneurship": "#c2410c",
 };
 const ALL_CATEGORIES = Object.keys(CAT_CLASS);
 
 function primaryCat(course) { return course.categories[0]; }
 function catClass(cat) { return CAT_CLASS[cat] || "strategy"; }
-function catColor(cat) { return CAT_COLORS[cat] || "#845ef7"; }
+function catColor(cat) { return CAT_COLORS[cat] || "#7c3aed"; }
 
 function escapeHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1675,7 +1678,7 @@ function buildBadges(course) {
   if ((course.notes || '').includes('in-class exam')) html += '<span class="restr-badge exam-badge">📝 Exam</span>';
   if (course.period === 'weekend') html += '<span class="restr-badge weekend-badge">🗓️ Weekend</span>';
   if ((course.notes || '').includes('sessions in The Hague')) {
-    html += '<span class="restr-badge" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--status-cyan);border:1px solid color-mix(in srgb, var(--primary) 30%, transparent);">📍 The Hague</span>';
+    html += '<span class="restr-badge" style="background:var(--bg-elevated);color:var(--status-cyan);border:1px solid var(--primary);">📍 The Hague</span>';
   }
   return html;
 }
@@ -2053,7 +2056,7 @@ function renderLegend() {
   const el = document.getElementById('legend');
   el.innerHTML = ALL_CATEGORIES.map(cat =>
     `<div class="legend-item"><div class="legend-dot" style="background:${catColor(cat)}"></div>${cat}</div>`
-  ).join('') + `<div class="legend-item"><div class="legend-dot advanced-dot"></div>Advanced course (dashed)</div>`;
+  ).join('') + `<div class="legend-item"><div class="legend-dot advanced-dot"></div>Advanced course</div>`;
 }
 
 // ─── CALENDAR ──────────────────────────────────────────────────────────
@@ -2282,7 +2285,7 @@ function openInstructorModal(name) {
     <h3>${escapeHtml(displayName)}</h3>
     <div class="modal-instructor-type ${badge.cls}">${badge.icon} ${badge.label}</div>
     <div style="color:var(--text-tertiary);font-size:0.95rem;margin-bottom:0.5rem;">${escapeHtml(inst.role)}</div>
-    <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.75rem;padding:0.5rem 0.65rem;background:var(--wash-03);border-radius:6px;border:1px solid var(--wash-05);line-height:1.45;">${escapeHtml(classificationNote)}</div>
+    <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.75rem;padding:0.5rem 0.65rem;background:var(--wash-03);border-radius: 0;border:1px solid var(--wash-05);line-height:1.45;">${escapeHtml(classificationNote)}</div>
     <div class="modal-section-title">📚 Education</div>
     <div style="font-size:0.88rem;color:var(--text-tertiary);">${escapeHtml(inst.education)}</div>
     <div class="modal-section-title">💼 Experience</div>
@@ -2363,11 +2366,11 @@ function openModal(code) {
     </div>
 
     ${badges ? '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;">' + badges + '</div>' : ''}
-    ${c.period === 'weekend' ? '<div style="background:color-mix(in srgb, var(--cat-sustainability) 10%, transparent);border:1px solid color-mix(in srgb, var(--cat-sustainability) 20%, transparent);padding:0.5rem 0.75rem;border-radius:8px;margin-bottom:1rem;font-size:0.85rem;color:var(--status-green);"><strong>Weekend course:</strong> 2 consecutive weekends (3 sessions each = 6 total). Missing any weekend may lead to a fail.</div>' : ''}
+    ${c.period === 'weekend' ? '<div style="background:var(--bg-elevated);border:1px solid var(--bg-elevated);padding:0.5rem 0.75rem;border-radius: 0;margin-bottom:1rem;font-size:0.85rem;color:var(--status-green);"><strong>Weekend course:</strong> 2 consecutive weekends (3 sessions each = 6 total). Missing any weekend may lead to a fail.</div>' : ''}
 
     <div style="margin-bottom:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
       <a href="${c.href}" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:var(--radius-2);background:var(--primary);color:var(--gray-0);text-decoration:none;font-size:0.85rem;font-weight:600;">📄 Draft Outline</a>
-      <button onclick="toggleSelect('${c.code}');openModal('${c.code}')" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;background:var(--wash-08);border:1px solid var(--card-border);color:${isSelected(c.code)?'var(--primary)':'var(--text-secondary)'};cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;">${isSelected(c.code)?'✓ Selected':'+ Select'}</button>
+      <button onclick="toggleSelect('${c.code}');openModal('${c.code}')" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius: 0;background:var(--wash-08);border:1px solid var(--card-border);color:${isSelected(c.code)?'var(--primary)':'var(--text-secondary)'};cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;">${isSelected(c.code)?'✓ Selected':'+ Select'}</button>
     </div>
     ${displayNotes ? '<div class="modal-notes">' + formatNotesHtml(displayNotes) + '</div>' : ''}
     <div class="modal-sessions">
@@ -2595,7 +2598,7 @@ function renderSidebar() {
   // --- Programme selector panel ---
   let html = `<div class="my-sched-panel">
     <h3>👤 My Programme</h3>
-    <select id="progSelect" onchange="setProgramme(this.value)" style="width:100%;padding:0.5rem;border-radius:8px;background:var(--wash-08);border:1px solid var(--wash-10);color:var(--text-color);font-family:inherit;font-size:0.9rem;margin-bottom:0.5rem;">
+    <select id="progSelect" onchange="setProgramme(this.value)" style="width:100%;padding:0.5rem;border-radius: 0;background:var(--wash-08);border:1px solid var(--wash-10);color:var(--text-color);font-family:inherit;font-size:0.9rem;margin-bottom:0.5rem;">
       <option value="MBA" ${programme==='MBA'?'selected':''}>MBA – need 3 electives</option>
       <option value="GEMBA" ${programme==='GEMBA'?'selected':''}>GEMBA – need 3 electives</option>
       <option value="EMBA" ${programme==='EMBA'?'selected':''}>EMBA – need 4 electives</option>
@@ -2612,8 +2615,8 @@ function renderSidebar() {
     picked.forEach(c => {
       const cat = primaryCat(c);
       let badge = '';
-      if (c.restriction === 'mba') badge = '<span style="background:color-mix(in srgb, var(--cat-finance) 30%, transparent);color:var(--status-amber);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600;">MBA only</span>';
-      if (c.restriction === 'emba') badge = '<span style="background:color-mix(in srgb, var(--cat-strategy) 30%, transparent);color:var(--status-purple);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600;">EMBA/GEMBA only</span>';
+      if (c.restriction === 'mba') badge = '<span style="background:var(--cat-finance);color:var(--status-amber);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius: 0;font-weight:600;">MBA only</span>';
+      if (c.restriction === 'emba') badge = '<span style="background:var(--cat-strategy);color:var(--status-purple);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius: 0;font-weight:600;">EMBA/GEMBA only</span>';
       html += `<div class="my-sched-item">
         <div class="dot" style="background:${catColor(cat)}"></div>
         <span class="name" style="cursor:pointer" onclick="openModal('${c.code}')" title="${escapeHtml(c.name)}">${c.code} ${badge}</span>
@@ -2656,13 +2659,13 @@ function renderSidebar() {
 
   // --- Programme restriction warnings ---
   if (mbaOnlyPicked.length > 0 && !isMBA) {
-    html += `<div class="conflict-banner" style="background:color-mix(in srgb, var(--cat-finance) 10%, transparent);border-color:color-mix(in srgb, var(--cat-finance) 30%, transparent);">
+    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--cat-finance);">
       <h4 style="color:var(--status-amber);">⚠️ MBA-only courses</h4>
       <div class="conflict-row" style="color:var(--status-amber);">${mbaOnlyPicked.map(c=>c.code).join(', ')} – not available for your programme</div>
     </div>`;
   }
   if (embaOnlyPicked.length > 0 && isMBA) {
-    html += `<div class="conflict-banner" style="background:color-mix(in srgb, var(--cat-strategy) 10%, transparent);border-color:color-mix(in srgb, var(--cat-strategy) 30%, transparent);">
+    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--cat-strategy);">
       <h4 style="color:var(--status-purple);">⚠️ EMBA/GEMBA-only courses</h4>
       <div class="conflict-row" style="color:var(--status-purple);">${embaOnlyPicked.map(c=>c.code).join(', ')} – not available for MBA students</div>
     </div>`;
@@ -2670,13 +2673,13 @@ function renderSidebar() {
 
   // --- Priority warnings ---
   if (weekdayCoursesPicked.length > 0 && isWeekendStudent) {
-    html += `<div class="conflict-banner" style="background:color-mix(in srgb, var(--primary) 8%, transparent);border-color:color-mix(in srgb, var(--primary) 20%, transparent);">
+    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--bg-elevated);">
       <h4 style="color:var(--primary);">ℹ️ Weekday course priority</h4>
       <div class="conflict-row" style="color:var(--status-cyan);">MBA students get priority for weekday electives. You may have lower chance of securing seats.</div>
     </div>`;
   }
   if (weekendCoursesPicked.length > 0 && isMBA) {
-    html += `<div class="conflict-banner" style="background:color-mix(in srgb, var(--primary) 8%, transparent);border-color:color-mix(in srgb, var(--primary) 20%, transparent);">
+    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--bg-elevated);">
       <h4 style="color:var(--primary);">ℹ️ Weekend course priority</h4>
       <div class="conflict-row" style="color:var(--status-cyan);">GEMBA/EMBA students get priority for weekend electives. You may have lower chance of securing seats.</div>
     </div>`;
@@ -2707,7 +2710,7 @@ function renderSidebar() {
 
   // --- Soft conflicts (1-2 overlapping sessions) ---
   if (softConflicts.length > 0) {
-    html += `<div class="conflict-banner" style="background:color-mix(in srgb, var(--status-amber) 8%, transparent);border-color:color-mix(in srgb, var(--status-amber) 25%, transparent);">
+    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--status-amber);">
       <h4 style="color:var(--status-amber);">⚠️ Session Overlaps</h4>
       <div class="conflict-row" style="color:var(--status-amber);">${softConflicts.length} overlap${softConflicts.length>1?'s':''} found (1-2 sessions each). Review carefully before finalising your choices.</div>`;
     softConflicts.forEach(o => {
@@ -2718,7 +2721,7 @@ function renderSidebar() {
 
   // --- Exam warning ---
   if (examCourses.length > 0) {
-    html += `<div class="conflict-banner" style="background:color-mix(in srgb, var(--danger) 8%, transparent);border-color:color-mix(in srgb, var(--danger) 20%, transparent);">
+    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--bg-elevated);">
       <h4 style="color:var(--status-red);">📝 In-Class Exams</h4>
       ${examCourses.map(c=>`<div class="conflict-row" style="color:var(--status-red);">${c.code} has an in-class exam – check the date before selecting</div>`).join('')}
     </div>`;
@@ -2726,7 +2729,7 @@ function renderSidebar() {
 
   // --- Weekend course reminder ---
   if (weekendCoursesPicked.length > 0) {
-    html += `<div class="conflict-banner" style="background:color-mix(in srgb, var(--cat-sustainability) 8%, transparent);border-color:color-mix(in srgb, var(--cat-sustainability) 20%, transparent);">
+    html += `<div class="conflict-banner" style="background:var(--bg-elevated);border-color:var(--bg-elevated);">
       <h4 style="color:var(--status-green);">🗓️ Weekend Electives</h4>
       <div class="conflict-row" style="color:var(--status-green);">Weekend courses run over 2 consecutive weekends (3 sessions each = 6 total). Missing any weekend may lead to a fail. Plan accordingly.</div>
     </div>`;
