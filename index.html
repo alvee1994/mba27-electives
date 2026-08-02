@@ -43,22 +43,22 @@
             --primary-dim: #1e3a8a;
             --accent: #60a5fa;
 
-            /* Categories — muted, flat (no neon) */
-            --cat-finance: #ca8a04;
-            --cat-marketing: #be185d;
-            --cat-strategy: #7c3aed;
-            --cat-leadership: #0e7490;
-            --cat-supplychain: #0f766e;
-            --cat-sustainability: #16a34a;
-            --cat-entrepreneurship: #c2410c;
+            /* Categories — dark, muted (WCAG AA with white text) */
+            --cat-finance: #854d0e;
+            --cat-marketing: #831843;
+            --cat-strategy: #5b21b6;
+            --cat-leadership: #155e75;
+            --cat-supplychain: #115e59;
+            --cat-sustainability: #166534;
+            --cat-entrepreneurship: #7c2d12;
 
-            /* Status & danger */
+            /* Status & danger (readable as text in both themes via per-theme overrides) */
             --danger: #ef4444;
-            --status-amber: #ca8a04;
+            --status-amber: #854d0e;
             --status-purple: #7c3aed;
-            --status-cyan: #0e7490;
+            --status-cyan: #22d3ee;
             --status-red: #ef4444;
-            --status-green: #16a34a;
+            --status-green: #4ade80;
 
             /* Geometry — aggressively sharp */
             --radius: 0;
@@ -112,21 +112,21 @@
             --primary-dim: #dbeafe;
             --accent: #3b82f6;
 
-            /* Categories stay consistent across themes — already muted */
-            --cat-finance: #ca8a04;
-            --cat-marketing: #be185d;
-            --cat-strategy: #7c3aed;
-            --cat-leadership: #0e7490;
-            --cat-supplychain: #0f766e;
-            --cat-sustainability: #16a34a;
-            --cat-entrepreneurship: #c2410c;
+            /* Categories stay consistent across themes */
+            --cat-finance: #854d0e;
+            --cat-marketing: #831843;
+            --cat-strategy: #5b21b6;
+            --cat-leadership: #155e75;
+            --cat-supplychain: #115e59;
+            --cat-sustainability: #166534;
+            --cat-entrepreneurship: #7c2d12;
 
             --danger: #dc2626;
-            --status-amber: #ca8a04;
+            --status-amber: #854d0e;
             --status-purple: #7c3aed;
-            --status-cyan: #0e7490;
+            --status-cyan: #155e75;
             --status-red: #dc2626;
-            --status-green: #16a34a;
+            --status-green: #166534;
 
             --border: #e5e5e5;
             --border-strong: #d4d4d4;
@@ -479,13 +479,13 @@
         .modal .modal-notes strong { color: var(--danger); }
 
         /* ── Color utilities ── */
-        .cat-finance { background: var(--cat-finance); color: var(--status-amber); border-left: 3px solid var(--cat-finance); }
-        .cat-marketing { background: var(--cat-marketing); color: var(--cat-marketing); border-left: 3px solid var(--cat-marketing); }
-        .cat-strategy { background: var(--cat-strategy); color: var(--cat-strategy); border-left: 3px solid var(--cat-strategy); }
-        .cat-leadership { background: var(--cat-leadership); color: var(--cat-leadership); border-left: 3px solid var(--cat-leadership); }
-        .cat-supplychain { background: var(--cat-supplychain); color: var(--cat-supplychain); border-left: 3px solid var(--cat-supplychain); }
-        .cat-sustainability { background: var(--cat-sustainability); color: var(--cat-sustainability); border-left: 3px solid var(--cat-sustainability); }
-        .cat-entrepreneurship { background: var(--cat-entrepreneurship); color: var(--cat-entrepreneurship); border-left: 3px solid var(--cat-entrepreneurship); }
+        .cat-finance { background: var(--cat-finance); color: var(--gray-0); }
+        .cat-marketing { background: var(--cat-marketing); color: var(--gray-0); }
+        .cat-strategy { background: var(--cat-strategy); color: var(--gray-0); }
+        .cat-leadership { background: var(--cat-leadership); color: var(--gray-0); }
+        .cat-supplychain { background: var(--cat-supplychain); color: var(--gray-0); }
+        .cat-sustainability { background: var(--cat-sustainability); color: var(--gray-0); }
+        .cat-entrepreneurship { background: var(--cat-entrepreneurship); color: var(--gray-0); }
 
         .card-cat-finance::before { background: var(--cat-finance); }
         .card-cat-marketing::before { background: var(--cat-marketing); }
@@ -495,13 +495,14 @@
         .card-cat-sustainability::before { background: var(--cat-sustainability); }
         .card-cat-entrepreneurship::before { background: var(--cat-entrepreneurship); }
 
-        .sub-finance { color: var(--cat-finance); }
-        .sub-marketing { color: var(--cat-marketing); }
-        .sub-strategy { color: var(--cat-strategy); }
-        .sub-leadership { color: var(--cat-leadership); }
-        .sub-supplychain { color: var(--cat-supplychain); }
-        .sub-sustainability { color: var(--cat-sustainability); }
-        .sub-entrepreneurship { color: var(--cat-entrepreneurship); }
+        /* Dark theme sub-X: brighter shades for readability on dark surfaces */
+        .sub-finance { color: #fbbf24; }
+        .sub-marketing { color: #f472b6; }
+        .sub-strategy { color: #a78bfa; }
+        .sub-leadership { color: #22d3ee; }
+        .sub-supplychain { color: #2dd4bf; }
+        .sub-sustainability { color: #4ade80; }
+        .sub-entrepreneurship { color: #fb923c; }
 
         /* ── Animations ── */
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
@@ -645,8 +646,8 @@
         .prog-banner.gemba { background: var(--bg-elevated); border: 1px solid var(--cat-entrepreneurship); }
         .prog-banner strong { font-weight: 700; }
         .prog-banner.mba strong { color: var(--primary); }
-        .prog-banner.emba strong { color: var(--cat-strategy); }
-        .prog-banner.gemba strong { color: var(--cat-entrepreneurship); }
+        .prog-banner.emba strong { color: #a78bfa; }
+        .prog-banner.gemba strong { color: #fb923c; }
         .prog-banner .prog-note { color: var(--text-secondary); }
 
         /* ── Calendar programme-restricted events ── */
@@ -664,10 +665,10 @@
             display: inline-block; font-size: 0.68rem; font-weight: 600;
             padding: 0.15rem 0.5rem; border-radius: 0;
         }
-        .mba-badge { background: var(--cat-finance); color: var(--status-amber); border: 1px solid var(--cat-finance); }
-        .emba-badge { background: var(--cat-strategy); color: var(--cat-strategy); border: 1px solid var(--cat-strategy); }
+        .mba-badge { background: var(--cat-finance); color: var(--gray-0); border: 1px solid var(--cat-finance); }
+        .emba-badge { background: var(--cat-strategy); color: var(--gray-0); border: 1px solid var(--cat-strategy); }
         .exam-badge { background: var(--bg-elevated); color: var(--danger); border: 1px solid var(--danger); }
-        .weekend-badge { background: var(--bg-elevated); color: var(--cat-sustainability); border: 1px solid var(--cat-sustainability); }
+        .weekend-badge { background: var(--bg-elevated); color: var(--status-green); border: 1px solid var(--cat-sustainability); }
         .course-card.has-badges { padding-top: 0.9rem; }
 
         /* ── Preference ranking ── */
@@ -809,10 +810,10 @@
             display: inline-block; font-size: 0.72rem; font-weight: 600;
             padding: 0.2rem 0.6rem; border-radius: 0; margin-bottom: 0.5rem;
         }
-        .overlap-badge.high { background: var(--bg-elevated); color: var(--status-amber); border: 1px solid var(--status-amber); }
+        .overlap-badge.high { background: var(--bg-elevated); color: #fbbf24; border: 1px solid var(--status-amber); }
         .overlap-badge.partial { background: var(--bg-elevated); color: var(--primary); border: 1px solid var(--primary); }
         .overlap-badge.schedule { background: var(--bg-elevated); color: var(--danger); border: 1px solid var(--danger); }
-        .overlap-badge.faculty { background: var(--bg-elevated); color: var(--status-purple); border: 1px solid var(--status-purple); }
+        .overlap-badge.faculty { background: var(--bg-elevated); color: #a78bfa; border: 1px solid var(--status-purple); }
         .overlap-detail { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
         .overlap-detail .cat-pill {
             display: inline-block; font-size: 0.7rem; font-weight: 600;
@@ -842,7 +843,7 @@
         }
         .exp-badge.exp-academic { background: var(--bg-elevated); color: var(--primary); border: 1px solid var(--primary); }
         .exp-badge.exp-practical { background: var(--bg-elevated); color: var(--status-amber); border: 1px solid var(--cat-finance); }
-        .exp-badge.exp-mixed { background: var(--bg-elevated); color: var(--cat-sustainability); border: 1px solid var(--cat-sustainability); }
+        .exp-badge.exp-mixed { background: var(--bg-elevated); color: #4ade80; border: 1px solid var(--cat-sustainability); }
         .instructor-link {
             background: none; border: none; color: var(--text-tertiary); cursor: pointer;
             font-family: inherit; font-size: inherit; padding: 0; text-decoration: underline;
@@ -886,7 +887,7 @@
         }
         .modal-instructor-type.exp-academic { background: var(--bg-elevated); color: var(--primary); }
         .modal-instructor-type.exp-practical { background: var(--bg-elevated); color: var(--status-amber); }
-        .modal-instructor-type.exp-mixed { background: var(--bg-elevated); color: var(--cat-sustainability); }
+        .modal-instructor-type.exp-mixed { background: var(--bg-elevated); color: #4ade80; }
         .modal-section-title {
             font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
             letter-spacing: 0.5px; color: var(--text-secondary); margin: 1rem 0 0.5rem;
@@ -924,13 +925,16 @@
         }
 
         /* ── Light theme: category & badge contrast ── */
-        html[data-theme="light"] .cat-finance { color: var(--cat-finance); }
-        html[data-theme="light"] .cat-marketing { color: var(--cat-marketing); }
-        html[data-theme="light"] .cat-strategy { color: var(--cat-strategy); }
-        html[data-theme="light"] .cat-leadership { color: var(--cat-leadership); }
-        html[data-theme="light"] .cat-supplychain { color: var(--cat-supplychain); }
-        html[data-theme="light"] .cat-sustainability { color: var(--cat-sustainability); }
-        html[data-theme="light"] .cat-entrepreneurship { color: var(--cat-entrepreneurship); }
+        /* (Light theme inherits the dark category backgrounds with white text from base rules) */
+
+        /* Light theme: darker shades of cat-X for sub-X text labels (readable on white) */
+        html[data-theme="light"] .sub-finance { color: var(--cat-finance); }
+        html[data-theme="light"] .sub-marketing { color: var(--cat-marketing); }
+        html[data-theme="light"] .sub-strategy { color: var(--cat-strategy); }
+        html[data-theme="light"] .sub-leadership { color: var(--cat-leadership); }
+        html[data-theme="light"] .sub-supplychain { color: var(--cat-supplychain); }
+        html[data-theme="light"] .sub-sustainability { color: var(--cat-sustainability); }
+        html[data-theme="light"] .sub-entrepreneurship { color: var(--cat-entrepreneurship); }
 
         html[data-theme="light"] .mba-badge { color: var(--cat-finance); }
         html[data-theme="light"] .emba-badge { color: var(--cat-strategy); }
@@ -948,13 +952,13 @@
         html[data-theme="light"] .exp-badge.exp-academic,
         html[data-theme="light"] .modal-instructor-type.exp-academic { color: var(--primary-strong); }
         html[data-theme="light"] .exp-badge.exp-practical,
-        html[data-theme="light"] .modal-instructor-type.exp-practical { color: var(--status-amber); }
+        html[data-theme="light"] .modal-instructor-type.exp-practical { color: var(--cat-finance); }
         html[data-theme="light"] .exp-badge.exp-mixed,
         html[data-theme="light"] .modal-instructor-type.exp-mixed { color: var(--cat-sustainability); }
 
         /* Advanced course (amber/gold) chips & panel */
         html[data-theme="light"] .advanced-picker-label,
-        html[data-theme="light"] .my-sched-panel.advanced-panel h3 { color: var(--status-amber); }
+        html[data-theme="light"] .my-sched-panel.advanced-panel h3 { color: var(--cat-finance); }
         html[data-theme="light"] .course-chip.advanced-chip {
             color: var(--status-amber); background: var(--bg-elevated);
         }
@@ -1626,19 +1630,19 @@ const CAT_CLASS = {
   "Entrepreneurship": "entrepreneurship",
 };
 const CAT_COLORS = {
-  "Finance": "#ca8a04",
-  "Marketing": "#be185d",
-  "Strategy": "#7c3aed",
-  "Business & Leadership": "#0e7490",
-  "Supply Chain & Operations": "#0f766e",
-  "Sustainability": "#16a34a",
-  "Entrepreneurship": "#c2410c",
+  "Finance": "#854d0e",
+  "Marketing": "#831843",
+  "Strategy": "#5b21b6",
+  "Business & Leadership": "#155e75",
+  "Supply Chain & Operations": "#115e59",
+  "Sustainability": "#166534",
+  "Entrepreneurship": "#7c2d12",
 };
 const ALL_CATEGORIES = Object.keys(CAT_CLASS);
 
 function primaryCat(course) { return course.categories[0]; }
 function catClass(cat) { return CAT_CLASS[cat] || "strategy"; }
-function catColor(cat) { return CAT_COLORS[cat] || "#7c3aed"; }
+function catColor(cat) { return CAT_COLORS[cat] || "#5b21b6"; }
 
 function escapeHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -2181,7 +2185,7 @@ function renderOverlapExplorer(highlightCode) {
   pairsEl.innerHTML = pairs.map(o => {
     const badge = getOverlapBadge(o);
     const catPills = o.sharedCats.map(cat =>
-      `<span class="cat-pill" style="background:${catColor(cat)}22;color:${catColor(cat)};border:1px solid ${catColor(cat)}44">${escapeHtml(cat)}</span>`
+      `<span class="cat-pill" style="background:${catColor(cat)};color:var(--gray-0);border:1px solid ${catColor(cat)}">${escapeHtml(cat)}</span>`
     ).join('');
     const facultyLine = o.sharedFaculty.length
       ? `<div>👤 Shared faculty: ${o.sharedFaculty.map(f => escapeHtml(f)).join(', ')}</div>` : '';
@@ -2615,8 +2619,8 @@ function renderSidebar() {
     picked.forEach(c => {
       const cat = primaryCat(c);
       let badge = '';
-      if (c.restriction === 'mba') badge = '<span style="background:var(--cat-finance);color:var(--status-amber);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius: 0;font-weight:600;">MBA only</span>';
-      if (c.restriction === 'emba') badge = '<span style="background:var(--cat-strategy);color:var(--status-purple);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius: 0;font-weight:600;">EMBA/GEMBA only</span>';
+      if (c.restriction === 'mba') badge = '<span style="background:var(--cat-finance);color:var(--gray-0);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius: 0;font-weight:600;">MBA only</span>';
+      if (c.restriction === 'emba') badge = '<span style="background:var(--cat-strategy);color:var(--gray-0);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius: 0;font-weight:600;">EMBA/GEMBA only</span>';
       html += `<div class="my-sched-item">
         <div class="dot" style="background:${catColor(cat)}"></div>
         <span class="name" style="cursor:pointer" onclick="openModal('${c.code}')" title="${escapeHtml(c.name)}">${c.code} ${badge}</span>
